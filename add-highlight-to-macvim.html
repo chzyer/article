@@ -3,7 +3,7 @@
 <meta charset='utf-8'>
 <link rel="alternate" type="application/rss+xml" href="/feed" />
 <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" />
-<title>解决一个使用AMPServ建立虚拟主机的session权限问题 - 陈冶</title>
+<title>Mac下为MacVim添加文件类型(语法高亮) - 陈冶</title>
 <style>
 .gist-syntax{background:#ffffff}.gist-syntax .c{color:#999988;font-style:italic}.gist-syntax .err{color:#a61717;background-color:#e3d2d2}.gist-syntax .k{color:#000000;font-weight:bold}.gist-syntax .o{color:#000000;font-weight:bold}.gist-syntax .cm{color:#999988;font-style:italic}.gist-syntax .cp{color:#999999;font-weight:bold}.gist-syntax .c1{color:#999988;font-style:italic}.gist-syntax .cs{color:#999999;font-weight:bold;font-style:italic}.gist-syntax .gd{color:#000000;background-color:#ffdddd}.gist-syntax .gd .x{color:#000000;background-color:#ffaaaa}.gist-syntax .ge{color:#000000;font-style:italic}.gist-syntax .gr{color:#aa0000}.gist-syntax .gh{color:#999999}.gist-syntax .gi{color:#000000;background-color:#ddffdd}.gist-syntax .gi .x{color:#000000;background-color:#aaffaa}.gist-syntax .go{color:#888888}.gist-syntax .gp{color:#555555}.gist-syntax .gs{font-weight:bold}.gist-syntax .gu{color:#aaaaaa}.gist-syntax .gt{color:#aa0000}.gist-syntax .kc{color:#000000;font-weight:bold}.gist-syntax .kd{color:#000000;font-weight:bold}.gist-syntax .kp{color:#000000;font-weight:bold}.gist-syntax .kr{color:#000000;font-weight:bold}.gist-syntax .kt{color:#445588;font-weight:bold}.gist-syntax .m{color:#009999}.gist-syntax .s{color:#d14}.gist-syntax .na{color:#008080}.gist-syntax .nb{color:#0086B3}.gist-syntax .nc{color:#445588;font-weight:bold}.gist-syntax .no{color:#008080}.gist-syntax .ni{color:#800080}.gist-syntax .ne{color:#990000;font-weight:bold}.gist-syntax .nf{color:#990000;font-weight:bold}.gist-syntax .nn{color:#555555}.gist-syntax .nt{color:#000080}.gist-syntax .nv{color:#008080}.gist-syntax .ow{color:#000000;font-weight:bold}.gist-syntax .w{color:#bbbbbb}.gist-syntax .mf{color:#009999}.gist-syntax .mh{color:#009999}.gist-syntax .mi{color:#009999}.gist-syntax .mo{color:#009999}.gist-syntax .sb{color:#d14}.gist-syntax .sc{color:#d14}.gist-syntax .sd{color:#d14}.gist-syntax .s2{color:#d14}.gist-syntax .se{color:#d14}.gist-syntax .sh{color:#d14}.gist-syntax .si{color:#d14}.gist-syntax .sx{color:#d14}.gist-syntax .sr{color:#009926}.gist-syntax .s1{color:#d14}.gist-syntax .ss{color:#990073}.gist-syntax .bp{color:#999999}.gist-syntax .vc{color:#008080}.gist-syntax .vg{color:#008080}.gist-syntax .vi{color:#008080}.gist-syntax .il{color:#009999}
 .small-text{
@@ -70,36 +70,47 @@ font-family: "Monaco", "Microsoft YaHei"
 
 </div>
 <div class="gist-syntax">
-<h3>
-<a name="ampservsession" class="anchor" href="#ampservsession"><span class="mini-icon mini-icon-link"></span></a>解决一个使用AMPServ建立虚拟主机的session权限问题</h3>
+<h2>
+<a name="macmacvim" class="anchor" href="#macmacvim"><span class="mini-icon mini-icon-link"></span></a>Mac下为MacVim添加文件类型(语法高亮)</h2>
 
-<hr><p>面对一个电脑上的多个网页,建立虚拟主机是一个很好的归类方法
-一般为了方便,我是使用APMSERV建立虚拟主机的,但是在建立phpmyadmin的虚拟主机时,无法正常运行,而是显示</p>
+<hr><p>最近在看golang, 但是vim中还没有关于go的语法高亮, 本文将介绍如何在vim中新添加一种文件类型并自动语法高亮</p>
 
-<pre><code>Warning: session_start() [function.session-start]: open_basedir restriction in effect. File(C:\WINDOWS\TEMP) is not within the
-allowed path(s): ….
-</code></pre>
+<blockquote>
+<p>首先要确保打开了语法高亮, <code>:syntax enable</code></p>
+</blockquote>
 
-<p>警告说明,是session_start()这个函数执行出现异常,原因是文件不允许被写入C:\WINDOWS\TEMP
-设置允许写入文件的路径是open_basedir参数
-找到apache目录下的conf/apmserv/vhost.conf,配置虚拟主机信息
-找到open_basedir在后面加上C:\WINDOWS\TEMP</p>
+<h4>
+<a name="go" class="anchor" href="#go"><span class="mini-icon mini-icon-link"></span></a>找到go语法高亮的文件</h4>
 
-<p>如
-PS:我的设置的域名是fd.cn,目录在D:/Site/www/htdocs/fl_document，</p>
+<p>go默认附带了vim的语法高亮文件, go默认是安装在了<code>/usr/local/go/</code>, 语法高亮文件藏在了<code>./misc/vim/syntax/go.vim</code></p>
 
-<div class="highlight"><pre><span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
-ServerName fd.cn
-DocumentRoot "D:/Site/www/htdocs/fl_document"
-<span class="nt">&lt;Directory</span> <span class="err">"D:/Site/www/htdocs/fl_document"</span><span class="nt">&gt;</span>
-Options FollowSymLinks IncludesNOEXEC Indexes
-DirectoryIndex index.html index.htm default.htm index.php default.php index.cgi default.cgi index.shtml index.aspx default.aspx
-AllowOverride None
-Order Deny,Allow
-Allow from all
-php_admin_value open_basedir "D:/Site/www/htdocs/fl_document/;D:/Site/tmp/uploadtemp/;C:\WINDOWS\TEMP;"
-<span class="nt">&lt;/Directory&gt;</span>
-<span class="nt">&lt;/VirtualHost&gt;</span>
+<h4>
+<a name="vim" class="anchor" href="#vim"><span class="mini-icon mini-icon-link"></span></a>将文件复制到vim的目录</h4>
+
+<p>vim在mac默认的安装目录在<code>/usr/share/vim/vim73/</code>, 接下来将语法文件复制到vim目录下的<code>syntax</code>.可以看到这个目录里面有很多文件类型的<code>.vim</code>文件</p>
+
+<h4>
+<a name="" class="anchor" href="#"><span class="mini-icon mini-icon-link"></span></a>保存设置</h4>
+
+<p>接下来vim并不会自动在打开go文件的时候就自动应用这个语法高亮, 因为他还不知道后缀名对应的文件类型.所以接下来在vim里面使用命令行执行:</p>
+
+<div class="highlight"><pre><span class="p">:</span><span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">go</span>
+</pre></div>
+
+<h4>
+<a name="-1" class="anchor" href="#-1"><span class="mini-icon mini-icon-link"></span></a>完成</h4>
+
+<p>嗯, 按理说这样就完成了, 最下面再给一份脚本吧</p>
+
+<p>shell</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>sudo cp /usr/local/go/misc/vim/syntax/go.vim /usr/share/vim/vim73/syntax/
+</pre></div>
+
+<p>vim</p>
+
+<div class="highlight"><pre><span class="p">:</span><span class="nb">syntax</span> enable
+<span class="p">:</span><span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">go</span>
 </pre></div>
 </div>
 <hr>
