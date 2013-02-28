@@ -3,6 +3,14 @@
 </head>
 <body>
 <script>
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+if (location.href.indexOf("/article/") > 0) {
+	var key = location.href.substring(location.href.indexOf("/article/"), location.href.rIndexOf("/"))
+	alert(key)
+	exit()
+}
 alert(location.href)
 </script>
 </body>
