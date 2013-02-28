@@ -155,7 +155,10 @@ if (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0) {
 	
 	alert("mobile")
 } else {
-	
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>')
+	window.onload = function() {
+		alert($)
+	}
 }
 </script>
 </body>
