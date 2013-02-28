@@ -11,7 +11,7 @@ if (location.href.indexOf("/article/") > 0) {
 	if (href[href.length - 1] != '/') {
 		href += "/"
 	}
-	var key = href.substring(href.indexOf("/article/"), href.lastIndexOf("/"))
+	var key = href.substring(href.indexOf("/article/") + 10, href.lastIndexOf("/"))
 	alert(key)
 	exit()
 }
