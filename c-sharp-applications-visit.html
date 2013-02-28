@@ -1,0 +1,35 @@
+<hr><p>本来是不想碰C#这蛋疼的家伙的.但没办法,项目中突然要我负责餐厅服务器,把我从东墙扔到了西墙.只好硬着头皮干了.<br>
+当前和中央服务器的连接还是采用socket的方式,要有像QQ一眼的在线状态判断功能.这也就意味这要定时向中央服务器发送心跳包~告诉他我还活着...<br>
+然后还要负责监听来自中央服务器的消息.监听就意味着单线程要处于堵塞状态(死循环,无法进行其他操作了),而且,发送心跳包的频率是每秒1次,监听则是1ms一次,所以就要采用多线程来解决.然后多线程中状态的互交是必须的.然而C#为了安全不同线程是不允许相互访问其内容的.然后便有了此文.  </p>
+
+<h4>
+<a name="" class="anchor" href="#"><span class="mini-icon mini-icon-link"></span></a>目标:</h4>
+
+<p>用另外一个线程控制主窗口的lb_name(textbox控件)的内容显示<br>
+PS:其实我说了,我对C#不熟,代码是baidu(为什么不是google呢,因为他刚好间接性挂了.)来的(修改了一点).怕忘记加了一点理解<br>
+首先申明一个委托方法   </p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">delegate</span> <span class="k">void</span> <span class="nf">SetText</span><span class="p">(</span><span class="kt">string</span> <span class="n">text</span><span class="p">);</span>
+<span class="c1">//加入方法</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">SetLbText</span><span class="p">(</span><span class="kt">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 如果返回 True ，则访问控件的线程不是创建控件的线程</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lb_Name</span><span class="p">.</span><span class="n">InvokeRequired</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 实例一个委托，匿名方法，</span>
+        <span class="n">SetText</span> <span class="n">st</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SetText</span><span class="p">(</span><span class="k">delegate</span><span class="p">(</span><span class="kt">string</span> <span class="n">text</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 改变 Label 的 Text</span>
+            <span class="n">lb_Name</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">text</span><span class="p">;</span>
+        <span class="p">});</span>
+
+        <span class="c1">// 把调用权交给创建控件的线程，带上参数</span>
+        <span class="n">lb_Name</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">lb_Name</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">str</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>然后任何线程都可以通过<code>setlbtext("内容")</code>来改变lb_name的内容.
+通过代码我能理解的就是,实际对<code>lb_name</code>进行内容改变的还是他自己所在的进程,因为其他进程是没办法访问到<code>lb_name</code>的.
+而委托函数(SetText)大概是能委托<code>lb_name</code>所在线程对<code>lb_name</code>进行操作.
+哎,这就是码农的悲哀.竟然硬把我拉去写C#...</p>

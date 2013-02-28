@@ -1,0 +1,23 @@
+<hr><p>话说JSON真是无处不在啊，AS3用他，JS用他，PHP也可以用他，所以说，掌握JSON还是有必要的</p>
+
+<div class="highlight"><pre><span class="c1">//编码函数</span>
+<span class="nx">json_encode</span><span class="p">()</span>
+
+<span class="c1">//解码函数 </span>
+<span class="nx">json_decode</span><span class="p">()</span>
+</pre></div>
+
+<p>解码后返回的是一个对象,需要用"-&gt;"访问
+可以强制转换成数组 在前面加上<code>(array)</code>
+如果文件编码不是UTF-8,一般都是GBK,就需要对内容进行编码转换
+一般用</p>
+
+<div class="highlight"><pre><span class="nx">iconv</span><span class="p">(</span><span class="s2">"原编码"</span><span class="p">,</span><span class="s2">"要转换成的编码"</span><span class="p">,</span><span class="s2">"变量名"</span><span class="p">)</span>
+</pre></div>
+
+<p>或者 </p>
+
+<div class="highlight"><pre><span class="nx">mb_convert_encoding</span><span class="p">(</span><span class="s2">"变量名"</span><span class="p">,</span><span class="s2">"要转换成的编码"</span><span class="p">,</span><span class="s2">"原编码"</span><span class="p">)</span>
+</pre></div>
+
+<p>可以发现....两个相同函数的参数顺序是相反的..看来是故意整蛊我们这些写代码的人呐</p>

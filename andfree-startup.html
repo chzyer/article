@@ -1,123 +1,1123 @@
-<html>
-<head>
-<meta charset='utf-8'>
-<link rel="alternate" type="application/rss+xml" href="/feed" />
-<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" />
-<title>使用AndFree入门安卓开发 - 陈冶</title>
-<style>
-.gist-syntax{background:#ffffff}.gist-syntax .c{color:#999988;font-style:italic}.gist-syntax .err{color:#a61717;background-color:#e3d2d2}.gist-syntax .k{color:#000000;font-weight:bold}.gist-syntax .o{color:#000000;font-weight:bold}.gist-syntax .cm{color:#999988;font-style:italic}.gist-syntax .cp{color:#999999;font-weight:bold}.gist-syntax .c1{color:#999988;font-style:italic}.gist-syntax .cs{color:#999999;font-weight:bold;font-style:italic}.gist-syntax .gd{color:#000000;background-color:#ffdddd}.gist-syntax .gd .x{color:#000000;background-color:#ffaaaa}.gist-syntax .ge{color:#000000;font-style:italic}.gist-syntax .gr{color:#aa0000}.gist-syntax .gh{color:#999999}.gist-syntax .gi{color:#000000;background-color:#ddffdd}.gist-syntax .gi .x{color:#000000;background-color:#aaffaa}.gist-syntax .go{color:#888888}.gist-syntax .gp{color:#555555}.gist-syntax .gs{font-weight:bold}.gist-syntax .gu{color:#aaaaaa}.gist-syntax .gt{color:#aa0000}.gist-syntax .kc{color:#000000;font-weight:bold}.gist-syntax .kd{color:#000000;font-weight:bold}.gist-syntax .kp{color:#000000;font-weight:bold}.gist-syntax .kr{color:#000000;font-weight:bold}.gist-syntax .kt{color:#445588;font-weight:bold}.gist-syntax .m{color:#009999}.gist-syntax .s{color:#d14}.gist-syntax .na{color:#008080}.gist-syntax .nb{color:#0086B3}.gist-syntax .nc{color:#445588;font-weight:bold}.gist-syntax .no{color:#008080}.gist-syntax .ni{color:#800080}.gist-syntax .ne{color:#990000;font-weight:bold}.gist-syntax .nf{color:#990000;font-weight:bold}.gist-syntax .nn{color:#555555}.gist-syntax .nt{color:#000080}.gist-syntax .nv{color:#008080}.gist-syntax .ow{color:#000000;font-weight:bold}.gist-syntax .w{color:#bbbbbb}.gist-syntax .mf{color:#009999}.gist-syntax .mh{color:#009999}.gist-syntax .mi{color:#009999}.gist-syntax .mo{color:#009999}.gist-syntax .sb{color:#d14}.gist-syntax .sc{color:#d14}.gist-syntax .sd{color:#d14}.gist-syntax .s2{color:#d14}.gist-syntax .se{color:#d14}.gist-syntax .sh{color:#d14}.gist-syntax .si{color:#d14}.gist-syntax .sx{color:#d14}.gist-syntax .sr{color:#009926}.gist-syntax .s1{color:#d14}.gist-syntax .ss{color:#990073}.gist-syntax .bp{color:#999999}.gist-syntax .vc{color:#008080}.gist-syntax .vg{color:#008080}.gist-syntax .vi{color:#008080}.gist-syntax .il{color:#009999}
-.small-text{
-color: #000;
-font-size: 12px;
-}
-.small-text:hover {
-text-decoration: none;
-}
-.box {
-padding: 3px;
-background: rgb(238, 238, 238);
-margin-top: 8px;
-margin-left: 8px;
-}
-.box .box-inside {
-background: #ffffff;
-padding: 10px;
-border: 1px solid rgb(204, 204, 204);
-}
-.box:hover {
-background: rgb(216, 234, 242);
-}
-.box .box-inside:hover {
-border: 1px solid rgb(151, 199, 221);
-}
-#comment-content {
-padding-bottom: 20px;
-}
-</style>
+<hr><blockquote>
+<p>本文主要介绍如何通过开源安卓框架<a href="http://andfree.chenye.org">Andfree</a>来入门安卓开发.</p>
+</blockquote>
 
-<style>
-* {
-font-family: "Monaco", "Microsoft YaHei"
-}
-</style>
-<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<h3>
+<a name="" class="anchor" href="#"><span class="mini-icon mini-icon-link"></span></a>前提条件</h3>
 
-</head>
-<body id="top" style="padding: 40px; width: 660px; margin: 0 auto;">
-<div class="btn-toolbar" style="position: fixed; margin:-30 10; z-index:2000">
-<div class="btn-group">
-<a class="btn" href="/article/andfree-startup/">
-<i class="icon-arrow-left"></i></a>
-<a class="btn" href="/article/product-and-project/">
-<i class="icon-arrow-right"></i></a>
-</div>
+<hr><ol>
+<li>了解java的语法</li>
+<li>eclipse和ADT环境已经配置好</li>
+<li>部分eclipse操作技巧</li>
+</ol><h3>
+<a name="-1" class="anchor" href="#-1"><span class="mini-icon mini-icon-link"></span></a>前言</h3>
 
-<div class="btn-group">
-<a class="btn btn-info" href="/" >博客</a>
-<a class="btn btn-inverse" href="https://github.com/chzyer">Github</a>
-<a class="btn btn-danger" href="http://weibo.com/210106468">微博</a>
-<a class="btn btn-warning" href="http://www.chenye.org/feed">RSS</a>
-<a class="btn" href="http://andfree.chenye.org/">andfree</a>
-</div>
-<div class="btn-group">
+<hr><p>本篇文章严重按照个人的编程顺序撰写, 毫无模块化归类可言.为了保证阅读和操作效果, 请勿跳着阅读..<br>
+如果将本篇文章全部读完, 相信你已经能够胜任大部分安卓开发的任务了!</p>
 
-<a class="btn " href="#top">Top</a>
+<h3>
+<a name="-2" class="anchor" href="#-2"><span class="mini-icon mini-icon-link"></span></a>项目配置</h3>
 
-<a class="btn " href="#comment">Comment</a>
+<hr><ol>
+<li>
+<p>新建一个Android工程, 工程名<code>AndFreeStartUp</code>, 包名设置为<code>org.chenye.startup</code>.
+进入工程目录, 输入命令</p>
 
-</div>
+<pre><code>$ git clone git://github.com/chzyer/AndFree.git
+</code></pre>
 
+<p>这样就可以在根目录看到<code>AndFree</code>文件夹.</p>
+</li>
+<li><p>进入<code>eclipse</code>, 可以看到<code>AndFree</code>文件夹, 展开, 选中<code>src</code>, 右键, <code>Build Path</code>-&gt;<code>Use as Source Folder</code>, 这样便成功将AndFree引入到工程中.</p></li>
+</ol><h3>
+<a name="-3" class="anchor" href="#-3"><span class="mini-icon mini-icon-link"></span></a>成就榜</h3>
 
-</div>
-<div class="gist-syntax">
+<hr><p>涉及的知识点如下:</p>
 
-</div>
-<hr>
-<h2 id="comment">Comment</h2>
-<div id="comment-content">评论加载中...</div>
-<div id="comment-send">
+<ul>
+<li>数据库的增删查改</li>
+<li>分页处理</li>
+<li>界面列表显示</li>
+<li>按钮单击事件的回调函数</li>
+<li>数组和哈希表的使用</li>
+<li>自定义控件的制作</li>
+<li>XML与JAVA的结合</li>
+<li>Activity的跳转和通信</li>
+<li>常用程序交互</li>
+</ul><h3>
+<a name="-4" class="anchor" href="#-4"><span class="mini-icon mini-icon-link"></span></a>软件内容</h3>
 
-<a href="https://github.com/login/oauth/authorize?client_id=8cf069a87d66a597b7da&scope=gist&redirect_uri=http://www.chenye.org/auth/github?redirect=/article/decorators-and-functional-python/" class="btn btn-primary" style="margin-bottom: 10px; float: right">登录Github评论</a>
+<hr><p>嗯嗯, 要说说我们第一个软件大概是什么东西了. 想来想去, 在覆盖知识全面和上手度相权衡, 大概就只有信息管理软件了. 所以我们的第一个软件就是TODO List吧. 软件涉及的功能如下:</p>
 
-<input type="submit" class="btn btn-primary" style="margin-bottom:10px; float:right; display: none" value="Post">
-</div>
-<div style="height:100px;"></div>
-<script>
-var default_avatar = 'https://i2.wp.com/a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-user-420.png?ssl=1'
-var box = function(user, name) {
-	html = '<div style="margin-top: 10px;">'
-	html += '<img class="img-rounded" rel="avatar-' + user['name'] + '" style="float:left; width: 48px; height: 48px;" src="' + default_avatar + '">'
-	html += '<div style="float:left;margin-top: 0px;width: 575px" class="box"><div class="box-inside">'
-	html += '<strong><a href="http://github.com/' + user['name'] + '">' + user['name'] + '</a></strong><br />'
-	html += name
-	html += '</div></div><div style="clear:both"></div></div>'
-	return html
-}
+<ul>
+<li>首页查看任务列表, 优先显示未完成的</li>
+<li>未完成的任务可以打钩(完成), 已完成的可以取消完成</li>
+<li>可以<code>添加/编辑</code>TODO任务, 包含的内容有:
 
-function comment(ret){
-	data = ret.data
-	$("#comment-content").html('')
-	avatars = {}
-	for (var i in data){
-		user = {
-			"avatar": data[i]['user']['avatar_url'],
-			"name": data[i]['user']['login']
-		}
-		avatars[user['name']] = user['avatar']
-		$("#comment-content").append(box(user, data[i]['body']))
-	}
-	for (var i in avatars){
-		$.get(avatars[i], function(e){
-			$("img[rel=avatar-" + i + "]").attr('src', avatars[i])
-		})
-	}
-}
-</script>
-<script src="https://api.github.com/gists/4508459/comments?callback=comment"></script>
+<ul>
+<li>标题</li>
+<li>时间段</li>
+</ul>
+</li>
+<li>每页显示5个, 最下方按钮按下可加载下一页</li>
+<li>任务长按弹出菜单, 有以下选项:
 
-<script>
+<ul>
+<li>删除, 需要对话框确认</li>
+<li>编辑</li>
+</ul>
+</li>
+</ul><h3>
+<a name="-5" class="anchor" href="#-5"><span class="mini-icon mini-icon-link"></span></a>开始编程</h3>
 
+<hr><p>编程的流程大概如下:</p>
 
-</script>
-</body>
-</html>
+<ol>
+<li>基础知识介绍</li>
+<li>设计主界面XML</li>
+</ol><h3>
+<a name="-6" class="anchor" href="#-6"><span class="mini-icon mini-icon-link"></span></a>基础知识介绍</h3>
+
+<hr><ul>
+<li>刚刚看到Android工程目录, 可能感觉到混乱, 如果一开始不清楚目录的作用的话将会不知如何下手, 所以我感觉有必要在最开始了解一下目录结构
+
+<ul>
+<li>
+<code>src</code> 代码的目录</li>
+<li>
+<code>Android x.x.x</code> 这个文件夹代表了使用安卓SDK的版本, 展开里面会有个<code>android.jar</code>, 最核心的android代码都在里面(被编译成.class字节码)</li>
+<li>
+<code>res</code> 这里面可以存放资源/素材文件, 比如xml(布局代码, 类似html), 图片(png), 静态数据(全局共享的String).</li>
+<li>
+<code>gen</code> 这个文件夹和<code>res</code>相关联, <strong>这个文件是自动生成的, 不能更改</strong>, 当<code>res</code>当中的资源被修改时, 编译器会自动将<code>res</code>中的文件翻译为R.java中, 目的是可以在java代码内访问<code>res</code>中的资源</li>
+<li>
+<code>assets</code> 这个可以存放资源文件, 和<code>res</code>的差别是, 这里面的数据不会被R.java收录其中, 可以通过<code>AssetManager</code>访问</li>
+<li>
+<code>AndroidMainfest.xml</code> 这个可以理解为C语言的main, 整个项目的核心配置文件, 包含了<code>权限声明</code>, <code>Activity声明(同时还可以定义哪个可作为默认启动Activity)</code>
+</li>
+<li>其他的可以暂时不理</li>
+</ul>
+</li>
+</ul><h3>
+<a name="xml" class="anchor" href="#xml"><span class="mini-icon mini-icon-link"></span></a>设计主界面XML</h3>
+
+<hr><p>新建工程之后, 可以在<code>res</code>-&gt;<code>layout</code>下好到<code>main.xml</code>, 双击打开就能看到, 先从<code>Form Widgets</code>中脱出一个<code>Button</code>, 再从<code>Composite</code>里面拖出一个<code>ScrollView</code>, 拉伸他到底部.布局的代码将会是这样</p>
+
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span>
+    <span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"fill_parent"</span>
+    <span class="nt">&gt;</span>
+    <span class="nt">&lt;Button</span> <span class="na">android:text=</span><span class="s">"添加"</span> 
+        <span class="na">android:id=</span><span class="s">"@+id/button1"</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/Button&gt;</span>
+    <span class="nt">&lt;ScrollView</span> <span class="na">android:id=</span><span class="s">"@+id/scrollView1"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"match_parent"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;LinearLayout</span> <span class="na">android:id=</span><span class="s">"@+id/linearLayout1"</span> 
+            <span class="na">android:layout_width=</span><span class="s">"match_parent"</span> 
+            <span class="na">android:layout_height=</span><span class="s">"match_parent"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/LinearLayout&gt;</span>
+    <span class="nt">&lt;/ScrollView&gt;</span>
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</pre></div>
+
+<p>需要注意的是<code>ScrollView</code>的<code>layout_height</code>, <code>layout_width</code>都是<code>match_parent</code>.</p>
+
+<h3>
+<a name="activity" class="anchor" href="#activity"><span class="mini-icon mini-icon-link"></span></a>新建一个Activity</h3>
+
+<hr><h4>
+<a name="java" class="anchor" href="#java"><span class="mini-icon mini-icon-link"></span></a>添加JAVA文件:</h4>
+
+<p>这个Activity的作用是添加TODO的作用. 在<code>src</code>-&gt;<code>org.chenye.andfreestartup</code>右键, 添加一个<code>Class</code>, 名字就叫做<code>Todo</code>, 考虑到这个Activity的作用不仅仅添加, 还有编辑, 就不叫做<code>AddTodo</code>, <code>EditTodo</code>之类的名字了, Activity第一个字母按照规范是要大写.</p>
+
+<p>新建类之后, 这时候他还不是Activity, 需要继承, 在这里, 我选择继承<code>AFActivity</code>, 这个是<code>AndFree</code>里面经过修改的Activity, 然后想加一些代码在Activity启动的时候执行, 这时候就要声明<code>onCreate</code>, 当然, 不用去背, 在空白出输入<code>oncr</code>, 然后再按<code>alt+/</code>打开自动补全, 找到<code>onCreate</code>就行了.</p>
+
+<h4>
+<a name="activity-1" class="anchor" href="#activity-1"><span class="mini-icon mini-icon-link"></span></a>声明Activity:</h4>
+
+<p>刚才说到<code>AndroidMainfest.xml</code>是负责声明Activity的, 如果没声明的话跳转到这个Activity会触发一个Exception, 声明方法:</p>
+
+<ol>
+<li>打开<code>Androidmainfest.xml</code>, 在下面的选项卡点击<code>Application</code>, 在<code>Application Nodes</code>可以看到程序自动建立的<code>AndfreeStartupActivity</code>, 我们可以在这里建立<code>Todo</code>窗口.</li>
+<li>可以校对一下我的代码</li>
+</ol><div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">package=</span><span class="s">"org.chenye.andfreestartup"</span>
+    <span class="na">android:versionCode=</span><span class="s">"1"</span>
+    <span class="na">android:versionName=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;uses-sdk</span> <span class="na">android:minSdkVersion=</span><span class="s">"9"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;application</span> <span class="na">android:icon=</span><span class="s">"@drawable/icon"</span> 
+        <span class="na">android:label=</span><span class="s">"@string/app_name"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">".AndfreeStartupActivity"</span>
+            <span class="na">android:label=</span><span class="s">"@string/app_name"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;intent-filter&gt;</span>
+                <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"android.intent.action.MAIN"</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">"android.intent.category.LAUNCHER"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/intent-filter&gt;</span>
+        <span class="nt">&lt;/activity&gt;</span>
+        <span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">"Todo"</span><span class="nt">&gt;&lt;/activity&gt;</span>
+    <span class="nt">&lt;/application&gt;</span>
+<span class="nt">&lt;/manifest&gt;</span>
+</pre></div>
+
+<h4>
+<a name="-7" class="anchor" href="#-7"><span class="mini-icon mini-icon-link"></span></a>界面设计:</h4>
+
+<p>这时候Todo窗体还是一个空壳, 我们为他设计一个界面吧, 和为主窗体的操作不同的是, 这次我们要自己创建xml.<br>
+嗯, 还是进入<code>res</code>-&gt;<code>layout</code>, 新建一个<code>activity_todo.xml</code>, 命名注意, 只能全部是小写字母, 并且用<code>_</code>连接起来, 至于为什么, 大概是这些都要收录进<code>R.java</code>吧.   </p>
+
+<ol>
+<li>在<code>Select the root element for the XML file:</code>那里选择<code>RelativeLayout</code>
+</li>
+<li>在<code>Text Fields</code>拖一个<code>Plain Text</code>到界面里, 水平居中, 并且宽度充满整个屏幕. 嗯, <code>RelativeLayout</code>有这功能.</li>
+<li>再添加一个按钮, 放<code>Plain Text</code>的右下方</li>
+<li>再添加一个按钮, 放<code>Plain Text</code>的左下方</li>
+<li>全部代码如下</li>
+</ol><div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;RelativeLayout</span>
+    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;EditText</span> <span class="na">android:id=</span><span class="s">"@+id/editText1"</span> 
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> 
+        <span class="na">android:layout_alignParentTop=</span><span class="s">"true"</span> 
+        <span class="na">android:layout_centerHorizontal=</span><span class="s">"true"</span> 
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;requestFocus&gt;&lt;/requestFocus&gt;</span>
+    <span class="nt">&lt;/EditText&gt;</span>
+    <span class="nt">&lt;Button</span> <span class="na">android:id=</span><span class="s">"@+id/button1"</span> 
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> 
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span> 
+        <span class="na">android:text=</span><span class="s">"Button"</span> 
+        <span class="na">android:layout_below=</span><span class="s">"@+id/editText1"</span> 
+        <span class="na">android:layout_alignParentRight=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/Button&gt;</span>
+    <span class="nt">&lt;Button</span> <span class="na">android:text=</span><span class="s">"Button"</span> 
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:id=</span><span class="s">"@+id/button2"</span>
+        <span class="na">android:layout_below=</span><span class="s">"@+id/editText1"</span>
+        <span class="na">android:layout_alignParentLeft=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/Button&gt;</span>
+<span class="nt">&lt;/RelativeLayout&gt;</span>
+</pre></div>
+
+<h4>
+<a name="-8" class="anchor" href="#-8"><span class="mini-icon mini-icon-link"></span></a>界面绑定:</h4>
+
+<p>到这里, java和xml文件都已经准备完毕, 现在是怎么将两者关联起来.实际上是很简单的. </p>
+
+<ol>
+<li>
+<p>到<code>Todo.java</code>的<code>onCreate</code>方法, 添加</p>
+
+<div class="highlight"><pre><span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_todo</span><span class="o">);</span>
+</pre></div>
+
+<p>有几个问题:</p>
+
+<blockquote>
+<h3>
+<a name="setcontentview" class="anchor" href="#setcontentview"><span class="mini-icon mini-icon-link"></span></a>setContentView的作用</h3>
+
+<p>无可厚非, 这里的作用肯定是将xml当做Activity的模板, 需要注意的是, Activity支持的一些方法<code>findViewById</code>是需要先设置<code>setContentView</code>, 原因很简单.</p>
+
+<h3>
+<a name="rlayoutactivity_todo" class="anchor" href="#rlayoutactivity_todo"><span class="mini-icon mini-icon-link"></span></a>R.layout.activity_todo是怎么来的</h3>
+
+<p>刚刚说到<code>gen</code>的作用是将<code>res</code>中的数据收录到<code>R.java</code>中, 刚刚我们做的操作是在<code>res/layout/</code>添加<code>activity_todo.xml</code>, 当我们按下保存按钮时, 编译器会将res里面的文件夹进行编译, 还有<code>drawable-ldpi</code>, <code>drawable-hdpi</code>, 会被合并为<code>R.drawable</code>, <code>values</code>会根据里面的内容再单独编译, 比如<code>values</code>文件夹里面存在<code>strings.xml</code>, 就会编译成<code>R.strings</code>.还有一个特殊的, 编译器会自动收集<code>layout</code>里面的id, 合并相同的, 生成<code>R.id</code>.
+所以, 我们能拿到<code>R.layout.activity_todo</code>, 类型是<code>int</code></p>
+</blockquote>
+</li>
+<li>
+<p>定义控件, 在Todo内添加</p>
+
+<div class="highlight"><pre><span class="c1">//注意大小写</span>
+<span class="kd">class</span> <span class="nc">Widget</span> <span class="kd">extends</span> <span class="n">WidgetList</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">AFEdit</span> <span class="n">title</span> <span class="o">=</span> <span class="n">edt</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">editText1</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">AFButton</span> <span class="n">save</span> <span class="o">=</span> <span class="n">btn</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">AFButton</span> <span class="n">cancel</span> <span class="o">=</span> <span class="n">btn</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button2</span><span class="o">);</span>
+<span class="o">};</span><span class="n">Widget</span> <span class="n">widget</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">bundle</span><span class="o">){</span>
+    <span class="c1">//xxx</span>
+    <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_todo</span><span class="o">);</span>
+    <span class="n">widget</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Widget</span><span class="o">();</span>
+    <span class="n">widget</span><span class="o">.</span><span class="na">initAll</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+
+<blockquote>
+<h3>
+<a name="-9" class="anchor" href="#-9"><span class="mini-icon mini-icon-link"></span></a>作用:</h3>
+
+<p>这个使用了AndFree定义控件定义方式, 将控件名称和对应的id在明显的位置声明出来.然后在<code>onCreate</code>内实例化<code>Widget</code>, 并且通过<code>widget.initAll(this)</code>初始化内部所有的控件.</p>
+
+<h3>
+<a name="-10" class="anchor" href="#-10"><span class="mini-icon mini-icon-link"></span></a>原来的定义方式是?</h3>
+
+<p>嗯, 为了方便阅读, 使用了基于AndFree的控件定义方式, 不然, 控件的定义方式将如下</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="n">EditText</span> <span class="n">title</span><span class="o">;</span>
+<span class="kd">public</span> <span class="n">Button</span> <span class="n">save</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">bundle</span><span class="o">){</span>
+    <span class="c1">//xxx</span>
+    <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_todo</span><span class="o">);</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="o">(</span><span class="n">EditText</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">editText1</span><span class="o">);</span>
+    <span class="n">save</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>
+<p>给按钮添加事件:</p>
+
+<p>添加事件, 因为这个事件不是即时发生的, 而是在按钮按下的时候才执行, 所以我们需要用到回调. 在JAVA里面, 要达到回调的效果就要使用<code>interface</code>. 不过, 对于按钮单击, <code>android</code>提供一个<code>OnClickListener</code>的接口, 不用我们自己去定义.给按钮添加事件非常简单.</p>
+
+<div class="highlight"><pre><span class="c1">//写法一</span>
+<span class="n">widget</span><span class="o">.</span><span class="na">save</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">toast</span><span class="o">(</span><span class="s">"save button pressed!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+</pre></div>
+
+<p>在上一点中已经实例化了widget, 并且调用了<code>initAll</code>, 所以这时候widget内部的控件都已经能够正常使用. <code>widget.save</code>对应的就是保存按钮.给他定义单击事件可以通过<code>setClick</code>设置.按钮单击后执行的事件是</p>
+
+<div class="highlight"><pre><span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">toast</span><span class="o">(</span><span class="s">"save button pressed!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p><code>View.OnClickListener</code>是一个interface, 在这里直接实例化并且在<code>onClick</code>里面加入代码, 然后这整个interface被当做参数传进入, 当按钮被单击时, 系统会通过<code>click.onClick(v);</code>来调用单击事件(假设这个interface传进去后被变量<code>click</code>储存).</p>
+
+<p>还有第二种写法, 将View.OnClickListener作为变量储存起来</p>
+
+<div class="highlight"><pre><span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span> <span class="n">onclick</span> <span class="o">=</span> <span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">toast</span><span class="o">(</span><span class="s">"save button pressed!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">widget</span><span class="o">.</span><span class="na">save</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="n">onclick</span><span class="o">);</span>
+</pre></div>
+
+<p>当该Activity有多个单击事件, 但是又不想每次都声明一个interface的时候, 可以使用一个interface传递给所有的按钮. 在interface内部, 可以看到<code>onClick(View v)</code>, 这里的参数<code>v</code>是被点击控件的实例, 也就是说可以根据<code>v</code>来判断用户到底点击了哪个按钮.</p>
+
+<div class="highlight"><pre><span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span> <span class="n">onclick</span> <span class="o">=</span> <span class="k">new</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">save</span><span class="o">.</span><span class="na">equalView</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">toast</span><span class="o">(</span><span class="s">"save button pressed!"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">cancel</span><span class="o">.</span><span class="na">equalView</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">toast</span><span class="o">(</span><span class="s">"cancel button pressed!"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">widget</span><span class="o">.</span><span class="na">save</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="n">onclick</span><span class="o">);</span>
+<span class="n">widget</span><span class="o">.</span><span class="na">cancel</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="n">onclick</span><span class="o">);</span>
+</pre></div>
+
+<p>如果还想要让代码量更少一点, 可以直接让Activity去实现接口<code>View.OnClickListener</code>. 反正这个Activity我就想处理一个<code>OnClickListener</code>而已.</p>
+
+<div class="highlight"><pre><span class="c1">//只显示必要代码</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Todo</span> <span class="kd">extends</span> <span class="n">AFActivity</span> <span class="kd">implements</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">bundle</span><span class="o">){</span>
+        <span class="c1">//代码省略</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">save</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">cancel</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">save</span><span class="o">.</span><span class="na">equalView</span><span class="o">(</span><span class="n">v</span><span class="o">)){</span>
+            <span class="n">toast</span><span class="o">(</span><span class="s">"save button pressed!"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">cancel</span><span class="o">.</span><span class="na">equalView</span><span class="o">(</span><span class="n">v</span><span class="o">)){</span>
+            <span class="n">toast</span><span class="o">(</span><span class="s">"cancel button pressed!"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>
+<p>初始化按钮</p>
+
+<p>现在按钮的名字还是<code>Button</code>吧, 我们给他改名字. 使用<code>AndFree</code>封装的控件支持<code>链式表达</code>.可以让针对一个控件的初始化尽量在一行搞定, 当然如果代码过长建议还是分开比较好.</p>
+
+<div class="highlight"><pre><span class="n">widget</span><span class="o">.</span><span class="na">save</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Save"</span><span class="o">).</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="n">widget</span><span class="o">.</span><span class="na">cancel</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Cancel"</span><span class="o">).</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</pre></div>
+</li>
+<li>
+<p>窗体跳转</p>
+
+<p>本来这里我想说可以运行看看效果的, 但是貌似到现在为止进入的窗体是<code>AndfreeStartupActivity</code>, 怎么进入<code>Todo</code>呢, 这里就涉及到窗体跳转的问题了.到<code>AndfreeStartupActivity</code>, 首先把他从继承<code>Activity</code>改为<code>AFActivity</code>吧.</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AndfreeStartupActivity</span> <span class="kd">extends</span> <span class="n">AFActvity</span> <span class="o">{</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>然后在<code>setContentView(R.layout.main);</code>下面加上</p>
+
+<div class="highlight"><pre><span class="n">startActivity</span><span class="o">(</span><span class="n">Todo</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</pre></div>
+
+<p>加上之后, 程序会在进入<code>AndfreeStartupActivity</code>后自动跳转到<code>Todo</code>窗体, 当然, 作为可选方案, 可以在<code>AndroidMainfest.xml</code>找到<code>Todo</code>的定义, 在里面加上</p>
+
+<div class="highlight"><pre><span class="nt">&lt;intent-filter&gt;</span>
+    <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"android.intent.action.MAIN"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">"android.intent.category.LAUNCHER"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/intent-filter&gt;</span>
+</pre></div>
+
+<p>这样的话程序就会出现在快捷方式里面, 而且是两个(还有AndfreeStartupActivity), 如果不要<code>AndfreeStartupActivity</code>的话, 要将<code>AndfreeStartupActivity</code>的和上面代码一样的地方<code>删除</code>.<br><strong>由于我们仅仅是调试目的, 所以我就不推荐使用这种方式更改了.</strong></p>
+</li>
+</ol><blockquote>
+<p>Run!</p>
+</blockquote>
+
+<h4>
+<a name="-11" class="anchor" href="#-11"><span class="mini-icon mini-icon-link"></span></a>数据库设计:</h4>
+
+<p>既然我们已经将界面和交互做好了, 那么接下来就要设计todo的数据库了, 然后再把数据存入数据库里面.安卓原生对数据库的编写方式比较原始, 所以<code>AndFree</code>对数据库操作和定义进行了封装, 可以很方便的设计使用数据库.
+首先我们定义一下结构:</p>
+
+<ul>
+<li><strong>todo_list</strong></li>
+<li>
+<code>_id</code>, 自动增长的id</li>
+<li>
+<code>title</code>, todo的名称</li>
+<li>
+<code>done</code>, 是否已完成</li>
+<li>
+<code>create</code>, 添加日期</li>
+<li>
+<code>done_date</code>, 完成的日期</li>
+</ul><p>然后我们新建一个包名<code>_andfree</code>, 用来存放对<code>andfree</code>的配置信息.<code>org.chenye.andfreestartup._andfree</code>, 在里面添加一个Class, 名字为<code>dbcore</code>. 让他继承<code>AFCore</code>.根据上面的定义, 可以写出一下代码:</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">dbcore</span> <span class="kd">extends</span> <span class="n">AFCore</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">todo_list</span> <span class="kd">extends</span> <span class="n">AFTable</span><span class="o">{</span>
+        <span class="c1">//请一定要有_id字段</span>
+        <span class="kd">public</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">DBField</span> <span class="n">_id</span> <span class="o">=</span> <span class="n">DBField</span><span class="o">.</span><span class="na">primaryInt</span><span class="o">(</span><span class="s">"_id"</span><span class="o">);</span>
+        <span class="kd">public</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">DBField</span> <span class="n">title</span> <span class="o">=</span> <span class="n">DBField</span><span class="o">.</span><span class="na">text</span><span class="o">(</span><span class="s">"title"</span><span class="o">);</span>
+        <span class="kd">public</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">DBField</span> <span class="n">done</span> <span class="o">=</span> <span class="n">DBField</span><span class="o">.</span><span class="na">boolInt</span><span class="o">(</span><span class="s">"done"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="kd">public</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">DBField</span> <span class="n">create</span> <span class="o">=</span> <span class="n">DBField</span><span class="o">.</span><span class="na">dateline</span><span class="o">(</span><span class="s">"create"</span><span class="o">);</span>
+        <span class="kd">public</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">DBField</span> <span class="n">done_date</span> <span class="o">=</span> <span class="n">DBField</span><span class="o">.</span><span class="na">dateline</span><span class="o">(</span><span class="s">"done_date"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<h4>
+<a name="-12" class="anchor" href="#-12"><span class="mini-icon mini-icon-link"></span></a>插入数据:</h4>
+
+<p>这下可以回到<code>Todo</code>里面去修改<code>save</code>的代码了.<br>
+将按下save的代码改为</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">save</span><span class="o">.</span><span class="na">euqalView</span><span class="o">(</span><span class="n">v</span><span class="o">)){</span>
+    <span class="n">saveTodo</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>然后新建一个<code>saveTodo()</code>方法, 将数据传入数据库. 等等, 文本框的内容要怎么获得? 其实和简单</p>
+
+<div class="highlight"><pre><span class="n">String</span> <span class="n">todoString</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="na">title</span><span class="o">.</span><span class="na">getText</span><span class="o">();</span>
+</pre></div>
+
+<p>然后使用<code>AndFree</code>内置的<code>Line</code>类型, 将数据以哈希表的形式储存起来.</p>
+
+<div class="highlight"><pre><span class="c1">//声明变量</span>
+<span class="n">Line</span> <span class="n">todo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Line</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</pre></div>
+
+<p>可以看到, 在声明的时候, 将<code>todo</code>和数据库表<code>todo_list</code>关联起来了, 然后添加数据</p>
+
+<div class="highlight"><pre><span class="n">todo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">,</span> <span class="n">todoString</span><span class="o">);</span>
+<span class="n">todo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">create</span><span class="o">,</span> <span class="n">FuncTime</span><span class="o">.</span><span class="na">time</span><span class="o">());</span>
+</pre></div>
+
+<p>这里只添加必要的信息, <code>FuncTime.time()</code>这是<code>AndFree</code>内置的辅助函数, 用于拿到时间的long值.</p>
+
+<p>然后要将数据插入! 只是在<code>AndFree</code>里面, 不用去理到底是插入还是更新, 只要一句save命令就搞定了.那么, 有一个问题, 他是怎么判断什么时候要更新, 什么时候要插入的呢, 这个就需要开发者提供一个要确保<code>唯一</code>的字段, 但这个字段的值在这个表中已经存在, 便更新, 反之则插入. 当不提供任何字段时, 以<code>_id</code>为准, 如果已有<code>_id</code>, 就更新, 反之插入, 当然我们这次没有给他赋值<code>_id</code>, 就铁定是插入. 再举个例, 如果想让<code>title</code>不重复, 可以执行以下:</p>
+
+<div class="highlight"><pre><span class="n">todo</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">);</span>
+</pre></div>
+
+<p>当然这个实际意义不太大, 我们只要简单的插入就行了.</p>
+
+<div class="highlight"><pre><span class="n">todo</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+</pre></div>
+
+<p>所以, <code>saveTodo()</code>的完整代码如下:</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">saveTodo</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">todoString</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="na">title</span><span class="o">.</span><span class="na">getText</span><span class="o">();</span>     
+    <span class="n">Line</span> <span class="n">todo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Line</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">todo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">,</span> <span class="n">todoString</span><span class="o">);</span>
+    <span class="n">todo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">create</span><span class="o">,</span> <span class="n">FuncTime</span><span class="o">.</span><span class="na">time</span><span class="o">());</span>
+    <span class="n">todo</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+
+<h4>
+<a name="-13" class="anchor" href="#-13"><span class="mini-icon mini-icon-link"></span></a>怎么调试?</h4>
+
+<p>至少要有一个方法来查看是否插入成功了是不是啊...<br>
+暂时用toast看吧, 将下面的代码加入到<code>todo.save()</code>下面</p>
+
+<div class="highlight"><pre><span class="n">Line</span> <span class="n">todo_list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">result</span><span class="o">();</span>
+<span class="n">toast</span><span class="o">(</span><span class="n">todo_list</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</pre></div>
+
+<p>或者简写为:</p>
+
+<div class="highlight"><pre><span class="n">toast</span><span class="o">(</span><span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">result</span><span class="o">().</span><span class="na">toString</span><span class="o">());</span>
+</pre></div>
+
+<p>添加后就可以看到数据库内容以json的格式输出了. 如果出现错误, 可以查看<code>Logcat</code></p>
+
+<h3>
+<a name="todo" class="anchor" href="#todo"><span class="mini-icon mini-icon-link"></span></a>显示Todo列表</h3>
+
+<hr><p>终于又回到了<code>AndfreeStartupActivity</code>.记得如果取消他作为默认启动, 记得改回来啊.<br>
+在这个窗口里面呢, 要解决的是展示的问题. 和连接到添加Todo的窗体
+先去掉自动跳转的代码<code>startActivity(Todo.class);</code></p>
+
+<p>关于控件的定义就不废话了</p>
+
+<div class="highlight"><pre><span class="kd">class</span> <span class="nc">Widget</span> <span class="kd">extends</span> <span class="n">WidgetList</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">AFButton</span> <span class="n">add</span> <span class="o">=</span> <span class="n">btn</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">AFRlayout</span> <span class="n">list</span> <span class="o">=</span> <span class="n">llayout</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">linearLayout1</span><span class="o">);</span>
+<span class="o">};</span><span class="n">Widget</span> <span class="n">widget</span><span class="o">;</span>
+</pre></div>
+
+<p>接下来是显示内容, 暂时用<code>TextView</code>来显示吧.
+首先从数据库查询数据出来</p>
+
+<div class="highlight"><pre><span class="n">Line</span> <span class="n">todo_list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">result</span><span class="o">();</span>
+</pre></div>
+
+<p>这里面就可以遍历出数据(可以在调试中查看他输出json的文本), 接下来就是遍历他, 列出每一行的数据</p>
+
+<div class="highlight"><pre><span class="c1">//在java内, 可以用for..in..来遍历一个数据</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">Line</span> <span class="nl">todo:</span> <span class="n">todo_list</span><span class="o">){</span>
+    <span class="c1">//...</span>
+    <span class="c1">//在for里面可以直接用todo来访问每一条数据</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>然后我们在for里面添加代码</p>
+
+<div class="highlight"><pre><span class="n">AFText</span> <span class="n">title</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AFText</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</pre></div>
+
+<p>动态声明一个TextView</p>
+
+<div class="highlight"><pre><span class="n">String</span> <span class="n">todo_str</span> <span class="o">=</span> <span class="n">todo</span><span class="o">.</span><span class="na">str</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">);</span>
+<span class="n">title</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">todo_str</span><span class="o">);</span>
+</pre></div>
+
+<p><code>todo</code>是一个<code>Line</code>类型, <code>todo.str</code>是将他哈希表里面对应键值输出为字符串, 参数支持直接提供数据库字段<code>dbcore.todo_list.title</code>.即上面的代码直接等于<code>todo.str("title")</code>.然后将数据赋值给<code>title</code>的值.</p>
+
+<div class="highlight"><pre><span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">title</span><span class="o">);</span>
+</pre></div>
+
+<p>将<code>title</code>添加进<code>widget.list</code>, <code>widget.list</code>是<code>ScrollView</code>里面的<code>LinearLayout</code>.</p>
+
+<p>所以, 综上, 代码如下:</p>
+
+<div class="highlight"><pre><span class="k">for</span> <span class="o">(</span><span class="n">Line</span> <span class="nl">todo:</span> <span class="n">todo_list</span><span class="o">){</span>
+    <span class="n">AFText</span> <span class="n">title</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AFText</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">todo_str</span> <span class="o">=</span> <span class="n">todo</span><span class="o">.</span><span class="na">str</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">);</span>
+    <span class="n">title</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">todo_str</span><span class="o">);</span>
+    <span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">title</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+
+<blockquote>
+<p>运行后, 就能看到刚才添加的数据了. </p>
+</blockquote>
+
+<h3>
+<a name="todo-1" class="anchor" href="#todo-1"><span class="mini-icon mini-icon-link"></span></a>自定义TODO的项目</h3>
+
+<hr><blockquote>
+<p>刚才为了简单, 先用暂时的AFText来显示文本, 但是我们要的是一个可以勾选的Todo List, 应该怎么做呢? 这时候就可以自定义写一个控件了...</p>
+</blockquote>
+
+<p>新建一个包<code>org.chenye.andfreestartup._widget</code>, 添加一个<code>TodoItem</code>, 继承<code>ExpandWidget</code>, 然后完成<code>构造函数</code>和<code>需要实现的函数</code>, 构造函数需要完成两个, 
+<code>TodoItem(Context context)</code>, <code>TodoItem(Context context, AttributeSet as)</code>. 完成后可以看到代码如下, </p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TodoItem</span> <span class="kd">extends</span> <span class="n">ExpandWidget</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">TodoItem</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="c1">// TODO Auto-generated constructor stub</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="nf">TodoItem</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">as</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">as</span><span class="o">);</span>
+        <span class="c1">// TODO Auto-generated constructor stub</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onInit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">inXML</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// TODO Auto-generated method stub  </span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p><code>onInit</code>会在控件初始化的时候访问, 所以这时访问的属性都会是null, 即使已经设定默认值了.<br><strong>下面的代码会触发</strong><code>NullPointerException</code>,</p>
+
+<div class="highlight"><pre><span class="c1">//ERROR!</span>
+<span class="kd">public</span> <span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="s">"a"</span><span class="o">;</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onInit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">inXML</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+<span class="o">}</span>
+</pre></div>
+
+<blockquote>
+<p>接下来我们想想对于一个TODO的项目, 应该对外支持什么接口</p>
+
+<ul>
+<li>定义TODO的内容</li>
+<li>定义是否已完成</li>
+<li>传入id, 以便点击后将他列为<code>已完成</code>
+</li>
+</ul>
+</blockquote>
+
+<p>然后, 设计了以下接口</p>
+
+<ul>
+<li><code>setDone(Boolean done)</code></li>
+<li><code>setContent(String content)</code></li>
+<li><code>setId(int _id)</code></li>
+</ul><h4>
+<a name="item" class="anchor" href="#item"><span class="mini-icon mini-icon-link"></span></a>接下来开始设计item的界面:</h4>
+
+<p>新建一个<code>item_todo.xml</code>, 根控件使用<code>RelativeLayout</code>, 拖动一个<code>CheckBox</code>左居中, 一个<code>TextView</code>对齐<code>CheckBox</code>, <code>TextView</code>宽度右对齐屏幕右侧.将<code>CheckBox</code>的内容设置为空.代码如下:</p>
+
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;RelativeLayout</span>
+    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;CheckBox</span> <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:id=</span><span class="s">"@+id/checkBox1"</span>
+        <span class="na">android:text=</span><span class="s">""</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_centerVertical=</span><span class="s">"true"</span>
+        <span class="na">android:layout_alignParentLeft=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/CheckBox&gt;</span>
+    <span class="nt">&lt;TextView</span> <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:id=</span><span class="s">"@+id/textView1"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:text=</span><span class="s">"TextView"</span>
+        <span class="na">android:layout_centerVertical=</span><span class="s">"true"</span>
+        <span class="na">android:layout_toRightOf=</span><span class="s">"@+id/checkBox1"</span>
+        <span class="na">android:layout_alignParentRight=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/TextView&gt;</span>
+<span class="nt">&lt;/RelativeLayout&gt;</span>
+</pre></div>
+
+<h4>
+<a name="todoitemxml" class="anchor" href="#todoitemxml"><span class="mini-icon mini-icon-link"></span></a>绑定<code>TodoItem</code>的XML和控件</h4>
+
+<p>在控件里面绑定XML和在Activity里面不太一样, 可以通过类似控件定义的方式.</p>
+
+<div class="highlight"><pre><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onInit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">inXML</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">widget</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Widget</span><span class="o">();</span>
+    <span class="n">widget</span><span class="o">.</span><span class="na">initAll</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">widget</span><span class="o">.</span><span class="na">layout</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">Widget</span> <span class="kd">extends</span> <span class="n">WidgetList</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">AFRlayout</span> <span class="n">layout</span> <span class="o">=</span> <span class="n">rlayout</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">item_todo</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">AFText</span> <span class="n">content</span> <span class="o">=</span> <span class="n">txt</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textView1</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">AFCheck</span> <span class="n">check</span> <span class="o">=</span> <span class="n">check</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">checkBox1</span><span class="o">);</span>
+<span class="o">};</span> <span class="n">Widget</span> <span class="n">widget</span><span class="o">;</span>
+</pre></div>
+
+<p>当需要引入xml的时候, 就直接把他传入<code>widget.initAll</code>的第二个参数就行了.他会作为layout进行解析, 得到的控件类型就是xml的跟类型.</p>
+
+<h4>
+<a name="-14" class="anchor" href="#-14"><span class="mini-icon mini-icon-link"></span></a>实现接口</h4>
+
+<p>接下来就可以定义接口了</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setDone</span><span class="o">(</span><span class="n">Boolean</span> <span class="n">done</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">widget</span><span class="o">.</span><span class="na">check</span><span class="o">.</span><span class="na">setCheck</span><span class="o">(</span><span class="n">done</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setContent</span><span class="o">(</span><span class="n">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">widget</span><span class="o">.</span><span class="na">content</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">content</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">int</span> <span class="n">_id</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">){</span>
+    <span class="n">_id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>然后我们定义用户点击check后的事件处理</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TodoItem</span> <span class="kd">extends</span> <span class="n">ExpandWidget</span> <span class="kd">implements</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onInit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">inXML</span><span class="o">){</span>
+        <span class="c1">//...</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">check</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">check</span><span class="o">.</span><span class="na">equalView</span><span class="o">(</span><span class="n">v</span><span class="o">)){</span>
+            <span class="kt">boolean</span> <span class="n">checked</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="na">check</span><span class="o">.</span><span class="na">isChecked</span><span class="o">();</span>
+            <span class="n">Line</span> <span class="n">update</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Line</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+            <span class="n">update</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">_id</span><span class="o">,</span> <span class="n">_id</span><span class="o">);</span>
+            <span class="n">update</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">done</span><span class="o">,</span> <span class="n">checked</span><span class="o">);</span>
+            <span class="n">update</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<blockquote>
+<p>嗯, 到这里, 一个自定义控件已经完成了, 再看看在<code>AndfreeStartupActivity</code>要怎么用吧</p>
+</blockquote>
+
+<h3>
+<a name="-15" class="anchor" href="#-15"><span class="mini-icon mini-icon-link"></span></a>使用自定义控件</h3>
+
+<hr><p>回到<code>AndfreeStartupActivity</code>, 这时候只需要修改for里面的内容了. 直接换成</p>
+
+<div class="highlight"><pre><span class="n">TodoItem</span> <span class="n">ti</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TodoItem</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="n">ti</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">todo</span><span class="o">.</span><span class="na">str</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">));</span>
+<span class="n">ti</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">todo</span><span class="o">.</span><span class="na">_id</span><span class="o">());</span>
+<span class="n">ti</span><span class="o">.</span><span class="na">setDone</span><span class="o">(</span><span class="n">todo</span><span class="o">.</span><span class="na">bool</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">done</span><span class="o">));</span>
+<span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">ti</span><span class="o">);</span>
+</pre></div>
+
+<p>这段代码只完成了3件事:</p>
+
+<ol>
+<li>声明控件, 申请内存</li>
+<li>初始化, 给他传递内容</li>
+<li>把他添加进父级的视图里面</li>
+</ol><blockquote>
+<p>到这里, 已经可以正常运行了. 验证是否成功的方法是, 给一个item打钩, 然后退出程序, 在打开, 看看是否保持打钩状态.</p>
+</blockquote>
+
+<h3>
+<a name="-16" class="anchor" href="#-16"><span class="mini-icon mini-icon-link"></span></a>测试</h3>
+
+<hr><p>多添加几个数据, 进行测试. 添加到11个todo吧. 什么? 添加按钮按了没反应? </p>
+
+<h3>
+<a name="-17" class="anchor" href="#-17"><span class="mini-icon mini-icon-link"></span></a>窗体跳转</h3>
+
+<hr><p>给按钮添加事件相信已经明白了, 这里就不废话了</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AndfreeStartupActivity</span> <span class="kd">extends</span> <span class="n">AFActivity</span> <span class="kd">implements</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">bundle</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//...</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">add</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">startActivity</span><span class="o">(</span><span class="n">Todo</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<h3>
+<a name="2" class="anchor" href="#2"><span class="mini-icon mini-icon-link"></span></a>测试2</h3>
+
+<hr><p>看看刚才测试1的内容吧😭</p>
+
+<h3>
+<a name="todo-2" class="anchor" href="#todo-2"><span class="mini-icon mini-icon-link"></span></a>完善添加TODO</h3>
+
+<hr><blockquote>
+<p>可能你也发现了, 当内容为空时, 也可以添加, 而且添加后也不会返回. 这时候我们就要开始完善它</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="c1">//在saveTodo()第一行加入</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">title</span><span class="o">.</span><span class="na">isTextEmpty</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">toast</span><span class="o">(</span><span class="s">"please enter the details!"</span><span class="o">);</span>
+    <span class="k">return</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>然后把调试用的toast给删了吧, 换成</p>
+
+<div class="highlight"><pre><span class="n">finish</span><span class="o">();</span>
+</pre></div>
+
+<p>另外, <code>cancel</code>按钮按了也没用, 我们就给他加入finish的功能, 替换掉原来的代码</p>
+
+<div class="highlight"><pre><span class="c1">//old toast("cancel button pressed!");</span>
+<span class="n">finish</span><span class="o">();</span>
+</pre></div>
+
+<p>加入这里算搞定了.</p>
+
+<h3>
+<a name="-18" class="anchor" href="#-18"><span class="mini-icon mini-icon-link"></span></a>内容自动刷新</h3>
+
+<hr><blockquote>
+<p>添加回来之后会发现内容不会自动刷新. 因为我们还没有添加Activity Result.</p>
+
+<h4>
+<a name="activity-result" class="anchor" href="#activity-result"><span class="mini-icon mini-icon-link"></span></a>什么是Activity Result</h4>
+
+<p>简单来说就是跳转到Activity的时候, 给他一个id号, 新Activity退出的时候, 会返回给原Activity刚刚提供的id和他想返回的数据(可选的)</p>
+
+<h4>
+<a name="-19" class="anchor" href="#-19"><span class="mini-icon mini-icon-link"></span></a>自动刷新的思路</h4>
+
+<p>我们可以在添加成功后, 返回新添加成功的TODO item, 然后回到原Activity之后, 将这条数据转成View, 添加到第一行.</p>
+</blockquote>
+
+<h4>
+<a name="-20" class="anchor" href="#-20"><span class="mini-icon mini-icon-link"></span></a>保存后返回数据内容</h4>
+
+<p>回到<code>saveTodo</code>, 在执行<code>todo.save()</code>之后, 可以把todo返回回去, 将<code>finish();</code>换为如下代码</p>
+
+<div class="highlight"><pre><span class="n">setResult</span><span class="o">(</span><span class="n">todo</span><span class="o">).</span><span class="na">finish</span><span class="o">();</span>
+</pre></div>
+
+<h3>
+<a name="todo-3" class="anchor" href="#todo-3"><span class="mini-icon mini-icon-link"></span></a>跳转到<code>Todo</code>
+</h3>
+
+<hr><p>原来的<code>startActivity</code>默认是不获取result的. 当操作只有一个的时候可以这样定义一个回调函数, 换掉原来的<code>startActivity</code></p>
+
+<div class="highlight"><pre><span class="n">startActivityForResult</span><span class="o">(</span><span class="n">Todo</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">onActivityResult</span><span class="o">(){</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">callback</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">result_ok</span><span class="o">,</span> <span class="n">Line</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span> <span class="o">!</span> <span class="n">result_ok</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+        <span class="n">TodoItem</span> <span class="n">ti</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TodoItem</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
+        <span class="n">ti</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">str</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">));</span>
+        <span class="n">ti</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">_id</span><span class="o">());</span>
+        <span class="n">ti</span><span class="o">.</span><span class="na">setDone</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">bool</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">done</span><span class="o">));</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">addTopView</span><span class="o">(</span><span class="n">ti</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+</pre></div>
+
+<blockquote>
+<p>这样弄好了, 是刷新了, 可是怎么只能看见一个的? 原因是<code>widget.list</code>默认是横向排列的, 我们要改变为纵向</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">bundle</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//...</span>
+    <span class="n">widget</span><span class="o">.</span><span class="na">add</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">setVertical</span><span class="o">();</span> <span class="c1">// new</span>
+    <span class="n">Line</span> <span class="n">todo_list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">result</span><span class="o">();</span>
+    <span class="c1">//...</span>
+<span class="o">}</span>
+</pre></div>
+
+<h3>
+<a name="todo-4" class="anchor" href="#todo-4"><span class="mini-icon mini-icon-link"></span></a>Todo排序</h3>
+
+<hr><blockquote>
+<p>你也应该发现了, Todo变得混乱不堪, 当我们第一次进来的时候, 是希望先看到未完成的是吧? 剩下的再按日期排列.再往回看数据库查询的时候, 可以发现数据库查询语句是想当简洁的.</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="n">Line</span> <span class="n">todo_list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">result</span><span class="o">();</span>
+</pre></div>
+
+<blockquote>
+<p>嗯, 接下来, 就要介绍怎样通过<code>AndFree</code>使用比较常用的数据库语句.<br>
+按照上面的想法, 我们需要实现</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">todo_list</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="o">`</span><span class="n">done</span><span class="o">`</span><span class="p">,</span> <span class="o">`</span><span class="k">create</span><span class="o">`</span> <span class="k">DESC</span>
+</pre></div>
+
+<blockquote>
+<p>等价的语句如下</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="n">Line</span> <span class="n">todo_list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">order</span><span class="o">(</span>
+    <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">done</span><span class="o">.</span><span class="na">ASC</span><span class="o">(),</span>
+    <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">create</span><span class="o">.</span><span class="na">DESC</span><span class="o">()</span>
+<span class="o">).</span><span class="na">result</span><span class="o">();</span>
+</pre></div>
+
+<h3>
+<a name="-21" class="anchor" href="#-21"><span class="mini-icon mini-icon-link"></span></a>分页</h3>
+
+<hr><blockquote>
+<p>当todo的数量特别多的时候, 在进入Activity的一刹那, 会有卡顿的感觉, 当卡顿超过3秒, 就直接面临卡死...所以, 必要的时候, 我们需要给todo做一个分页</p>
+</blockquote>
+
+<p>首先要修改一下sql, </p>
+
+<div class="highlight"><pre><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">todo_list</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="o">`</span><span class="n">done</span><span class="o">`</span><span class="p">,</span> <span class="o">`</span><span class="k">create</span><span class="o">`</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span>
+</pre></div>
+
+<p>对应的代码是</p>
+
+<div class="highlight"><pre><span class="n">Line</span> <span class="n">todo_list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">order</span><span class="o">(</span>
+    <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">done</span><span class="o">.</span><span class="na">ASC</span><span class="o">(),</span>
+    <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">create</span><span class="o">.</span><span class="na">DESC</span><span class="o">()</span>
+<span class="o">).</span><span class="na">limit</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">).</span><span class="na">result</span><span class="o">();</span>
+</pre></div>
+
+<p>但是仅仅这样还不够, 还需要检测总数量, 未读取数据的数量大于10个时一直显示加载更多, 反之不显示.</p>
+
+<p>接下来我们就不得不把资料查询封装成一个函数了, </p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">showTodoList</span><span class="o">(</span><span class="kt">int</span> <span class="n">start</span><span class="o">,</span> <span class="kt">int</span> <span class="n">limit</span><span class="o">){</span>
+    <span class="n">Line</span> <span class="n">todo_list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">order</span><span class="o">(</span>
+        <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">done</span><span class="o">.</span><span class="na">ASC</span><span class="o">(),</span>
+        <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">create</span><span class="o">.</span><span class="na">DESC</span><span class="o">()</span>
+    <span class="o">).</span><span class="na">limit</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">limit</span><span class="o">).</span><span class="na">result</span><span class="o">();</span>
+    <span class="k">for</span><span class="o">(</span><span class="n">Line</span> <span class="nl">todo:</span> <span class="n">todo_list</span><span class="o">){</span>
+        <span class="n">TodoItem</span> <span class="n">ti</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TodoItem</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">ti</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">todo</span><span class="o">.</span><span class="na">str</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">));</span>
+        <span class="n">ti</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">todo</span><span class="o">.</span><span class="na">_id</span><span class="o">());</span>
+        <span class="n">ti</span><span class="o">.</span><span class="na">setDone</span><span class="o">(</span><span class="n">todo</span><span class="o">.</span><span class="na">bool</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">done</span><span class="o">));</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="n">ti</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>因为我们会多一个<code>加载更多的按钮</code>, 但是这个按钮是动态生成的, 所以可以按照<code>不提供Id</code>定义在<code>Widget</code>里面,</p>
+
+<div class="highlight"><pre><span class="kd">class</span> <span class="nc">Widget</span> <span class="kd">extends</span> <span class="n">WidgetList</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">AFButton</span> <span class="n">add</span> <span class="o">=</span> <span class="n">btn</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">AFRlayout</span> <span class="n">list</span> <span class="o">=</span> <span class="n">llayout</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">linearLayout1</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">AFButton</span> <span class="n">more</span> <span class="o">=</span> <span class="n">btn</span><span class="o">();</span> <span class="c1">// new</span>
+<span class="o">};</span><span class="n">Widget</span> <span class="n">widget</span><span class="o">;</span>
+</pre></div>
+
+<p>然后再完成一个函数来完成自动计算下一页并且调用<code>showTodoList</code></p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">autoNextPage</span><span class="o">(){</span>
+    <span class="kt">int</span> <span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">getChildCount</span><span class="o">();</span>
+    <span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">removeView</span><span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">more</span><span class="o">);</span>
+    <span class="n">showTodoList</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">limit</span><span class="o">);</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">count</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">start</span> <span class="o">+</span> <span class="n">limit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">more</span><span class="o">.</span><span class="na">newInstance</span><span class="o">().</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">setText</span><span class="o">(</span><span class="s">"加载更多"</span><span class="o">);</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">list</span><span class="o">.</span><span class="na">addBottomView</span><span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">more</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>可以看到<code>widget.more</code>使用了<code>setClick(this)</code>, 所以要对<code>onClick</code>进行判断</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">add</span><span class="o">.</span><span class="na">equalView</span><span class="o">(</span><span class="n">v</span><span class="o">)){</span>
+    <span class="c1">//...</span>
+    <span class="k">return</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">widget</span><span class="o">.</span><span class="na">more</span><span class="o">.</span><span class="na">equalView</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+    <span class="n">autoNextPage</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>然后在onCreate最后去掉原来的查询代码, 换成<code>autoNextPage();</code></p>
+
+<blockquote>
+<p>这下可以多添加几个Todo, 用来测试下一页是否正常了...或者暂时降低limit的值</p>
+</blockquote>
+
+<h3>
+<a name="-22" class="anchor" href="#-22"><span class="mini-icon mini-icon-link"></span></a>弹出菜单</h3>
+
+<hr><blockquote>
+<p>目前还差两个功能, 编辑和删除, 但是界面上我们已经没有空间了, 按照安卓的设计方法, 一般是可以通过长按Item弹出菜单来操作. 这一章就是要讲这一点.</p>
+</blockquote>
+
+<p>接下来的修改将都在<code>TodoItem</code>进行,
+弹出菜单的代码如下</p>
+
+<div class="highlight"><pre><span class="n">HelperDialog</span> <span class="n">hd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HelperDialog</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
+<span class="n">hd</span><span class="o">.</span><span class="na">addItem</span><span class="o">(</span><span class="s">"Edit"</span><span class="o">,</span> <span class="n">Line</span><span class="o">.</span><span class="na">Put</span><span class="o">(</span><span class="s">"index"</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+<span class="n">hd</span><span class="o">.</span><span class="na">addItem</span><span class="o">(</span><span class="s">"Delete"</span><span class="o">,</span> <span class="n">Line</span><span class="o">.</span><span class="na">Put</span><span class="o">(</span><span class="s">"index"</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+<span class="n">hd</span><span class="o">.</span><span class="na">setLineClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="n">hd</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+</pre></div>
+
+<p>这段代码的意思是, 声明一个Dialog, 给他添加项目, 每个项目带有一个<code>标签名</code>和<code>Line信息</code>, 最后统一注册一个OnLineClick, 当用户点击某个Item的时候, 可以在<code>onClick(Line data)</code>中的<code>data</code>拿到对应的Line. 所以, 当类<code>implements</code>了<code>OnLineClick</code>之后, 可以实现以下方法:</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">Line</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">integer</span><span class="o">(</span><span class="s">"index"</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">toast</span><span class="o">(</span><span class="s">"edit"</span> <span class="o">+</span> <span class="n">widget</span><span class="o">.</span><span class="na">content</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">toast</span><span class="o">(</span><span class="s">"delete"</span> <span class="o">+</span> <span class="n">widget</span><span class="o">.</span><span class="na">content</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>然后这个<code>弹出菜单</code>需要在Item长按的时候触发, 所以我们还要注册<code>widget.layout</code>的长按事件.</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TodoItem</span> <span class="kd">extends</span> <span class="n">ExpandWidget</span> <span class="kd">implements</span> <span class="n">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">,</span> <span class="n">View</span><span class="o">.</span><span class="na">OnLongClickListener</span><span class="o">,</span> <span class="n">OnClickLine</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onInit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">inXML</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//xxx</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">check</span><span class="o">.</span><span class="na">setClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">widget</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">setOnLongClickListener</span><span class="o">(</span><span class="k">this</span><span class="o">);</span> <span class="c1">// new</span>
+    <span class="o">}</span>
+
+    <span class="kt">int</span> <span class="n">EDIT</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">DELETE</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onLongClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">HelperDialog</span> <span class="n">hd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HelperDialog</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
+        <span class="n">hd</span><span class="o">.</span><span class="na">addItem</span><span class="o">(</span><span class="s">"Edit"</span><span class="o">,</span> <span class="n">Line</span><span class="o">.</span><span class="na">Put</span><span class="o">(</span><span class="s">"index"</span><span class="o">,</span> <span class="n">EDIT</span><span class="o">));</span>
+        <span class="n">hd</span><span class="o">.</span><span class="na">addItem</span><span class="o">(</span><span class="s">"Delete"</span><span class="o">,</span> <span class="n">Line</span><span class="o">.</span><span class="na">Put</span><span class="o">(</span><span class="s">"index"</span><span class="o">,</span> <span class="n">DELETE</span><span class="o">));</span>
+        <span class="n">hd</span><span class="o">.</span><span class="na">setLineClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">hd</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<blockquote>
+<p>为了确保代码清晰, 将index换成了变量, 同时把<code>onClick(Line data)</code>也改了吧</p>
+</blockquote>
+
+<h3>
+<a name="todo-5" class="anchor" href="#todo-5"><span class="mini-icon mini-icon-link"></span></a>修改TODO</h3>
+
+<hr><blockquote>
+<p>这次我们将提供一个修改TODO内容的选项, 为了贪图方便, 就不重新建立一个Activity了, 完全可以复用<code>Todo.java</code>, 当然, 这需要做一些改动.本篇将讲解这个过程.</p>
+</blockquote>
+
+<p>思路大致如下:</p>
+
+<ul>
+<li>
+<code>AndfreeStartupActivity</code>: 跳转到<code>Todo.java</code>, 并且发送当前todo item的id, 等待修改完后, 再更新这个item的值</li>
+<li>
+<code>Todo</code>: 检测跳转到该窗口时有没有传递id, 没有的话就是添加操作, 有的话就是修改.当保存时, 如果是修改的操作, 要返回修改成功的信息回去, 通知原Activity更新值.</li>
+</ul><p>问题:</p>
+
+<blockquote>
+<p>我们对菜单的修改只停留在<code>TodoItem</code>, 不是在<code>AndfreeStartupActivity</code>, 所以不能调用<code>startActivityForResult</code>这个命令, 该怎么办?</p>
+</blockquote>
+
+<p>答案有几个, 我只说我认为还不错的. 将<code>Edit</code>执行的内容换为外界决定.也就是说对于<code>TodoItem</code>, 我们还需要设计一个接口用于定义<code>Edit</code>事件, 同时定义我们自己的interface!</p>
+
+<ul>
+<li>setOnEditClick()</li>
+</ul><div class="highlight"><pre><span class="n">OnClickListener</span> <span class="n">_edit_click</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOnEditClick</span><span class="o">(</span><span class="n">OnClickListener</span> <span class="n">click</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">_edit_click</span> <span class="o">=</span> <span class="n">click</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="n">publuc</span> <span class="kd">interface</span> <span class="nc">OnClickListener</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">TodoItem</span> <span class="n">ti</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>这时候, 当执行<code>setOnEditClick</code>后, <code>_edit_click</code>将是对应的操作, 然后再修改刚才的<code>编辑</code>按钮执行的代码</p>
+
+<div class="highlight"><pre><span class="c1">// old: toast("edit" + widget.content.getText());</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">_edit_click</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">_edit_click</span><span class="o">.</span><span class="na">onClick</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>回到<code>AndfreeStartupActivity</code>, 让他继承<code>TodoItem.OnClickListener</code>, 然后实现下面的方法:</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">TodoItem</span> <span class="n">ti</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">startActivityForResult</span><span class="o">(</span><span class="n">Todo</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Line</span><span class="o">.</span><span class="na">PutId</span><span class="o">(</span><span class="n">ti</span><span class="o">.</span><span class="na">getId</span><span class="o">()),</span> <span class="k">new</span> <span class="n">onActivityResult</span><span class="o">(){</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">callback</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">result_ok</span><span class="o">,</span> <span class="n">Line</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span> <span class="o">!</span> <span class="n">result_ok</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+            <span class="n">ti</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">str</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>这段代码可能需要解释下:</p>
+
+<ul>
+<li>
+<p><code>startActivityForResult</code>, 这个应该都认识, 因为这次需要传递被按下<code>TodoItem</code>的id, 因此<code>ti.getId</code>这句可能会错误, 因为我们还没有实现它</p>
+
+<div class="highlight"><pre><span class="c1">// in TodoItem.java</span>
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getId</span><span class="o">(){</span>
+    <span class="k">return</span> <span class="n">_id</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>实现后, <code>Line.PutId(ti.getId())</code> 等价于 <code>{'_id': ti.getId()}</code>.这部分其实是传送给<code>Todo</code>的值, 而第三个参数是得到Result后的回调函数</p>
+</li>
+<li>
+<p>除了这个错误, 还会有<code>ti.setContent(...)</code>这句是红的, 因为<code>ti</code>这个变量本来不属于这个<code>onActivityResult</code>作用域的, 而是他<code>父作用域</code>的, 他要访问到的前提是, 这个变量要加上<code>final</code>关键字, 所以我们还要修改函数的第一行为: </p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="kd">final</span> <span class="n">TodoItem</span> <span class="n">ti</span><span class="o">)</span> <span class="o">{</span>
+</pre></div>
+</li>
+</ul><h4>
+<a name="todo-6" class="anchor" href="#todo-6"><span class="mini-icon mini-icon-link"></span></a>Todo的修改:</h4>
+
+<blockquote>
+<p><code>Todo</code>需要能检测是否有信息传递过来, 并且即便没信息传递过来, 也要能不产生<code>Exception</code>, 这个就是既能当<code>添加</code>, 又能当<code>修改</code>的关键.</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="n">Line</span> <span class="n">_todo</span><span class="o">;</span>
+<span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onLine</span><span class="o">(</span><span class="n">Line</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">_todo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">getByPrimaryKey</span><span class="o">(</span><span class="n">data</span><span class="o">.</span><span class="na">_id</span><span class="o">());</span>
+<span class="o">}</span>
+</pre></div>
+
+<p><code>onLine</code>会自动判断是否有数据传过来, 当没有时, onLine是不会执行的.此时_todo就是为<code>null</code>.</p>
+
+<p>然后在<code>onCreate</code>最后面加上初始化的代码</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="o">(</span><span class="n">_todo</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+<span class="n">widget</span><span class="o">.</span><span class="na">title</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">_todo</span><span class="o">.</span><span class="na">str</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">title</span><span class="o">));</span>
+</pre></div>
+
+<blockquote>
+<p>保存的那部分也要修改</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="n">todo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">create</span><span class="o">,</span> <span class="n">FuncTime</span><span class="o">.</span><span class="na">time</span><span class="o">());</span>
+<span class="c1">// new</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">_todo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">todo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">.</span><span class="na">_id</span><span class="o">,</span> <span class="n">_todo</span><span class="o">.</span><span class="na">_id</span><span class="o">());</span>
+<span class="o">}</span>
+<span class="n">todo</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+</pre></div>
+
+<blockquote>
+<p>又搞定了, 最后还剩一个删除功能...</p>
+</blockquote>
+
+<h3>
+<a name="todo-7" class="anchor" href="#todo-7"><span class="mini-icon mini-icon-link"></span></a>删除Todo</h3>
+
+<hr><p>这个在<code>TodoItem</code>便可完成, 
+将</p>
+
+<div class="highlight"><pre><span class="n">toast</span><span class="o">(</span><span class="s">"delete"</span> <span class="o">+</span> <span class="n">widget</span><span class="o">.</span><span class="na">content</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+</pre></div>
+
+<p>换成</p>
+
+<div class="highlight"><pre><span class="n">HelperDialog</span><span class="o">.</span><span class="na">Alert</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="s">"确定要删除"</span><span class="o">,</span> <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">which</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="n">dbcore</span><span class="o">.</span><span class="na">todo_list</span><span class="o">().</span><span class="na">delete</span><span class="o">(</span><span class="n">_id</span><span class="o">);</span>
+        <span class="n">removeSelfFromParent</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+</pre></div>
+
+<blockquote>
+<p>完</p>
+</blockquote>

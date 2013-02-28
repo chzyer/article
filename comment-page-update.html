@@ -1,0 +1,28 @@
+<hr><p>由于接触WP不久，WP的工作机制都还不清楚，只好照着twenty ten的模板一点一点改。
+他在子评论这里是通过添加<code>&lt;li class="chindren"&gt;&lt;/li&gt;</code>将子评论<code>marginRight</code>，但我的HTML模板是通过左边添加一个DIV，宽度决定子评论的级数。
+简单地说，就是twenty ten的排版方式不适于我。本来想自己写评论的读取的，但是感觉挺麻烦的，就用现成的wp_list_comments这个函数。
+蛋疼的是这个函数会为自己添加上述的<code>&lt;li class="chindren"&gt;&lt;/li&gt;</code>...折腾了我好久，只能用简陋的方法啦....
+style.css添加</p>
+
+<div class="highlight"><pre><span class="nc">.children</span><span class="p">{</span><span class="k">padding</span><span class="o">:</span><span class="m">0</span><span class="p">;</span><span class="k">margin-top</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span><span class="k">margin-bottom</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</pre></div>
+
+<p>这下不marginRight了，然后再手动marginRight吧~~~
+这里应该先说明一下WP评论的数据库结构，像树吧..
+每行评论数据都有一个comment_parent字段来表示他的父级是谁，如果是顶级评论那他没有父级这个值就为0.
+然后如果你想读取某个顶级评论下的所有子评论，需要先指定读取某个顶级评论,获取他的ID，再根据他的ID搜索comment_parent等于这个ID的评论，再遍历这些评论，逐个逐个搜索comment_parent等于这些ID的子子评论。
+看，费了这么多口舌，也就讲到第三层子评论...
+这个就是我直接用wp_list_comments函数的原因...
+我实现marginRight的方法：</p>
+
+<div class="highlight"><pre><span class="nx">global</span> <span class="nx">$temp_comment_data</span><span class="p">;</span>
+<span class="cm">/**</span>
+<span class="cm">* 要GLOBAL一个变量，因为他是一遍一遍得调用我那个函数，没GLOBAL的话每次调用都会变成一个新变量，所以必须把它给全局了</span>
+<span class="cm">* 顺藤摸瓜..按照他设计的思路，</span>
+<span class="cm">* $temp_comment_data[ID]代表ID为XX的评论需要marginRight多少。</span>
+<span class="cm">*/</span>
+<span class="nx">$temp_comment_data</span><span class="p">[</span><span class="nx">$comment</span><span class="o">-&gt;</span><span class="nx">comment_ID</span><span class="p">]</span> <span class="o">=</span> <span class="nx">$temp_comment_data</span><span class="p">[</span><span class="nx">$comment</span><span class="o">-&gt;</span><span class="nx">comment_parent</span><span class="p">]</span> <span class="o">+</span> <span class="mi">25</span><span class="p">;</span>
+<span class="c1">//翻译成中文就是 子评论的marginRight值等于父级的marginRight值再加25；</span>
+</pre></div>
+
+<p>然后就OK啦</p>

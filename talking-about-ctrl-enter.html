@@ -1,0 +1,22 @@
+<hr><p>最近逛了很多博客，发现都有Ctrl+Enter提交评论功能...你也有吧？
+小弟OUT啦，没有！
+想当初，第一次遇到这功能的是在QQ2000上看见的吧，一直用得挺习惯的。秉承着自己动手，丰衣足食的意念，我就亲手添加这个小功能吧。
+我的思路是，当ctrl键keydown时,变量a=1,当ctrl键keyup时，变量a=0;当enter键keypress时，且a==1时，submit!
+然后开工，测得ctrl的keycode为17，enter的keycode为13,然后就.........未完！</p>
+
+<p>好吧，其实真正上没有这么麻烦..我承认我又OUT了，在我同时按下ctrl+enter键时，竟然发现keycode=10 !! 按ASCII码算是\r ?!
+不理了，绕了一圈，直接</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s2">"textarea"</span><span class="p">).</span><span class="nx">keypress</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="o">==</span><span class="mi">10</span><span class="p">)</span> <span class="nx">submit</span><span class="p">();</span><span class="c1">//提交</span>
+<span class="p">})</span>
+</pre></div>
+
+<p>我OUT啦，我OUT啦
+感谢phoetry兄的指点。上面的效果仅仅是chrome和ie有效，而当时我也仅仅刚刚好测试了chrome和ie...ff和opera不兼容。
+新代码新代码...</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s2">"textarea"</span><span class="p">).</span><span class="nx">keypress</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">ctrlKey</span> <span class="o">&amp;&amp;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">which</span> <span class="o">==</span> <span class="mi">13</span> <span class="o">||</span> <span class="nx">e</span><span class="p">.</span><span class="nx">which</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">submit</span><span class="p">();</span> <span class="c1">//提交</span>
+<span class="p">})</span>
+</pre></div>

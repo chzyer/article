@@ -1,0 +1,37 @@
+<hr><p>hi,guys,我貌似很久没来了,今天终于是放假了.当然这不意味着我没来的这段时间很忙,相反,我一直处于游魂状态...整天无所事事.两个星期的实训让我一天就给搞定了.然后闲闲的坐了两个星期.呵呵<br>
+貌似我每隔一段时间都会有这种状况,很不想再做下去了.无所事事,也不知道要干什么,也什么都不想干.<br>
+OK,废话不说,前几天老师跟我说PHP也可以用飞信发短信.这个功能其实很早一段时间就在研究,但无果.居然在code.google.com上找到了一个.测试后完美运行.是通过WAP方式提交,为的是避过验证码.<br>
+当然本篇不想讲那些原理啊什么的.看标题,这次直接给实用的.一步一步带你实现自动给手机发天气预报.<br>
+前提,你的空间的管理面板是cpanel,这样才能触发定时短信.  </p>
+
+<ol>
+<li>先确定天气预报的城市,比如我是佛山,我的PHP是引用weather.com.cn的天气数据的,所以需要城市代码,查询城市代码的方式很简单,上weather.com.cn在搜索中填入城市名,比如佛山,搜索,会跳转到页面<code>http://www.weather.com.cn/weather/101280800.shtml?</code> 那么我就知道了佛山的城市代码是<code>101280800</code>
+</li>
+<li>你要有一个飞信账号,而且要绑定手机的.理所当然你要发的目标手机要和你是好友关系,不解释.<br>
+</li>
+<li>下载发送手机的代码,我把获取数据和飞信代码封装在一起.<br>
+</li>
+</ol><p>打开,解压,进入sendweather文件夹,打开weather.php,<br>
+找到  </p>
+
+<div class="highlight"><pre><span class="nb">define</span><span class="p">(</span><span class="s1">'PHONE'</span><span class="p">,</span><span class="s1">'手机号码'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'PHONEPASW'</span><span class="p">,</span><span class="s1">'密码'</span><span class="p">);</span>
+</pre></div>
+
+<p>按内容修改成飞信的手机号码和密码.
+还有一段</p>
+
+<div class="highlight"><pre><span class="nx">$fetion</span><span class="o">-&gt;</span><span class="nx">send</span><span class="p">(</span><span class="s1">'手机号码'</span><span class="p">,</span> <span class="s1">'101280800'</span><span class="p">);</span>
+</pre></div>
+
+<p>这一段是发送天气预报的执行代码,第一个参数是要发送给哪个手机的手机号码,第二个参数是城市代码.(忘记是什么了?看你前面第一步拿得那一个).如果发送多个手机可加多一行,不够再加....
+然后传到空间上面去.在根目录(注意是根目录,public_html再上一个目录)新建一个文件夹,可以是sendweather,这里我就比如根目录下sendweather/weather.php,接下来就是cpanel了
+进入管理面板,高级-&gt;时钟守护作业,添加新计时程序作业,普通设置下拉框选择每天一次.命令就输入php /home/cpanel的登录账号/sendweather/weather.php,提交就OK了!</p>
+
+<p>PS:注意时差!</p>
+
+<p>附directadmin定时设置用法,来自独自流浪,他有详细的使用说明
+命令不能直接使用php OOXX
+而是要
+/usr/local/bin/php /home/DA登录名/domains/网站域名/public_html/sendweather/weather.php
+注:这个是放在网页目录下,为安全考虑,可以在sendweather下放一个空的index.php</p>

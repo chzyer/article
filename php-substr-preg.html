@@ -1,0 +1,22 @@
+<hr><p>网页编码有多种...
+导致字符串截取需要针对不同编码进行截取
+以前总是用GBK,后来发现,GBK编码通用性不强,FLASH和Javascript都使用UTF8，用GBK就需要不断的转换编码，感觉挺麻烦的，
+所以,以后就改用UTF8吧！
+SO，就只摘录了UTF8截取函数。
+PS：一个UTF8字符占用3个字符...用strlen时显示的数目是预期值的3倍,切记切记!</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">bsubstr</span><span class="p">(</span><span class="nx">$str</span><span class="p">,</span> <span class="nx">$len</span><span class="p">,</span> <span class="nx">$from</span> <span class="o">=</span> <span class="mi">0</span><span class="p">){</span>
+<span class="k">return</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s1">'#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'</span><span class="p">.</span><span class="nx">$from</span><span class="p">.</span><span class="s1">'}'</span><span class="p">.</span>
+<span class="s1">'((?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'</span><span class="p">.</span><span class="nx">$len</span><span class="p">.</span><span class="s1">'}).*#s'</span><span class="p">,</span>
+<span class="s1">'$1'</span><span class="p">,</span><span class="nx">$str</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>码采用正则表达式替换。感觉看了这么多正则，连这个也没看懂，惭愧啊，有空再来研究研究，目前忙，呵呵</p>
+
+<h3>
+<a name="201144" class="anchor" href="#201144"><span class="mini-icon mini-icon-link"></span></a>2011/4/4</h3>
+
+<p><code>[x00-x7F]|[xC0-xFF][x80-xBF]</code>三个代表的是一个UTF8字符,也就是所谓的占用3个字符.
+<code>(?:[x00-x7F]|[xC0-xFF][x80-xBF]+)</code> 是断言语句,表示要找到的字符串需要<code>[x00-x7F]|[xC0-xFF][x80-xBF]</code>开头,也就是所谓的从第N个字符截取,So,<code>{0,'.$from.'}</code>可以理解为要跳过N个字符,整句连起来,<code>^(?:[x00-x7F]|[xC0-xFF][x80-xBF]+){0,'.$from.'}'</code>就要先找到从开头开始计算,连续N个UTF8字符,注意 符合 (?:)  断言语句的字符串是不列入捕捉的.后面同理啦
+还有,一般我使用的是用  "//"(不包含括号)来讲正则表达式包含起来,而这里是用##,并且不能改成//,我猜这是使用 <code>[x00-x7F]|[xC0-xFF][x80-xBF]</code> 这些匹配符有关吧.具体也说不出有什么名堂.因为今天又要用到这个函数,所以...就来补充一下</p>

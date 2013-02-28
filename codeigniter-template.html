@@ -1,0 +1,69 @@
+<hr><p>写策划写数据库结构写公共类写了一天，codeigniter的框架总体还不错，只是没有把htm代码和php代码分开是一大失误，框架类产品本身的价值在于统一了格式，方便统一代码而适合多人合作写代码，而php代码与htm代码分开则避免网页美工和后台程序代码堆在一起，有利于他人修改和阅读，discuz就是采用这种模式，如果要分开，必须实现htm文件能执行php代码，看上去是不可能，但其实很简单，于是，我为codeigniter写了一个template函数，思路为，先读取模板文件(htm)的内容，存入变量，用正则将特定格式的代码替换成真正的php代码，并另存为php代码文件并include进来，就是说，把我们原本应该亲手做的事推给代码做，我们只需写html代码，这个函数已写完!当然，此思路参考自discuz,哈哈­</p>
+
+<p>codeigniter官方说，PHP伪代码会带来性能的下降，与CI的快捷简便原理想冲突，我想，当把template的文件有效期限设置长一点，因为本身大型的网站修改不是很频繁，</p>
+
+<div class="highlight"><pre><span class="c1">// --------------------------------------------------------------------</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * 模板机制</span>
+<span class="cm"> *</span>
+<span class="cm"> * 该函数可以先将htm模板文件转换成PHP的文件</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span> 
+<span class="c1">// --------------------------------------------------------------------</span>
+<span class="kd">function</span> <span class="nx">template</span><span class="p">(</span><span class="nx">$file</span><span class="p">){</span>
+    <span class="nx">$views_folder</span> <span class="o">=</span> <span class="s2">"views"</span><span class="p">;</span>
+    <span class="nx">$template_folder</span> <span class="o">=</span> <span class="s2">"template"</span><span class="p">;</span>
+    <span class="nx">$cachetime</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="nx">$tplfile</span><span class="o">=</span><span class="nx">$file</span><span class="p">;</span>
+    <span class="c1">//------------------------------------------------路径处理</span>
+    <span class="c1">//自动加上后缀名</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">basename</span><span class="p">(</span><span class="nx">$file</span><span class="p">)</span> <span class="o">==</span> <span class="nx">basename</span><span class="p">(</span><span class="nx">$file</span><span class="p">,</span> <span class="s1">'.htm'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">$tplfile</span><span class="p">.</span><span class="o">=</span><span class="s2">".htm"</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="nx">$file</span> <span class="o">=</span> <span class="nx">basename</span><span class="p">(</span><span class="nx">$tplfile</span><span class="p">,</span><span class="s1">'.htm'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">//如果根目录不存在该文件则到common文件夹下查找!方便引用common内的文件</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="err">@</span><span class="nx">$fp</span> <span class="o">=</span> <span class="nx">fopen</span><span class="p">(</span><span class="nx">APPPATH</span><span class="p">.</span><span class="nx">$views_folder</span><span class="p">.</span><span class="s2">"/"</span><span class="p">.</span><span class="nx">$template_folder</span><span class="p">.</span><span class="s2">"/"</span><span class="p">.</span><span class="nx">$tplfile</span><span class="p">,</span><span class="s2">"r"</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">$file</span><span class="o">=</span><span class="s1">'common/'</span><span class="p">.</span><span class="nx">$file</span><span class="p">;</span>
+        <span class="nx">$tplfile</span><span class="o">=</span><span class="s1">'common/'</span><span class="p">.</span><span class="nx">$tplfile</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">$cachefile</span> <span class="o">=</span> <span class="nx">BASEPATH</span><span class="p">.</span><span class="s2">"template/"</span><span class="p">.</span><span class="nx">str_replace</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span><span class="s2">"_"</span><span class="p">,</span><span class="nx">$file</span><span class="p">).</span><span class="s2">".tpl.php"</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="err">@</span><span class="nx">$fp</span> <span class="o">=</span> <span class="nx">fopen</span><span class="p">(</span><span class="nx">$cachefile</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">time</span><span class="p">()</span> <span class="o">-</span> <span class="nx">filemtime</span><span class="p">(</span><span class="nx">$cachefile</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nx">$cachetime</span><span class="p">){</span><span class="c1">//已经存在了,并且时间未过,包括进来</span>
+
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="c1">//----------------------如果缓存文件不存在或者过期则写入新文件 </span>
+        <span class="nx">$tplfile</span><span class="o">=</span><span class="nx">APPPATH</span><span class="p">.</span><span class="nx">$views_folder</span><span class="p">.</span><span class="s2">"/"</span><span class="p">.</span><span class="nx">$template_folder</span><span class="p">.</span><span class="s2">"/"</span><span class="p">.</span><span class="nx">$tplfile</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="err">@</span><span class="nx">$fp</span> <span class="o">=</span> <span class="nx">fopen</span><span class="p">(</span><span class="nx">$tplfile</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
+            <span class="nx">echo</span> <span class="s2">"Cannot open template file \"{$tplfile}\" , by [system/libraries/loader.php]"</span><span class="p">;</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="err">@</span><span class="nx">fread</span><span class="p">(</span><span class="nx">$fp</span><span class="p">,</span> <span class="nx">filesize</span><span class="p">(</span><span class="nx">$tplfile</span><span class="p">));</span>
+        <span class="nx">fclose</span><span class="p">(</span><span class="nx">$fp</span><span class="p">);</span>
+        <span class="c1">//处理文件</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{loop\\s+?(\\$\\S*)\\s+?(\\$\\S*)\\s*?}.*\\n/"</span><span class="p">,</span><span class="s2">"&lt; ?if(is_array(\\1)){foreach (\\1 as \\2){?&gt;"</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{loop\\s+?(\\$\\S*)\\s+?(\\$\\S*)\\s+?(\\$\\S*)\\s*?}.*\\n/"</span><span class="p">,</span><span class="s2">"&lt; ?if(is_array(\\1)){foreach (\\1 as \\2 =&gt; \\3){?&gt;"</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{\/loop}/"</span><span class="p">,</span><span class="s2">"&lt; ?}}?&gt;"</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{template\\b\\s+(.*)\\b\\s*?}/"</span><span class="p">,</span><span class="s1">'&lt; ?include $this-&gt;load-&gt;template("\\1");?&gt;'</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{eval\\s+(.*?)}/"</span><span class="p">,</span><span class="s1">'&lt; ?\\1;?&gt;'</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{(\\$\S+?)}/"</span><span class="p">,</span><span class="s2">"&lt; ?=\\1?&gt;"</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{if\\s+(.*?)\\s*?}/"</span><span class="p">,</span><span class="s2">"&lt; ?if (\\1) {?&gt;"</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span> 
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{elseif\\s+(.*?)\\s*?}/"</span><span class="p">,</span><span class="s2">"&lt; ?}elseif (\\1) {?&gt;"</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{else}/"</span><span class="p">,</span><span class="s2">"&lt; ?}else{?&gt;"</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">$template</span> <span class="o">=</span> <span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/{\/if}/"</span><span class="p">,</span><span class="s2">"&lt; ?}?&gt;"</span><span class="p">,</span><span class="nx">$template</span><span class="p">);</span>
+        <span class="c1">//处理文件结束</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="err">@</span><span class="nx">$fp</span> <span class="o">=</span> <span class="nx">fopen</span><span class="p">(</span><span class="nx">$cachefile</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">echo</span> <span class="s2">"Cannot write template file \"{$cachefile}\" , by [system/libraries/loader.php]"</span><span class="p">;</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">flock</span><span class="p">(</span><span class="nx">$fp</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+        <span class="nx">$template</span><span class="o">=</span><span class="s2">"&lt; ?if(!defined('BASEPATH'))exit('No direct script access allowed');?&gt;"</span><span class="p">.</span><span class="nx">$template</span><span class="p">;</span>
+        <span class="nx">fwrite</span><span class="p">(</span><span class="nx">$fp</span><span class="p">,</span> <span class="nx">$template</span><span class="p">);</span>
+        <span class="nx">fclose</span><span class="p">(</span><span class="nx">$fp</span><span class="p">);</span>
+    <span class="p">}</span> 
+    <span class="k">return</span> <span class="nx">$cachefile</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>

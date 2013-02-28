@@ -1,0 +1,63 @@
+<hr><p>在网上找了很久都没有找到可以现套现用的DEMO,官方提供下载的ZIP里面却没有示例,无奈,只能从官网上找到DEMO,一步一步精简</p>
+
+<div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"uploadify/style.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">media=</span><span class="s">"screen"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"uploadify/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"uploadify/swfobject.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"uploadify/jquery.uploadify.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;body</span> <span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"basic-demo"</span> <span class="na">class=</span><span class="s">"demo"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'#file_upload'</span><span class="p">).</span><span class="nx">uploadify</span><span class="p">({</span>
+        <span class="s1">'uploader'</span> <span class="o">:</span> <span class="s1">'uploadify/uploadify.swf'</span><span class="p">,</span>
+        <span class="s1">'script'</span> <span class="o">:</span> <span class="s1">'uploadify/uploadify.php'</span><span class="p">,</span>
+        <span class="s1">'cancelImg'</span> <span class="o">:</span> <span class="s1">'uploadify/cancel.png'</span><span class="p">,</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"demo-box"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"file_upload"</span> <span class="na">type=</span><span class="s">"file"</span> <span class="na">name=</span><span class="s">"Filedata"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">"javascript:$('#file_upload').uploadifyUpload()"</span><span class="nt">&gt;</span>Upload Files<span class="nt">&lt;/a&gt;&lt;/p&gt;</span> 
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+
+<p>将下载的东东放到uploadify目录就行了
+还缺一个style.css</p>
+
+<div class="highlight"><pre><span class="nf">#basic-demo</span> <span class="nc">.uploadifyQueueItem</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="m">#F5F5F5</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">2px</span> <span class="k">solid</span> <span class="m">#E5E5E5</span><span class="p">;</span>
+    <span class="k">font</span><span class="o">:</span> <span class="m">11px</span> <span class="n">Verdana</span><span class="o">,</span> <span class="n">Geneva</span><span class="o">,</span> <span class="k">sans-serif</span><span class="p">;</span>
+    <span class="k">margin-top</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="k">width</span><span class="o">:</span> <span class="m">350px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#basic-demo</span> <span class="nc">.uploadifyError</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="m">#FDE5DD</span> <span class="cp">!important</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">2px</span> <span class="k">solid</span> <span class="m">#FBCBBC</span> <span class="cp">!important</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#basic-demo</span> <span class="nc">.uploadifyQueueItem</span> <span class="nc">.cancel</span> <span class="p">{</span>
+    <span class="k">float</span><span class="o">:</span> <span class="k">right</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#basic-demo</span> <span class="nc">.uploadifyQueue</span> <span class="nc">.completed</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="m">#E5E5E5</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#basic-demo</span> <span class="nc">.uploadifyProgress</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="m">#E5E5E5</span><span class="p">;</span>
+    <span class="k">margin-top</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="k">width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nf">#basic-demo</span> <span class="nc">.uploadifyProgressBar</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="m">#0099FF</span><span class="p">;</span>
+    <span class="k">height</span><span class="o">:</span> <span class="m">3px</span><span class="p">;</span>
+    <span class="k">width</span><span class="o">:</span> <span class="m">1px</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>

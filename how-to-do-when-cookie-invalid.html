@@ -1,0 +1,37 @@
+<hr><p>好吧,session和cookie是网站常用的身份验证方法。但是有一天他失效了，该怎么办
+uploadify是一个用户界面端的一个异步上传插件,JQUERY和FLASH结合实现异步上传功能
+这个确实是一个好功能,在IE下毫无BUG，但是在firefox下，就会出现提交到目标页面后无法读取到COOKIE的情况。
+然而我这个网站是需要登录后才有上传的权限的，矛盾。
+在codeigniter的用户论坛上，看到一个管理员的回帖
+一般情况下，因为诸如uploadify,swfupload采用的都是flash客户端，这样它们产生的useragent与用户使用浏览器的user-agent必然不同。所以，虽然用户登录了你的系统产生了一个session，但是当触发上传程序时会产生另一个session（在上述useragent选项开启的情况下）。
+所以，不是session丢失了，而是当你上传文件时，CI为uploadify另外创建了一个session。
+解决方案：</p>
+
+<ol>
+<li>将$config['sess_match_useragent']设置成FALSE，重试。</li>
+<li>（建议）为了安全起见，不建议使用第1条解决方案，而是使用另外的验证方法，比如在每次上传时，在url中附加一个token与服务器端的token比对（比如这个token可以是用户名的hash值）。</li>
+</ol><p>解释下，useragent是浏览器标识，token是用来形容那种一次性变量(个人理解)，也可以理解为临时变量
+这里我提供一个检测useragent的方法，但需要在CodeIgniter框架下</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">$this</span><span class="o">-&gt;</span><span class="nx">agent</span><span class="o">-&gt;</span><span class="nx">is_browser</span><span class="p">()){</span>
+    <span class="nx">echo</span> <span class="nx">$agent</span> <span class="o">=</span> <span class="nx">$this</span><span class="o">-&gt;</span><span class="nx">agent</span><span class="o">-&gt;</span><span class="nx">browser</span><span class="p">();</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="nx">echo</span> <span class="s1">'未知浏览器'</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>我把他加在文件头，在读取得到cookie的页面显示的是chrome，对话框里面显示的是在传输成功后服务器端返回的源代码,可见，在文件头显示的是未知浏览器
+图片</p>
+
+<p>看了确实有点启发，在cookie暂时实现的情况下，生成特别token也能具有验证效果</p>
+
+<ol>
+<li>加密与解密，将用户名和密码加密然后发送到服务器端再进行解密，服务器端可以利用解密后的用户名密码对数据库进行匹配。Codeigniter提供一个encrypt类，只需要提供一个key, 就有加密解密功能，感觉还是比较安全的</li>
+<li>只加密，服务器端只负责用同样的手法进行加密在与接受到的值匹配
+这种方法其实很普遍，举一个最普遍的用法，在用户注册的时候，会把密码进行MD5加密，这样即使在后台看见了用户的密码，也是加密后的密码。可是系统是怎么实现验证登陆的呢，很简单，在用户输入登陆信息后，用同样的方法对密码进行MD5加密，然后和数据库对比。</li>
+</ol><p>或许可以借鉴这种方法，对用户名和密码结合并加密然后发送到服务器端，服务器需要将用户名和密码加密然后比对，但是服务器端要选择哪个用户名和密码呢，毕竟数据库储存大量的用户信息，不可能列出所有用户信息一个一个匹配吧？所以必须再传递一个变量告诉服务器你要和哪个用户进行配对。</p>
+
+<p>但是还有一个小问题，一旦用户得到了这个token(可以从网站源代码中找到，异步传输注定数据会被暴露，我们能做的仅仅是保证被暴露的信息越少越好或者越少人会用越好)，以后只需使用这个token便可直接通过非网页访问方式上传文件(比如直接做一个软件，定时上传，还弄不死你的服务器？)，所以我们需要加一个时间轴，和用户密码结合再加密，这样生成的token就具有了时效性。
+相比方案1，方案2多了一个时效性，时效性的周期不能太短不能太长，实在令人有点纠结。</p>
+
+<p>好吧，思路到此，可以开工了</p>

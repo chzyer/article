@@ -1,0 +1,12 @@
+<hr><p>经测试，在chrome下最小的字体是12px，而IE下没有这个限制，所以如果把字体设为低于12px的话，会照成浏览器不兼容的现象...
+中文(雅黑字体)在11px显示已经不成样了(1920*1080分辨率)，但英文的底线还可以到10px
+我们可以在body标签内加上webkit特有的 <code>-webkit-text-size-adjust:none;</code>
+如</p>
+
+<div class="highlight"><pre><span class="nt">body</span> <span class="p">{</span>
+    <span class="o">-</span><span class="n">webkie</span><span class="o">-</span><span class="k">text</span><span class="o">-</span><span class="k">size</span><span class="o">-</span><span class="n">adjust</span><span class="o">:</span><span class="k">none</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>还有，字体的单位常用的有px,em,%，浏览器默认的字体大小是16px，即<code>1em=16px,100%=16px;</code>
+需要强调的是em，em表示当前容器字体大小的比例，相对的，如果多层嵌套div，比如第一层div的字体大小是<code>0.5em</code>,第二层div的字体大小是<code>0.5em</code>,那么第二层div的字体大小将为<code>16*0.5*0.5=4px</code></p>

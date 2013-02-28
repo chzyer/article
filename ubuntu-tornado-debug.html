@@ -1,123 +1,61 @@
-<html>
-<head>
-<meta charset='utf-8'>
-<link rel="alternate" type="application/rss+xml" href="/feed" />
-<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" />
-<title>ubuntu下配置tornado框架本地调试环境 - 陈冶</title>
-<style>
-.gist-syntax{background:#ffffff}.gist-syntax .c{color:#999988;font-style:italic}.gist-syntax .err{color:#a61717;background-color:#e3d2d2}.gist-syntax .k{color:#000000;font-weight:bold}.gist-syntax .o{color:#000000;font-weight:bold}.gist-syntax .cm{color:#999988;font-style:italic}.gist-syntax .cp{color:#999999;font-weight:bold}.gist-syntax .c1{color:#999988;font-style:italic}.gist-syntax .cs{color:#999999;font-weight:bold;font-style:italic}.gist-syntax .gd{color:#000000;background-color:#ffdddd}.gist-syntax .gd .x{color:#000000;background-color:#ffaaaa}.gist-syntax .ge{color:#000000;font-style:italic}.gist-syntax .gr{color:#aa0000}.gist-syntax .gh{color:#999999}.gist-syntax .gi{color:#000000;background-color:#ddffdd}.gist-syntax .gi .x{color:#000000;background-color:#aaffaa}.gist-syntax .go{color:#888888}.gist-syntax .gp{color:#555555}.gist-syntax .gs{font-weight:bold}.gist-syntax .gu{color:#aaaaaa}.gist-syntax .gt{color:#aa0000}.gist-syntax .kc{color:#000000;font-weight:bold}.gist-syntax .kd{color:#000000;font-weight:bold}.gist-syntax .kp{color:#000000;font-weight:bold}.gist-syntax .kr{color:#000000;font-weight:bold}.gist-syntax .kt{color:#445588;font-weight:bold}.gist-syntax .m{color:#009999}.gist-syntax .s{color:#d14}.gist-syntax .na{color:#008080}.gist-syntax .nb{color:#0086B3}.gist-syntax .nc{color:#445588;font-weight:bold}.gist-syntax .no{color:#008080}.gist-syntax .ni{color:#800080}.gist-syntax .ne{color:#990000;font-weight:bold}.gist-syntax .nf{color:#990000;font-weight:bold}.gist-syntax .nn{color:#555555}.gist-syntax .nt{color:#000080}.gist-syntax .nv{color:#008080}.gist-syntax .ow{color:#000000;font-weight:bold}.gist-syntax .w{color:#bbbbbb}.gist-syntax .mf{color:#009999}.gist-syntax .mh{color:#009999}.gist-syntax .mi{color:#009999}.gist-syntax .mo{color:#009999}.gist-syntax .sb{color:#d14}.gist-syntax .sc{color:#d14}.gist-syntax .sd{color:#d14}.gist-syntax .s2{color:#d14}.gist-syntax .se{color:#d14}.gist-syntax .sh{color:#d14}.gist-syntax .si{color:#d14}.gist-syntax .sx{color:#d14}.gist-syntax .sr{color:#009926}.gist-syntax .s1{color:#d14}.gist-syntax .ss{color:#990073}.gist-syntax .bp{color:#999999}.gist-syntax .vc{color:#008080}.gist-syntax .vg{color:#008080}.gist-syntax .vi{color:#008080}.gist-syntax .il{color:#009999}
-.small-text{
-color: #000;
-font-size: 12px;
-}
-.small-text:hover {
-text-decoration: none;
-}
-.box {
-padding: 3px;
-background: rgb(238, 238, 238);
-margin-top: 8px;
-margin-left: 8px;
-}
-.box .box-inside {
-background: #ffffff;
-padding: 10px;
-border: 1px solid rgb(204, 204, 204);
-}
-.box:hover {
-background: rgb(216, 234, 242);
-}
-.box .box-inside:hover {
-border: 1px solid rgb(151, 199, 221);
-}
-#comment-content {
-padding-bottom: 20px;
-}
-</style>
+<hr><p>这阵子花费了大概半个月做了一个M9平台的短信拦截软件，已经申请在魅族软件商城上架，今天魅族寄得合同今天已经收到，过几天再寄回去就能上架了。</p>
 
-<style>
-* {
-font-family: "Monaco", "Microsoft YaHei"
-}
-</style>
-<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<p>最近又回到学python的行列，只不过接触的是网页编程，有高人指点确实少走了不少弯路。但依旧需要自己去一步一步摸索，这才是乐趣所在，哈哈</p>
 
-</head>
-<body id="top" style="padding: 40px; width: 660px; margin: 0 auto;">
-<div class="btn-toolbar" style="position: fixed; margin:-30 10; z-index:2000">
-<div class="btn-group">
-<a class="btn" href="/article/andfree-startup/">
-<i class="icon-arrow-left"></i></a>
-<a class="btn" href="/article/product-and-project/">
-<i class="icon-arrow-right"></i></a>
-</div>
+<p>由于win下用python会出现诸多问题，很多提示找不到库，安装tornado会出现找不到库的情况，就只能转战ubuntu。python版本为2.6
+现在需要做的是在虚拟机里面装上MYSQL，tornado，由于我电脑上已经配置好服务器环境，只要在虚拟机里面装好MySQLdb(连接MYSQL和Python的库)，远程连接我电脑上的MYSQL就行，如果你想在虚拟机里面也能看到结果，就要安装apache了，如果不需要，可以省略不装</p>
 
-<div class="btn-group">
-<a class="btn btn-info" href="/" >博客</a>
-<a class="btn btn-inverse" href="https://github.com/chzyer">Github</a>
-<a class="btn btn-danger" href="http://weibo.com/210106468">微博</a>
-<a class="btn btn-warning" href="http://www.chenye.org/feed">RSS</a>
-<a class="btn" href="http://andfree.chenye.org/">andfree</a>
-</div>
-<div class="btn-group">
+<div class="highlight"><pre>sudo apt-get install ssh
+sudo apt-get install apache2
+</pre></div>
 
-<a class="btn " href="#top">Top</a>
+<p>安装MYSQL</p>
 
-<a class="btn " href="#comment">Comment</a>
+<div class="highlight"><pre>sudo apt-get install mysql-server-5.0
+</pre></div>
 
-</div>
+<p>然后到网上下载tornado，安装,PS:tornado的主页被墙，可以到这里<a href="http://www.tornadoweb.cn/">http://www.tornadoweb.cn/</a>
+进入tornado的目录</p>
 
+<div class="highlight"><pre>sudo python setup.py build
+</pre></div>
 
-</div>
-<div class="gist-syntax">
+<p>编译完成后执行安装</p>
 
-</div>
-<hr>
-<h2 id="comment">Comment</h2>
-<div id="comment-content">评论加载中...</div>
-<div id="comment-send">
+<div class="highlight"><pre>sudo python setup.py install
+</pre></div>
 
-<a href="https://github.com/login/oauth/authorize?client_id=8cf069a87d66a597b7da&scope=gist&redirect_uri=http://www.chenye.org/auth/github?redirect=/article/decorators-and-functional-python/" class="btn btn-primary" style="margin-bottom: 10px; float: right">登录Github评论</a>
+<p>然后解决连接MYSQL的问题，需要安装python-dev，setuptools</p>
 
-<input type="submit" class="btn btn-primary" style="margin-bottom:10px; float:right; display: none" value="Post">
-</div>
-<div style="height:100px;"></div>
-<script>
-var default_avatar = 'https://i2.wp.com/a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-user-420.png?ssl=1'
-var box = function(user, name) {
-	html = '<div style="margin-top: 10px;">'
-	html += '<img class="img-rounded" rel="avatar-' + user['name'] + '" style="float:left; width: 48px; height: 48px;" src="' + default_avatar + '">'
-	html += '<div style="float:left;margin-top: 0px;width: 575px" class="box"><div class="box-inside">'
-	html += '<strong><a href="http://github.com/' + user['name'] + '">' + user['name'] + '</a></strong><br />'
-	html += name
-	html += '</div></div><div style="clear:both"></div></div>'
-	return html
-}
+<div class="highlight"><pre>sudo sudo apt-get install python-dev
+</pre></div>
 
-function comment(ret){
-	data = ret.data
-	$("#comment-content").html('')
-	avatars = {}
-	for (var i in data){
-		user = {
-			"avatar": data[i]['user']['avatar_url'],
-			"name": data[i]['user']['login']
-		}
-		avatars[user['name']] = user['avatar']
-		$("#comment-content").append(box(user, data[i]['body']))
-	}
-	for (var i in avatars){
-		$.get(avatars[i], function(e){
-			$("img[rel=avatar-" + i + "]").attr('src', avatars[i])
-		})
-	}
-}
-</script>
-<script src="https://api.github.com/gists/4508459/comments?callback=comment"></script>
+<p>到这里下载<a href="http://pypi.python.org/pypi/setuptools">setuptools</a>
+下载好后进入那个目录，还是执行这两条</p>
 
-<script>
+<div class="highlight"><pre>sudo python setup.py build
+sudo python setup.py install
+</pre></div>
 
+<p>由于通过apt-get方式下载到的mysql是不带mysql_config的，需要你去下载</p>
 
-</script>
-</body>
-</html>
+<div class="highlight"><pre>sudo apt-get install libmysqlclient-dev
+</pre></div>
+
+<p>准备工作到此结束，要开始安装<a href="http://sourceforge.net/projects/mysql-python/">MySQLdb</a>
+找到site.cfg,添加一行</p>
+
+<div class="highlight"><pre><span class="na">mysql_config</span> <span class="o">=</span> <span class="s">/usr/bin/mysql_config</span>
+</pre></div>
+
+<p>因为我的<code>mysql_config</code>是放在<code>/usr/bin/mysql_config</code>，所以指定这里，如果你不确定<code>mysql_config</code>，可以使用<code>whereis mysql_config</code>看在哪里
+然后进入mysqldb的目录，</p>
+
+<div class="highlight"><pre>sudo python setup.py install
+</pre></div>
+
+<p>一般到这里便结束了。
+怎么调试？
+官网上有一个helloworld,程序，复制下来，运行，你可以看到源文件上监听的是8888端口，如果你装了apache，可以在本地直接浏览器<code>127.0.0.1:8888</code>
+如果没装，而且你的本机可以访问到虚拟机的地址，那就是那地址再加上端口号便可以<br>
+tornado里面有一些demo，有个blog的demo可以测试mysql成功了没有，注意改里面的用户名和密码哦</p>

@@ -1,0 +1,50 @@
+<h1>
+<a name="" class="anchor" href="#"><span class="mini-icon mini-icon-link"></span></a>哪个快?</h1>
+
+<hr><p>在处理一个问题, 用一个 <code>updated</code> 变量来表示是否进入了 for 循环</p>
+
+<div class="highlight"><pre><span class="n">updated</span> <span class="p">:=</span> <span class="n">false</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">:=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="mi">1000000</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+    <span class="n">updated</span> <span class="p">=</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>然后就会有一个问题, 这样每次都赋值一次会不会太浪费资源, 于是又有了下面的写法:</p>
+
+<div class="highlight"><pre><span class="n">updated</span> <span class="p">:=</span> <span class="n">false</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">:=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="mi">1000000</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">!</span> <span class="n">updated</span> <span class="p">{</span>
+        <span class="n">updated</span> <span class="p">=</span> <span class="n">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>然后是哪种做法快了呢? 无非是在比 if 的执行速度快还是赋值 <code>true</code> 比较快, 很简单, 计时</p>
+
+<div class="highlight"><pre><span class="n">t</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">Now</span><span class="p">()</span>
+<span class="n">a</span> <span class="p">:=</span> <span class="n">false</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">:=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="mi">1000000</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">!</span> <span class="n">a</span> <span class="p">{</span>
+        <span class="n">a</span> <span class="p">=</span> <span class="n">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">_</span> <span class="p">=</span> <span class="n">a</span> <span class="c1">// 为了让go编译通过</span>
+<span class="n">println</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">Now</span><span class="p">().</span><span class="n">UnixNano</span><span class="p">()</span> <span class="p">-</span> <span class="n">t</span><span class="p">.</span><span class="n">UnixNano</span><span class="p">())</span>
+</pre></div>
+
+<blockquote>
+<p>得到用时是 864000</p>
+</blockquote>
+
+<div class="highlight"><pre><span class="n">t</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">Now</span><span class="p">()</span>
+<span class="n">a</span> <span class="p">:=</span> <span class="n">false</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">:=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="mi">1000000</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+    <span class="n">a</span> <span class="p">=</span> <span class="n">true</span>
+<span class="p">}</span>
+<span class="n">_</span> <span class="p">=</span> <span class="n">a</span>
+<span class="n">println</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">Now</span><span class="p">().</span><span class="n">UnixNano</span><span class="p">()</span> <span class="p">-</span> <span class="n">t</span><span class="p">.</span><span class="n">UnixNano</span><span class="p">())</span>
+</pre></div>
+
+<blockquote>
+<p>用时是446000</p>
+</blockquote>

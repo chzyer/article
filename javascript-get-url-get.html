@@ -1,0 +1,34 @@
+<hr><p>其实原理挺简单的，只是我之前都不知道JS能获得当前网址...</p>
+
+<div class="highlight"><pre><span class="c1">//取get变量的值 Val 为要取的变量名称</span>
+<span class="kd">function</span> <span class="nx">getParameter</span><span class="p">(</span> <span class="nx">val</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">RegExp</span> <span class="p">(</span><span class="nx">val</span> <span class="o">+</span> <span class="s2">"=([^&amp;#]*)"</span><span class="p">,</span><span class="s2">"i"</span><span class="p">)</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">re</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">a</span> <span class="o">==</span> <span class="kc">null</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">decodeURI</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">info</span> <span class="o">=</span> <span class="nx">getParameter</span><span class="p">(</span><span class="s2">"info"</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">info</span><span class="p">);</span>
+</pre></div>
+
+<p>解释，原理是使用正则表达式匹配出变量的字符串。
+在<code>getparameter</code>函数中val是要取的变量名， <code>(val + "=([^&amp;#]*)","i")</code> 表示匹配有等于号加上任意非&amp;且非#字符，"i"表示不区分大小写,a最后得到的是匹配到的括号(表达式的)里面的字符串
+页面编码建议用UTF-8，否则会出现乱码
+javascript中用于转码的函数有三个，但是各有区别
+<code>escape</code>, <code>encodeURI</code>, <code>encodeURIComponent</code>,对应的，他们的解码函数<code>unescape</code>, <code>decodeURI</code>, <code>decodeURIComponent</code>
+下面是他们的区别</p>
+
+<ul>
+<li>escape不编码字符有69个：*, +, -, ., /, @, _, 0-9, a-z, A-Z</li>
+<li>encodeURI不编码字符有82个：! ,# ,$ ,&amp; ,' ,( ,) ,* ,+ ,, ,- ,. ,/ ,: ,; ,= ,? ,@ ,_ ,~ ,0-9 ,a-z ,A-Z</li>
+<li>
+<p>encodeURIComponent不编码字符有71个：! ,' ,( ,) ,* ,- ,. ,_ ,~ ,0-9 ,a-z ,A-Z</p>
+
+<p>encodeURIComponent比encodeURI多编码了# ?</p>
+</li>
+<li><p>escape和encodeURI(Component)的编码方式是不同的.同样是中文"中文"</p></li>
+<li><p>encodeURI -------- %E4%B8%AD%E6%96%87 ------ 是以UTF-8编码的形式(从每个字符占用3字节看出来)，叫统一资源标示码(URI),从URL读取的字符请用它</p></li>
+<li><p>escape　 -------- %u4E2D%u6587 ------ Unicode格式，以后补充，目前没遇到
+用途：通过添加标签来弥补使用AJAX造成的无法后退前进的问题，JS可以根据标签来执行操作</p></li>
+</ul>

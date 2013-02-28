@@ -1,123 +1,71 @@
-<html>
-<head>
-<meta charset='utf-8'>
-<link rel="alternate" type="application/rss+xml" href="/feed" />
-<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" />
-<title>让你像写代码般写css - 陈冶</title>
-<style>
-.gist-syntax{background:#ffffff}.gist-syntax .c{color:#999988;font-style:italic}.gist-syntax .err{color:#a61717;background-color:#e3d2d2}.gist-syntax .k{color:#000000;font-weight:bold}.gist-syntax .o{color:#000000;font-weight:bold}.gist-syntax .cm{color:#999988;font-style:italic}.gist-syntax .cp{color:#999999;font-weight:bold}.gist-syntax .c1{color:#999988;font-style:italic}.gist-syntax .cs{color:#999999;font-weight:bold;font-style:italic}.gist-syntax .gd{color:#000000;background-color:#ffdddd}.gist-syntax .gd .x{color:#000000;background-color:#ffaaaa}.gist-syntax .ge{color:#000000;font-style:italic}.gist-syntax .gr{color:#aa0000}.gist-syntax .gh{color:#999999}.gist-syntax .gi{color:#000000;background-color:#ddffdd}.gist-syntax .gi .x{color:#000000;background-color:#aaffaa}.gist-syntax .go{color:#888888}.gist-syntax .gp{color:#555555}.gist-syntax .gs{font-weight:bold}.gist-syntax .gu{color:#aaaaaa}.gist-syntax .gt{color:#aa0000}.gist-syntax .kc{color:#000000;font-weight:bold}.gist-syntax .kd{color:#000000;font-weight:bold}.gist-syntax .kp{color:#000000;font-weight:bold}.gist-syntax .kr{color:#000000;font-weight:bold}.gist-syntax .kt{color:#445588;font-weight:bold}.gist-syntax .m{color:#009999}.gist-syntax .s{color:#d14}.gist-syntax .na{color:#008080}.gist-syntax .nb{color:#0086B3}.gist-syntax .nc{color:#445588;font-weight:bold}.gist-syntax .no{color:#008080}.gist-syntax .ni{color:#800080}.gist-syntax .ne{color:#990000;font-weight:bold}.gist-syntax .nf{color:#990000;font-weight:bold}.gist-syntax .nn{color:#555555}.gist-syntax .nt{color:#000080}.gist-syntax .nv{color:#008080}.gist-syntax .ow{color:#000000;font-weight:bold}.gist-syntax .w{color:#bbbbbb}.gist-syntax .mf{color:#009999}.gist-syntax .mh{color:#009999}.gist-syntax .mi{color:#009999}.gist-syntax .mo{color:#009999}.gist-syntax .sb{color:#d14}.gist-syntax .sc{color:#d14}.gist-syntax .sd{color:#d14}.gist-syntax .s2{color:#d14}.gist-syntax .se{color:#d14}.gist-syntax .sh{color:#d14}.gist-syntax .si{color:#d14}.gist-syntax .sx{color:#d14}.gist-syntax .sr{color:#009926}.gist-syntax .s1{color:#d14}.gist-syntax .ss{color:#990073}.gist-syntax .bp{color:#999999}.gist-syntax .vc{color:#008080}.gist-syntax .vg{color:#008080}.gist-syntax .vi{color:#008080}.gist-syntax .il{color:#009999}
-.small-text{
-color: #000;
-font-size: 12px;
-}
-.small-text:hover {
-text-decoration: none;
-}
-.box {
-padding: 3px;
-background: rgb(238, 238, 238);
-margin-top: 8px;
-margin-left: 8px;
-}
-.box .box-inside {
-background: #ffffff;
-padding: 10px;
-border: 1px solid rgb(204, 204, 204);
-}
-.box:hover {
-background: rgb(216, 234, 242);
-}
-.box .box-inside:hover {
-border: 1px solid rgb(151, 199, 221);
-}
-#comment-content {
-padding-bottom: 20px;
-}
-</style>
+<hr><p>写惯了各种代码,到了css,你会不会觉得<code>copy</code>/<code>paste</code>的操作特别多呢?会不会发现一修改配色就要来一次"全部替换"?   </p>
 
-<style>
-* {
-font-family: "Monaco", "Microsoft YaHei"
-}
-</style>
-<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<p>前段时间我老大呢介绍了国外一神器,lesscss,不过主页被墙...有身高优势的童鞋可以翻过去<code>http://lesscss.org/</code>
+先从使用方法上说吧,
+可以使用变量.把颜色什么的用变量代替,Like</p>
 
-</head>
-<body id="top" style="padding: 40px; width: 660px; margin: 0 auto;">
-<div class="btn-toolbar" style="position: fixed; margin:-30 10; z-index:2000">
-<div class="btn-group">
-<a class="btn" href="/article/andfree-startup/">
-<i class="icon-arrow-left"></i></a>
-<a class="btn" href="/article/product-and-project/">
-<i class="icon-arrow-right"></i></a>
-</div>
+<div class="highlight"><pre><span class="k">@tastyColor</span><span class="o">:</span> <span class="nf">#21A6CE</span><span class="p">;</span>
+<span class="nc">.a</span><span class="p">{</span><span class="k">color</span><span class="o">:@</span><span class="n">tastyColor</span><span class="p">}</span>
+</pre></div>
 
-<div class="btn-group">
-<a class="btn btn-info" href="/" >博客</a>
-<a class="btn btn-inverse" href="https://github.com/chzyer">Github</a>
-<a class="btn btn-danger" href="http://weibo.com/210106468">微博</a>
-<a class="btn btn-warning" href="http://www.chenye.org/feed">RSS</a>
-<a class="btn" href="http://andfree.chenye.org/">andfree</a>
-</div>
-<div class="btn-group">
+<p>这样都行?嗯,好处是你可以不用"全部替换"法来解决配色问题.
+有变量,也要有函数了~</p>
 
-<a class="btn " href="#top">Top</a>
+<div class="highlight"><pre><span class="nc">.high-light</span> <span class="o">(</span><span class="k">@weight</span><span class="o">:</span> <span class="nt">1px</span><span class="o">)</span><span class="p">{</span>
+    <span class="nt">border</span><span class="o">:</span><span class="k">@weight</span> <span class="nt">solid</span> <span class="nf">#000</span>
+<span class="err">}</span>
+</pre></div>
 
-<a class="btn " href="#comment">Comment</a>
+<p>这是"函数",我们可以看到还有参数,参数还带默认值(java无法设默认值的飘过),在其他地方可以调用了</p>
 
-</div>
+<div class="highlight"><pre><span class="nc">.button</span><span class="p">{</span>
+    <span class="o">.</span><span class="k">high</span><span class="o">-</span><span class="n">light</span>
+<span class="p">}</span>
+<span class="nc">.button-weight</span><span class="p">{</span>
+    <span class="o">.</span><span class="k">high</span><span class="o">-</span><span class="n">light</span><span class="p">(</span><span class="m">2px</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
 
+<p>是不是很简单?
+嵌套
+有没有写下面代码的经历?</p>
 
-</div>
-<div class="gist-syntax">
+<div class="highlight"><pre><span class="nf">#header</span><span class="p">{</span><span class="o">...</span><span class="p">}</span>
+<span class="nf">#header</span> <span class="nc">.id</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span>
+<span class="nf">#header</span> <span class="nc">.search</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span>
+<span class="nf">#header</span> <span class="nc">.search</span> <span class="nt">button</span><span class="p">{</span><span class="o">...</span><span class="p">}</span>
+</pre></div>
 
-</div>
-<hr>
-<h2 id="comment">Comment</h2>
-<div id="comment-content">评论加载中...</div>
-<div id="comment-send">
+<p>到lesscss可以这样写</p>
 
-<a href="https://github.com/login/oauth/authorize?client_id=8cf069a87d66a597b7da&scope=gist&redirect_uri=http://www.chenye.org/auth/github?redirect=/article/decorators-and-functional-python/" class="btn btn-primary" style="margin-bottom: 10px; float: right">登录Github评论</a>
+<div class="highlight"><pre><span class="nf">#header</span><span class="p">{</span>
+    <span class="o">...</span> <span class="c">/*header的css代码*/</span>
+    <span class="o">.</span><span class="n">id</span> <span class="err">{</span>
+        <span class="o">...</span> <span class="c">/*#header .id 的代码*/</span>
+    <span class="p">}</span>
+    <span class="nc">.search</span><span class="p">{</span>
+        <span class="o">...</span> <span class="c">/*#header .search 的代码*/</span>
+        <span class="n">button</span> <span class="err">{</span>
+            <span class="o">...</span> <span class="c">/*#header .search button的代码*/</span>
+        <span class="p">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
 
-<input type="submit" class="btn btn-primary" style="margin-bottom:10px; float:right; display: none" value="Post">
-</div>
-<div style="height:100px;"></div>
-<script>
-var default_avatar = 'https://i2.wp.com/a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-user-420.png?ssl=1'
-var box = function(user, name) {
-	html = '<div style="margin-top: 10px;">'
-	html += '<img class="img-rounded" rel="avatar-' + user['name'] + '" style="float:left; width: 48px; height: 48px;" src="' + default_avatar + '">'
-	html += '<div style="float:left;margin-top: 0px;width: 575px" class="box"><div class="box-inside">'
-	html += '<strong><a href="http://github.com/' + user['name'] + '">' + user['name'] + '</a></strong><br />'
-	html += name
-	html += '</div></div><div style="clear:both"></div></div>'
-	return html
-}
+<p>好了,关于语法就不再说,还有其他的,自己去google
+关于lesscss的工作原理,lesscss有两种工作方式,
+第一种,下载他的js文件,在网页中加载less文件和他那个less.js(less文件是写上文所说的简洁写法)
+第二种靠谱点,直接用程序将less文件转换为css文件,与其说转换,不如说是翻译.
+我是更倾向于用第二种,第二种只要在你修改的时候生成一遍css,第一种则是在用户看你网页的时候再进行翻译,可能效果的加载会比较慢
+怎么生成呢,在ubuntu下很简单
+先下载安装, </p>
 
-function comment(ret){
-	data = ret.data
-	$("#comment-content").html('')
-	avatars = {}
-	for (var i in data){
-		user = {
-			"avatar": data[i]['user']['avatar_url'],
-			"name": data[i]['user']['login']
-		}
-		avatars[user['name']] = user['avatar']
-		$("#comment-content").append(box(user, data[i]['body']))
-	}
-	for (var i in avatars){
-		$.get(avatars[i], function(e){
-			$("img[rel=avatar-" + i + "]").attr('src', avatars[i])
-		})
-	}
-}
-</script>
-<script src="https://api.github.com/gists/4508459/comments?callback=comment"></script>
+<div class="highlight"><pre>sudo apt-get install libnode-less
+</pre></div>
 
-<script>
+<p>然后执行</p>
 
+<pre><code>lessc style.less style.css
+</code></pre>
 
-</script>
-</body>
-</html>
+<p>就可以把less风格的代码翻译成真正css风格的代码</p>

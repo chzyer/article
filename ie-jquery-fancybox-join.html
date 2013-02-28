@@ -1,0 +1,31 @@
+<hr><p>该篇文章理论上是专门IE所做，因为FF和chrome根本没有这些问题，一切正常！在这里先鄙视一下IE各个版本(包括IE10)
+由于某种原因，我需要用到图片展示插件，几经测试，发现fancybox1.3.4最好用，但是，在IE下(所有版本)，fancyBOX和jquery1.6不兼容会导致IE即开即死，chrome和FF就正常，刚开始不知道的时候没有用IE测试一直以为很正常。后来换了JQUERY1.5.2才正常
+fancybox创建图片展示很简单，创建一个</p>
+
+<div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{$图片URL}"</span> <span class="na">rel=</span><span class="s">"fancybox"</span><span class="nt">&gt;&lt;/a&gt;</span>
+</pre></div>
+
+<p>标签，然后用JQ的选择器选择这些A标签(可多个，就成了画廊，我要的就是着这种效果),执行.fancybox()方法就行
+多个图片展示组，就是同一个页面，比如想让图片1-10为一个展示组，11-20为另外一个展示组，只需将1-10的A标签的rel属性设置设置成相同，11-20的A标签设置成另外一个rel值，还有一点要注意的是，同一个rel，不同时间注册fancybox方法， 还是会进入同一个展示组的。最佳方法：</p>
+
+<p>展示组1的rel设置成<code>fancybox_1</code>,展示组2的rel设置成<code>fancybox_2</code>,绑定事件时只需用
+$(a[rel*=fancybox]).fancybox就可绑定所有的图片并且自动分组
+同类型的图片展示插件也有，但是只能执行一次，执行第二次就出错，而对于AJAX动态创建产生的控件是没有被绑定的，也就是点击不会有图片展示的效果，而fancybox就可以。
+于是我就想，就自定义创建一个</p>
+
+<div class="highlight"><pre><span class="nt">&lt;gallery</span> <span class="na">pic=</span><span class="s">'pic1.jpg;pic2.jpg'</span><span class="nt">&gt;&lt;/gallery&gt;</span>
+</pre></div>
+
+<p>控件，然后用JQ从这个控件获取要加载的图片数目，再动态创建出A标签，再执行fancybox。但是可能是因为自定义的缘故，在chrome和ff下正常append进入，在IE加就不能添加了，报错！而且JQ1.5.2在IE下不能通过直接文本创建控件，比如</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'body'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s1">'&lt;a href="javascript:;"&gt;超链接&lt;/a&gt;'</span><span class="p">);</span>
+</pre></div>
+
+<p>这行代码在IE(任何版本)下报错，但在Chrome和ff下正常...，只能麻烦一点</p>
+
+<div class="highlight"><pre><span class="kd">var</span>  <span class="nx">a</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">;</span><span class="c1">//定义一个对象</span>
+<span class="nx">a</span><span class="p">[</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'&lt;a href="javascript:;"&gt;超链接&lt;/a&gt;'</span><span class="p">;</span><span class="c1">//向a的添加一个A标签，可重复添加</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">'body'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">''</span><span class="p">));</span><span class="c1">//a.join('')代表将a的每个子对象用无字符(单引号内的字符)连接起来成字符串</span>
+</pre></div>
+
+<p>这样就能兼容了，但是在IE下，对于gallery这个自定义控件，上述方法仍然报错！无奈只能用after添加在后面。</p>
