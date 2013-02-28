@@ -2,11 +2,59 @@
 <head>
 <meta charset='utf-8'>
 <title>python命令行预处理实例[ssh远程连接]</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-python命令行预处理实例[ssh远程连接]
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pexpect</span>
+
+<body>
+<article>
+	<h1>python命令行预处理实例[ssh远程连接]</h1>
+	<div class="date">2012-02-14 03:52:12 &#43;0000 UTC</div>
+	<hr />
+	<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pexpect</span>
 <span class="n">ssh</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="s">'ssh localhost'</span><span class="p">)</span> <span class="c">#建立新线程,执行"通过ssh连接本地"</span>
 <span class="n">ssh</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="s">'.*password:'</span><span class="p">)</span> <span class="c">#正则匹配输入密码提示,匹配才继续执行</span>
 <span class="n">ssh</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s">"123456"</span><span class="p">)</span> <span class="c">#输入密码</span>
 <span class="n">ssh</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span> <span class="c">#执行</span>
 </pre></div>
+</article>
+</body>
+
+</html>

@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>C#不同线程的相互访问</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-C#不同线程的相互访问
-<p>本来是不想碰C#这蛋疼的家伙的.但没办法,项目中突然要我负责餐厅服务器,把我从东墙扔到了西墙.只好硬着头皮干了.<br>
+
+<body>
+<article>
+	<h1>C#不同线程的相互访问</h1>
+	<div class="date">2011-07-27 16:10:11 &#43;0000 UTC</div>
+	<hr />
+	<p>本来是不想碰C#这蛋疼的家伙的.但没办法,项目中突然要我负责餐厅服务器,把我从东墙扔到了西墙.只好硬着头皮干了.<br>
 当前和中央服务器的连接还是采用socket的方式,要有像QQ一眼的在线状态判断功能.这也就意味这要定时向中央服务器发送心跳包~告诉他我还活着...<br>
 然后还要负责监听来自中央服务器的消息.监听就意味着单线程要处于堵塞状态(死循环,无法进行其他操作了),而且,发送心跳包的频率是每秒1次,监听则是1ms一次,所以就要采用多线程来解决.然后多线程中状态的互交是必须的.然而C#为了安全不同线程是不允许相互访问其内容的.然后便有了此文.  </p>
 
@@ -39,3 +83,7 @@ PS:其实我说了,我对C#不熟,代码是baidu(为什么不是google呢,因为
 通过代码我能理解的就是,实际对<code>lb_name</code>进行内容改变的还是他自己所在的进程,因为其他进程是没办法访问到<code>lb_name</code>的.
 而委托函数(SetText)大概是能委托<code>lb_name</code>所在线程对<code>lb_name</code>进行操作.
 哎,这就是码农的悲哀.竟然硬把我拉去写C#...</p>
+</article>
+</body>
+
+</html>

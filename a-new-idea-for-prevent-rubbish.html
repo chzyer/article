@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>防止垃圾留言的思路</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-防止垃圾留言的思路
-<p>应该很多人遇到过鸟文的垃圾评论吧~
+
+<body>
+<article>
+	<h1>防止垃圾留言的思路</h1>
+	<div class="date">2011-06-10 05:22:40 &#43;0000 UTC</div>
+	<hr />
+	<p>应该很多人遇到过鸟文的垃圾评论吧~
 先说发垃圾留言的方法吧:</p>
 
 <ol>
@@ -23,3 +67,7 @@
 <li>服务器在检测到有评论的页面时,会生成一个token,存入session.并且放入form里面,让他和评论一起post到wp-comments-post.php,当wp-comments-post.php接受到post过来的内容时,检查session中是否存在这个token,然后吧session中得token和post过来的token进行比较.相同则过,不同则杀.</li>
 <li>这是我现在主题的做法.在用户填好资料之后,自动把资料发送到后台并存为COOKIE,wp-comments-post.php中则改为不接受POST过来的姓名邮箱网站,改为从COOKIE中读取,如果读取不到则~而我保存COOKIE的触发点就在用户填写email后,发送email到后台查询用户名和网址后,顺便写入COOKIE中.这也是我采用这种方法的原因.而且我重写了wp-comments-post.php并改名字了.原来的wp-comments-post.php也被我删除.这个方法还是挺有用的.从换主题到现在倒是没有收到垃圾留言了..或者是他们没发了</li>
 </ol><p>呃...我只是简略的说明了一下思路,实际上我没写出来代码是XXX.但我觉得编程重在思想.思想有了,只需要再加一点语法知识就能做出来了.我想过做成插件.时间不足而已...</p>
+</article>
+</body>
+
+</html>

@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>关于Python的参数默认值</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-关于Python的参数默认值
-<p>最近相继遇到几个python的坑...贴一段有意思的代码</p>
+
+<body>
+<article>
+	<h1>关于Python的参数默认值</h1>
+	<div class="date">2012-11-07 16:06:45 &#43;0000 UTC</div>
+	<hr />
+	<p>最近相继遇到几个python的坑...贴一段有意思的代码</p>
 
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="p">[]):</span>
     <span class="n">b</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -32,3 +76,7 @@
 比如,
 好吧没想到.
 不过传入一个初始化的对象的话不会有这个问题。。</p>
+</article>
+</body>
+
+</html>

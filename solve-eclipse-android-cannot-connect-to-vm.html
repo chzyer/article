@@ -2,10 +2,58 @@
 <head>
 <meta charset='utf-8'>
 <title>eclipse开发android下，提示Cannot connect to VM</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-eclipse开发android下，提示Cannot connect to VM
-<p>先说起因，由于我在照搬网上hello world的时候不小心把main函数也抄进来了, 所以一直提示cannot connect to VM.</p>
+
+<body>
+<article>
+	<h1>eclipse开发android下，提示Cannot connect to VM</h1>
+	<div class="date">2012-10-04 03:12:32 &#43;0000 UTC</div>
+	<hr />
+	<p>先说起因，由于我在照搬网上hello world的时候不小心把main函数也抄进来了, 所以一直提示cannot connect to VM.</p>
 
 <p>看似是编译完成后就提示，还没将apk传送到手机端。后来把main函数删除也好，整个class删除也好，都不能解决，甚至，删除工程重新建一个同名的工程也不行..一度很郁闷，我是跳过java直接写android，对java很多东西也不是很了解，上网上查，无非是winsock被替换了，只不过我是mac，这不可能。</p>
 
 <p>后来研究了一下发生原理，由于提供了main函数导致eclipse在编译后自动运行这个类，而不是生成到手机，删除了类之后也不能解决， 因为在项目设置的"Run/Debug Settings"里面还存在设置导致eclipse编译后自动运行这个类，所以删除这里就行了</p>
+</article>
+</body>
+
+</html>

@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>Javascript获得URL的GET参数</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-Javascript获得URL的GET参数
-<p>其实原理挺简单的，只是我之前都不知道JS能获得当前网址...</p>
+
+<body>
+<article>
+	<h1>Javascript获得URL的GET参数</h1>
+	<div class="date">2011-06-06 03:17:23 &#43;0000 UTC</div>
+	<hr />
+	<p>其实原理挺简单的，只是我之前都不知道JS能获得当前网址...</p>
 
 <div class="highlight"><pre><span class="c1">//取get变量的值 Val 为要取的变量名称</span>
 <span class="kd">function</span> <span class="nx">getParameter</span><span class="p">(</span> <span class="nx">val</span> <span class="p">)</span> <span class="p">{</span>
@@ -38,3 +82,7 @@ javascript中用于转码的函数有三个，但是各有区别
 <li><p>escape　 -------- %u4E2D%u6587 ------ Unicode格式，以后补充，目前没遇到
 用途：通过添加标签来弥补使用AJAX造成的无法后退前进的问题，JS可以根据标签来执行操作</p></li>
 </ul>
+</article>
+</body>
+
+</html>

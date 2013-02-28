@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>关于TAGS的自动提取</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-关于TAGS的自动提取
-<p>以前用过DISCUZ，对他里面的自动获取TAGS(关键词)表示有点神奇，难道他是通过语法来匹配的吗？我感觉不太可能，可能是我对中文的语法不熟悉吧(English too)，或许别人可行，细心的盆友会发现,在Chrome下,双击汉字会自动选中一个词哦~比如刚才那句话,你在"汉字"中间处或者"汉"上面和"字"上面点击,都会自动选中"汉字"姑且作为一种方案的,而"会"字无论你在哪点都只会选中"会".这个功能在IE下可是没有的,不信去试试~
+
+<body>
+<article>
+	<h1>关于TAGS的自动提取</h1>
+	<div class="date">2011-05-28 17:13:22 &#43;0000 UTC</div>
+	<hr />
+	<p>以前用过DISCUZ，对他里面的自动获取TAGS(关键词)表示有点神奇，难道他是通过语法来匹配的吗？我感觉不太可能，可能是我对中文的语法不熟悉吧(English too)，或许别人可行，细心的盆友会发现,在Chrome下,双击汉字会自动选中一个词哦~比如刚才那句话,你在"汉字"中间处或者"汉"上面和"字"上面点击,都会自动选中"汉字"姑且作为一种方案的,而"会"字无论你在哪点都只会选中"会".这个功能在IE下可是没有的,不信去试试~
 wordpress貌似没有自动获取标签的功能~有没有插件我就不清楚了,一堆鸟文也懒得看了</p>
 
 <p>然后在网上搜了一下，发现一种比较蠢得方法，就是把一些可能出现的关键词先集成到JS文件里面，然后就计算一些权重啊什么的再列出来，确实可以下一个定义，任何需要手工完成的方法都称为蠢方法。不过可以借鉴的是他里面对关键词的算法,不过顺着这个思路，可以把这个方法进行改进。
@@ -15,3 +59,7 @@ wordpress貌似没有自动获取标签的功能~有没有插件我就不清楚�
 <p>话题一转~话说今天忙了一整天,新主题的外观已经完成,并且已经整合到WP当中.剩下的就是一些功能的整合.不变的是创意与个性~还有AJAX文章调用~rhythm(韵律)这个名字不是白叫的哦...</p>
 
 <p>今天端午节放假的第一天,祝大家有粽子吃~呵呵</p>
+</article>
+</body>
+
+</html>

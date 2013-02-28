@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>评论部分小改造</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-评论部分小改造
-<p>标题又是七个字?!<br>
+
+<body>
+<article>
+	<h1>评论部分小改造</h1>
+	<div class="date">2011-06-09 17:27:09 &#43;0000 UTC</div>
+	<hr />
+	<p>标题又是七个字?!<br>
 主要是有人反映找不到评论框~~这会让人很郁闷的..<br>
 改造的地方有:  </p>
 
@@ -17,3 +61,7 @@ JS直接判断滚动条达到最低层的某个区域就将评论框拉到最下
 <li>将围观改回"回复TA"..
 都是一些小修小补,然后赶快把Email获取信息整理出来成大众版,用这个配合我的用从COOKIE读取用户信息防止垃圾评论的wp-comments-post.php是恰到好处...</li>
 </ol>
+</article>
+</body>
+
+</html>

@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>PHP的检查文件存在问题</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-PHP的检查文件存在问题
-<p>这个问题确实折腾了我近一个小时,有必要说一说,以免以后忘了。健忘啊健忘</p>
+
+<body>
+<article>
+	<h1>PHP的检查文件存在问题</h1>
+	<div class="date">2011-05-08 17:45:27 &#43;0000 UTC</div>
+	<hr />
+	<p>这个问题确实折腾了我近一个小时,有必要说一说,以免以后忘了。健忘啊健忘</p>
 
 <p>PHP中检查文件存在的方法有多种，一种的file_exists,还有一种是fopen</p>
 
@@ -17,3 +61,7 @@ PHP的检查文件存在问题
 <p>同样,用fopen($path,"r")同样的事实返回同样的结果,但是如果判断文件语句和PDF2SWF不同时执行的话,则返回存在</p>
 
 <p>如果fopen($path,"a")的话就能返回真了了,但是这个的意思是,如果检查文件是否存在,不存在就尝试创建新文件...</p>
+</article>
+</body>
+
+</html>

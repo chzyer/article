@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>解决一个使用AMPServ建立虚拟主机的session权限问题</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-解决一个使用AMPServ建立虚拟主机的session权限问题
-<p>面对一个电脑上的多个网页,建立虚拟主机是一个很好的归类方法
+
+<body>
+<article>
+	<h1>解决一个使用AMPServ建立虚拟主机的session权限问题</h1>
+	<div class="date">2011-05-28 08:50:15 &#43;0000 UTC</div>
+	<hr />
+	<p>面对一个电脑上的多个网页,建立虚拟主机是一个很好的归类方法
 一般为了方便,我是使用APMSERV建立虚拟主机的,但是在建立phpmyadmin的虚拟主机时,无法正常运行,而是显示</p>
 
 <pre><code>    Warning: session_start() [function.session-start]: open_basedir restriction in effect. File(C:\WINDOWS\TEMP) is not within the
@@ -32,3 +76,7 @@ php_admin_value open_basedir "D:/Site/www/htdocs/fl_document/;D:/Site/tmp/upload
 <span class="nt">&lt;/Directory&gt;</span>
 <span class="nt">&lt;/VirtualHost&gt;</span>
 </pre></div>
+</article>
+</body>
+
+</html>

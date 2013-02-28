@@ -2,12 +2,60 @@
 <head>
 <meta charset='utf-8'>
 <title>用JQuery执行JS代码</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-用JQuery执行JS代码
-<p>JQ全名jquery,一个javascript的框架.
+
+<body>
+<article>
+	<h1>用JQuery执行JS代码</h1>
+	<div class="date">2011-05-28 08:39:18 &#43;0000 UTC</div>
+	<hr />
+	<p>JQ全名jquery,一个javascript的框架.
 JQ内部集成了一个可以执行文本形式的JS代码,但是没有在API中列出来
 于是,此篇文章变为了,备忘录</p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">code</span><span class="o">=</span><span class="s2">"alert('JS代码在这里')"</span><span class="p">;</span>
 <span class="nx">jQuery</span><span class="p">.</span><span class="nx">globalEval</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="c1">//将会弹出对话框</span>
 </pre></div>
+</article>
+</body>
+
+</html>

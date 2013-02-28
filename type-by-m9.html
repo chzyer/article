@@ -2,7 +2,55 @@
 <head>
 <meta charset='utf-8'>
 <title>手机码文</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-手机码文
-<p>最近都没有时间回访各位博友了，抱歉抱歉，等我又有空一定会回访的.<br>
+
+<body>
+<article>
+	<h1>手机码文</h1>
+	<div class="date">2011-06-20 20:34:10 &#43;0000 UTC</div>
+	<hr />
+	<p>最近都没有时间回访各位博友了，抱歉抱歉，等我又有空一定会回访的.<br>
 这个星期又是实训，搞得在宿舍待的时间很短，一个字就是忙，回到宿舍，又是开始研究socket，幸好，思路已经理出！并发性和扩展性兼备，demo已完成，大概是3个cmd窗口，分别代表手机端服务器端和餐厅客户端，餐厅客户端需要与服务器建立持久链接，一旦链接断开将不能执行查询操作，消息链方向大概是手机发送请求到服务器，服务器根据请求中的餐厅发送给餐厅查询信息，餐厅接受收到后返回给服务器，服务器再发给发出消息的手机端，一般来说，手机端和餐厅客户端是多个的，所以服务器必须要有并发性，可以类比为血红蛋白输送氧气，每走到一个地方，把你要给我的拿走，把我要给你的给你.当然我现在只是实现一个血红蛋白的功能，就这样啦。这可是纯m9码的，m9说用他看无冷，phoetry,和我的博客无压力</p>
+</article>
+</body>
+
+</html>

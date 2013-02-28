@@ -2,12 +2,60 @@
 <head>
 <meta charset='utf-8'>
 <title>PHP时间时区问题</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-PHP时间时区问题
-<p>用<code>time()</code>获取系统时间的时候，又会有发现有时候和电脑的时间相差8小时呢？其实这个是时区设置的问题</p>
+
+<body>
+<article>
+	<h1>PHP时间时区问题</h1>
+	<div class="date">2011-04-26 13:28:13 &#43;0000 UTC</div>
+	<hr />
+	<p>用<code>time()</code>获取系统时间的时候，又会有发现有时候和电脑的时间相差8小时呢？其实这个是时区设置的问题</p>
 
 <div class="highlight"><pre><span class="nx">date_default_timezone_set</span><span class="p">(</span><span class="s1">'PRC'</span><span class="p">);</span>
 </pre></div>
 
 <p>我们只需要在PHP页面前面加上
 便可将时区设置为东八区</p>
+</article>
+</body>
+
+</html>

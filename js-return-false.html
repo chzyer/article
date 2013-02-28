@@ -2,10 +2,58 @@
 <head>
 <meta charset='utf-8'>
 <title>关于Javascript的return false;</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-关于Javascript的return false;
-<p>由于时间紧急，先进入重点</p>
+
+<body>
+<article>
+	<h1>关于Javascript的return false;</h1>
+	<div class="date">2011-05-08 09:44:33 &#43;0000 UTC</div>
+	<hr />
+	<p>由于时间紧急，先进入重点</p>
 
 <p>当多层DIV层叠时，如果点击重叠处，发现ONCLICK事件会穿透所有层，也就是每一层的ONCLICK事件都会执行一遍。执行的顺序跟使用JQUERY绑定ONCLICK事件的顺序无关，执行的顺序始终从最上层往下。</p>
 
 <p>问题来了，当只想让最上层的DIV接受ONCLICK而下层接收不到ONCLICK该怎么办。俗称把ONCLICK事件吃掉。没想到用return false可以达到这个效果，就这样，续待....</p>
+</article>
+</body>
+
+</html>

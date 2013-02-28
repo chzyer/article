@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>decoder zip not available</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-decoder zip not available
-<p>这个问题困扰了我近1个月(当然中途对继续编码没多大影响就没去理他)<br>
+
+<body>
+<article>
+	<h1>decoder zip not available</h1>
+	<div class="date">2011-12-01 11:04:08 &#43;0000 UTC</div>
+	<hr />
+	<p>这个问题困扰了我近1个月(当然中途对继续编码没多大影响就没去理他)<br>
 环境:<code>python in ubuntu server</code><br>
 PIL是python下一个图片处理工具.可以随意对图片进行尺寸伸缩,加水印等操作.<br>
 但是默认PIL是没有安装jpeg和png的库的,需要单独安装.<br>
@@ -45,3 +89,7 @@ your script directory will tell you what files Python are using:
 </code></pre>
 
 <p>修改Image类的位置,在另起一行加上<code>PIL-1.1.7-py2.7-linux-x86_64.egg</code>, 这下就OK了.</p>
+</article>
+</body>
+
+</html>

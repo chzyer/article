@@ -2,12 +2,60 @@
 <head>
 <meta charset='utf-8'>
 <title>呃…网页打开速度的研究</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-呃…网页打开速度的研究
-<p>观点：如果加载JS,CSS文件过多，会拖慢网页打开的速度</p>
+
+<body>
+<article>
+	<h1>呃…网页打开速度的研究</h1>
+	<div class="date">2011-05-30 12:53:07 &#43;0000 UTC</div>
+	<hr />
+	<p>观点：如果加载JS,CSS文件过多，会拖慢网页打开的速度</p>
 
 <p>这个是加载很多JS文件的请求列表，耗时1.3秒</p>
 
 <p>这个是把所有JS文件合并一起读取的请求列表，耗时0.878秒
 以上文件读取JS的文件大小都相同，也证明了加载JS文件太多会影响到速度
 浏览器读取网页时是先读取目标文件，然后解析，这时候页面已经显示出来了，此时按照源代码里面指向的JS或CSS或图片文件，再一个一个下载执行。</p>
+</article>
+</body>
+
+</html>

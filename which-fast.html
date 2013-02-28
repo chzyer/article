@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>哪个快?</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-哪个快?
-<p>在处理一个问题, 用一个 <code>updated</code> 变量来表示是否进入了 for 循环</p>
+
+<body>
+<article>
+	<h1>哪个快?</h1>
+	<div class="date">2013-02-28 11:27:24 &#43;0800 CST</div>
+	<hr />
+	<p>在处理一个问题, 用一个 <code>updated</code> 变量来表示是否进入了 for 循环</p>
 
 <div class="highlight"><pre><span class="n">updated</span> <span class="p">:=</span> <span class="n">false</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">:=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="mi">1000000</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
@@ -51,3 +95,7 @@
 <blockquote>
 <p>用时是446000</p>
 </blockquote>
+</article>
+</body>
+
+</html>

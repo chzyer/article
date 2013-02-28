@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>windows下putty生成的rsa转成mac下的openssh</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-windows下putty生成的rsa转成mac下的openssh
-<p>之前一直在windows下开发，现在换到mac，发现在windows下生成的<code>private key</code>无法使用，应该说不知道怎么用
+
+<body>
+<article>
+	<h1>windows下putty生成的rsa转成mac下的openssh</h1>
+	<div class="date">2012-09-11 02:05:00 &#43;0000 UTC</div>
+	<hr />
+	<p>之前一直在windows下开发，现在换到mac，发现在windows下生成的<code>private key</code>无法使用，应该说不知道怎么用
 我在windows下是使用hg，然后通过pageant来载入key，载入之前要填写一次密码
 到了mac下之后，每个用户文件夹里面都有一个.ssh文件夹，将rsa添加进去就行了，terminal下输入
 ssh-add key-file-name
@@ -29,3 +73,7 @@ make
 </code></pre>
 
 <p>输入密码， 搞定</p>
+</article>
+</body>
+
+</html>

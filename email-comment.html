@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>Email留言插件发布</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-Email留言插件发布
-<p>关于该插件:<br>
+
+<body>
+<article>
+	<h1>Email留言插件发布</h1>
+	<div class="date">2011-06-11 08:14:20 &#43;0000 UTC</div>
+	<hr />
+	<p>关于该插件:<br>
 本站可以做演示站点,就是留言的时候只需要输入Email便可以自动识别你的姓名啊网址啊什么的<br>
 想了很久,都没有想出一个可以适用于全部主题的方法.<br>
 于是我放下屠刀,将插件定位于提供API让AJAX调用.<br>
@@ -27,3 +71,7 @@ email-comment下载地址,把email-comment文件夹上传到wp-content/plugins�
 status=2说明这个账号在你排除用这种方式登录的id号列表里面.<br>
 如果没有注册,需要再进行下面一步就是注册.你要做的是讲用户填写的信息发到另外一个API(如果网址为:<code>www.chenye.org</code>,那API的地址就是<code>www.chenye.org/?action=registerUser&amp;token=xx</code>),需要用到上一步传给你的token,而且每个token只能注册一次,用完消失.
 总的来说使用我这个插件还是不难的,关键在于将这个插件加入到你设想的布局当中.这就要涉及到JSON的处理,用JQ动态创建控件,AJAX的熟悉程度.好了各位~动工吧~~~</p>
+</article>
+</body>
+
+</html>

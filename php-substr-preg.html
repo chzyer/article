@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>PHP字符串截取-正则版</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-PHP字符串截取-正则版
-<p>网页编码有多种...
+
+<body>
+<article>
+	<h1>PHP字符串截取-正则版</h1>
+	<div class="date">2011-05-28 10:58:23 &#43;0000 UTC</div>
+	<hr />
+	<p>网页编码有多种...
 导致字符串截取需要针对不同编码进行截取
 以前总是用GBK,后来发现,GBK编码通用性不强,FLASH和Javascript都使用UTF8，用GBK就需要不断的转换编码，感觉挺麻烦的，
 所以,以后就改用UTF8吧！
@@ -26,3 +70,7 @@ PS：一个UTF8字符占用3个字符...用strlen时显示的数目是预期值�
 <p><code>[x00-x7F]|[xC0-xFF][x80-xBF]</code>三个代表的是一个UTF8字符,也就是所谓的占用3个字符.
 <code>(?:[x00-x7F]|[xC0-xFF][x80-xBF]+)</code> 是断言语句,表示要找到的字符串需要<code>[x00-x7F]|[xC0-xFF][x80-xBF]</code>开头,也就是所谓的从第N个字符截取,So,<code>{0,'.$from.'}</code>可以理解为要跳过N个字符,整句连起来,<code>^(?:[x00-x7F]|[xC0-xFF][x80-xBF]+){0,'.$from.'}'</code>就要先找到从开头开始计算,连续N个UTF8字符,注意 符合 (?:)  断言语句的字符串是不列入捕捉的.后面同理啦
 还有,一般我使用的是用  "//"(不包含括号)来讲正则表达式包含起来,而这里是用##,并且不能改成//,我猜这是使用 <code>[x00-x7F]|[xC0-xFF][x80-xBF]</code> 这些匹配符有关吧.具体也说不出有什么名堂.因为今天又要用到这个函数,所以...就来补充一下</p>
+</article>
+</body>
+
+</html>

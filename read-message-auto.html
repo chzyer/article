@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>关于自动获取新消息</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-关于自动获取新消息
-<p>这篇文章关系到前端和后台...本篇文章不涉及代码,只有思路..<br>
+
+<body>
+<article>
+	<h1>关于自动获取新消息</h1>
+	<div class="date">2011-06-26 15:56:40 &#43;0000 UTC</div>
+	<hr />
+	<p>这篇文章关系到前端和后台...本篇文章不涉及代码,只有思路..<br>
 星期五晚上接到一个任务,关于我们学校的签到系统,说是做一个页面,自动展示今天已经签到的人员,并且要求一点是自动更新新签到的人员
 很明显要用到AJAX,上阵子写主题写得正熟,5个小时便搞定界面后台与JS.<br>
 类似于微博<br>
@@ -21,3 +65,7 @@ OK,刚才说到哪了.显示出有新消息,让用户去点击,节省的就是�
 时间是一个重要的问题,时间弄不好会导致重复数据的产生.我的思路是,客户端网页在每次通过AJAX获取有没有新消息时,会自动带上上次查询不到信息的时间,服务器呢,查询数据的范围就是给的时间到当前服务器的时间,这样就将每次要查询的范围降到最小
 我第一次的时候为了节省服务器资源,直接在本地用JS读取时间,在本地测试是没什么问题,可是放到服务器问题就出来了,时间不同步,因为JS读取的时间的客户端电脑的时间,而数据库查询的时间是服务器的时间,服务器的时间和客户端电脑的时间是不一致的,导致了显示出重复数据.</li>
 </ol>
+</article>
+</body>
+
+</html>

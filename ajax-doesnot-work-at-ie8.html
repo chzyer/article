@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>某页面在IE8下无法AJAX获取的问题</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-某页面在IE8下无法AJAX获取的问题
-<p>最近在弄一个新皮，发现一个问题。
+
+<body>
+<article>
+	<h1>某页面在IE8下无法AJAX获取的问题</h1>
+	<div class="date">2011-09-21 08:31:05 &#43;0000 UTC</div>
+	<hr />
+	<p>最近在弄一个新皮，发现一个问题。
 在IE8下，jquery的版本是1.6.2，通过POST发送数据时总是无法正常调用回调函数。
 数据确实是正常发送过去了，后来加了一个error方法，则执行了error这个方法。但是在Chrome，FF下却是正常的！
 后来发现，换成其他页面(也是接收AJAX的)则正常。原来，我在PHP页面多加了这一句</p>
@@ -18,3 +62,7 @@
 <div class="highlight"><pre><span class="c1">//正确的做法</span>
 <span class="nx">header</span><span class="p">(</span><span class="s1">'Content-Type:text/html;charset=UTF-8'</span><span class="p">);</span>
 </pre></div>
+</article>
+</body>
+
+</html>

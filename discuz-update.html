@@ -2,10 +2,58 @@
 <head>
 <meta charset='utf-8'>
 <title>学校论坛升级心得</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-学校论坛升级心得
-<p>我接了一个学校论坛后台管理员的活，会接是因为认识上一届跟我说只要几天备份一次数据库就可以每月赚30，这等好事岂能不做…学校用的是discuz7.1,这个学期他们突然想升级到X2，当然只有我来做。  </p>
+
+<body>
+<article>
+	<h1>学校论坛升级心得</h1>
+	<div class="date">2011-09-12 14:57:04 &#43;0000 UTC</div>
+	<hr />
+	<p>我接了一个学校论坛后台管理员的活，会接是因为认识上一届跟我说只要几天备份一次数据库就可以每月赚30，这等好事岂能不做…学校用的是discuz7.1,这个学期他们突然想升级到X2，当然只有我来做。  </p>
 
 <p>学校从dvbbs论坛转DZ的，7.2之前插件机制还没改，所以整个文件目录超乱，所以我不选择覆盖升级了，直接新装论坛，在转换数据库。论坛数据转成sql语句要500M,用phpmyadmin导出，幸好最新版的phpmyadmin可以断点导入，就一直点点到500m文件导入到我的电脑本地的环境，出于保险起见当然要在本地试试啦…   </p>
 
 <p>接下来把旧程序换目录，把x2放进来，新安装一遍，和原论坛同一个数据库，不同前缀.开始转换数据库到x2，但官方只有7.2到x2的.后来想想7.1和7.2没什么区别，直接上，途中发现缺一个表和两个表缺一个字段，从7.2中提取出来（我同时又装了7.2）经历半个小时，终于转换完成.现在是将旧版的数据复制成x2的数据。可以把旧版的数据删了。再根据转换程序最后的提示做，放附件进目录，这样就完成了  </p>
+</article>
+</body>
+
+</html>

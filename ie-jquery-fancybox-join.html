@@ -2,9 +2,53 @@
 <head>
 <meta charset='utf-8'>
 <title>ie,jquery,fancybox大结合</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: Optima;
+	color: #9EA8AF;
+}
+
+p {
+	color: #9EA8AF;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+}
+
+article {
+	width: 600px;
+}
+</style>
 </head>
-ie,jquery,fancybox大结合
-<p>该篇文章理论上是专门IE所做，因为FF和chrome根本没有这些问题，一切正常！在这里先鄙视一下IE各个版本(包括IE10)
+
+<body>
+<article>
+	<h1>ie,jquery,fancybox大结合</h1>
+	<div class="date">2011-06-02 11:06:14 &#43;0000 UTC</div>
+	<hr />
+	<p>该篇文章理论上是专门IE所做，因为FF和chrome根本没有这些问题，一切正常！在这里先鄙视一下IE各个版本(包括IE10)
 由于某种原因，我需要用到图片展示插件，几经测试，发现fancybox1.3.4最好用，但是，在IE下(所有版本)，fancyBOX和jquery1.6不兼容会导致IE即开即死，chrome和FF就正常，刚开始不知道的时候没有用IE测试一直以为很正常。后来换了JQUERY1.5.2才正常
 fancybox创建图片展示很简单，创建一个</p>
 
@@ -35,3 +79,7 @@ $(a[rel*=fancybox]).fancybox就可绑定所有的图片并且自动分组
 </pre></div>
 
 <p>这样就能兼容了，但是在IE下，对于gallery这个自定义控件，上述方法仍然报错！无奈只能用after添加在后面。</p>
+</article>
+</body>
+
+</html>
