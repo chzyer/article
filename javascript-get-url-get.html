@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">Javascript获得URL的GET参数</h1>
 	<div class="date">June 06, 2011</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<p>其实原理挺简单的，只是我之前都不知道JS能获得当前网址...</p>
 
 <div class="highlight"><pre><span class="c1">//取get变量的值 Val 为要取的变量名称</span>

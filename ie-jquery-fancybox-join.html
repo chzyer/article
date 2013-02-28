@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">ie,jquery,fancybox大结合</h1>
 	<div class="date">June 02, 2011</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<p>该篇文章理论上是专门IE所做，因为FF和chrome根本没有这些问题，一切正常！在这里先鄙视一下IE各个版本(包括IE10)
 由于某种原因，我需要用到图片展示插件，几经测试，发现fancybox1.3.4最好用，但是，在IE下(所有版本)，fancyBOX和jquery1.6不兼容会导致IE即开即死，chrome和FF就正常，刚开始不知道的时候没有用IE测试一直以为很正常。后来换了JQUERY1.5.2才正常
 fancybox创建图片展示很简单，创建一个</p>

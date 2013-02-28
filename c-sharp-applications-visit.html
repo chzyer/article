@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">C#不同线程的相互访问</h1>
 	<div class="date">July 27, 2011</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<p>本来是不想碰C#这蛋疼的家伙的.但没办法,项目中突然要我负责餐厅服务器,把我从东墙扔到了西墙.只好硬着头皮干了.<br>
 当前和中央服务器的连接还是采用socket的方式,要有像QQ一眼的在线状态判断功能.这也就意味这要定时向中央服务器发送心跳包~告诉他我还活着...<br>
 然后还要负责监听来自中央服务器的消息.监听就意味着单线程要处于堵塞状态(死循环,无法进行其他操作了),而且,发送心跳包的频率是每秒1次,监听则是1ms一次,所以就要采用多线程来解决.然后多线程中状态的互交是必须的.然而C#为了安全不同线程是不允许相互访问其内容的.然后便有了此文.  </p>

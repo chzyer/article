@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">windows下putty生成的rsa转成mac下的openssh</h1>
 	<div class="date">September 11, 2012</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<p>之前一直在windows下开发，现在换到mac，发现在windows下生成的<code>private key</code>无法使用，应该说不知道怎么用
 我在windows下是使用hg，然后通过pageant来载入key，载入之前要填写一次密码
 到了mac下之后，每个用户文件夹里面都有一个.ssh文件夹，将rsa添加进去就行了，terminal下输入

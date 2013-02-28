@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">python3就是个笑话..</h1>
 	<div class="date">June 23, 2011</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<p>昨天一口作气把服务器端的socket功能给做出来了.<br>
 本以为python再加上MYSQL不是什么难事...结果找了整整一天都没个着落.<br>
 MYSQLdb,mydbsql没一个能成功的,window,linux都弄不了.<br>

@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">关于js压缩</h1>
 	<div class="date">September 07, 2012</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<p>关于js压缩
 今天无聊， 突然想起来搞一个下载漫画的脚本， 毒手又伸向了imanhua.com
 我以前写过一个php版的， 其中他对js的加密对我影响不大， 我只要知道他包含漫画所有文件名list的那个文件名就行了

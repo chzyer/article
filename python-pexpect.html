@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">python命令行预处理实例[ssh远程连接]</h1>
 	<div class="date">February 14, 2012</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pexpect</span>
 <span class="n">ssh</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="s">'ssh localhost'</span><span class="p">)</span> <span class="c">#建立新线程,执行"通过ssh连接本地"</span>
 <span class="n">ssh</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="s">'.*password:'</span><span class="p">)</span> <span class="c">#正则匹配输入密码提示,匹配才继续执行</span>

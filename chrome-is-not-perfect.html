@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">Chrome还是有不足</h1>
 	<div class="date">June 21, 2011</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<p>首先,我第一次用Chrome记得还是高二的时候,版本号就忘了,那时候就发现一个BUG.<br>
 当你打开一个带弹窗的网页时,Chrome会把他屏蔽.这是个好功能吧?<br>
 嗯,实际上他并没有屏蔽,他只是把弹窗隐藏起来而已,在后台还是在加载那个网页的.<br>

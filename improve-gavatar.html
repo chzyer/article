@@ -54,7 +54,7 @@ h1 {
 
 article {
 	margin: 0 auto;
-	max-width: 800px;
+	width: 800px;
 }
 
 blockquote {
@@ -99,9 +99,12 @@ pre {
 
 <body>
 <article>
+	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">改进Gravatar头像的获取方法</h1>
 	<div class="date">June 05, 2011</div>
 	<hr />
+	</div>
+	<div style="clear:both"></div>
 	<p>今天调试主题的时候,Gravatar服务器真是不给力啊
 读取了快4-5秒才读完一个30*30的头像...
 貌似之前Gravatar是被墙了吧?我那时候还么真正弄WP,所以还不清楚.
