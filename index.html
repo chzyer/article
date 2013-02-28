@@ -177,4 +177,16 @@ li {
 <li><a href="/php-timezone.html">PHP时间时区问题</a></li>
 
 </body>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ! isMobile {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>')
+	window.onload = function() {
+		$("a").click(function() {
+			alert("dd")
+		})
+	}
+}
+</script>
 </html>

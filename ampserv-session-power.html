@@ -134,13 +134,11 @@ php_admin_value open_basedir "D:/Site/www/htdocs/fl_document/;D:/Site/tmp/upload
 </article>
 <script>
 var ua = window.navigator.userAgent
-if (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0) {
-	
-	alert("mobile")
-} else {
+var isMobile = ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ! isMobile {
 	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>')
 	window.onload = function() {
-		alert($)
+		
 	}
 }
 </script>

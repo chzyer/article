@@ -115,13 +115,11 @@ firefox下也有一个评分工具,叫YSlow,需要装插件,想了解点这里<b
 </article>
 <script>
 var ua = window.navigator.userAgent
-if (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0) {
-	
-	alert("mobile")
-} else {
+var isMobile = ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ! isMobile {
 	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>')
 	window.onload = function() {
-		alert($)
+		
 	}
 }
 </script>
