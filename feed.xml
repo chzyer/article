@@ -19,6 +19,7 @@
 		
 		<item>
 		<title>哪个快?</title>	
+		<pubDate>2013-02-28 11:27:24 +0800 CST</pubDate>
 		<link>http://chenye.org/which-fast.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>在处理一个问题, 用一个 <code>updated</code> 变量来表示是否进入了 for 循环</p>
@@ -72,6 +73,7 @@
 		
 		<item>
 		<title>golang并发编程 - 例子解析</title>	
+		<pubDate>2013-02-26 17:43:23 +0000 UTC</pubDate>
 		<link>http://chenye.org/goruntine-note.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<blockquote>
@@ -329,6 +331,7 @@
 		
 		<item>
 		<title>使用AndFree入门安卓开发</title>	
+		<pubDate>2013-01-18 21:48:01 +0000 UTC</pubDate>
 		<link>http://chenye.org/andfree-startup.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<blockquote>
@@ -1458,6 +1461,7 @@
 		
 		<item>
 		<title>装饰器和功能性python</title>	
+		<pubDate>2013-01-11 14:33:22 +0000 UTC</pubDate>
 		<link>http://chenye.org/decorators-and-functional-python.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>原文: <a href="http://www.brianholdefehr.com/decorators-and-functional-python">http://www.brianholdefehr.com/decorators-and-functional-python</a></p>
@@ -1611,6 +1615,7 @@
 		
 		<item>
 		<title>产品与项目</title>	
+		<pubDate>2013-01-03 15:30:00 +0000 UTC</pubDate>
 		<link>http://chenye.org/product-and-project.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这是个很泛的题目, 对于程序员来说, 这是个选择.</p>
@@ -1634,6 +1639,7 @@
 		
 		<item>
 		<title>关于Python的参数默认值</title>	
+		<pubDate>2012-11-07 16:06:45 +0000 UTC</pubDate>
 		<link>http://chenye.org/python-params-default-value.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>最近相继遇到几个python的坑...贴一段有意思的代码</p>
@@ -1668,6 +1674,7 @@
 		
 		<item>
 		<title>个人总结加吐糟</title>	
+		<pubDate>2012-10-21 16:35:23 +0000 UTC</pubDate>
 		<link>http://chenye.org/no-no-no.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>好久没写过生活的文章了，只是一直觉得自己闲不下来，技术的文章也只是草草得带过，可见这段时间过得一点都不闲暇。</p>
@@ -1687,6 +1694,7 @@
 		
 		<item>
 		<title>eclipse开发android下，提示Cannot connect to VM</title>	
+		<pubDate>2012-10-04 03:12:32 +0000 UTC</pubDate>
 		<link>http://chenye.org/solve-eclipse-android-cannot-connect-to-vm.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>先说起因，由于我在照搬网上hello world的时候不小心把main函数也抄进来了, 所以一直提示cannot connect to VM.</p>
@@ -1698,6 +1706,7 @@
 		
 		<item>
 		<title>windows下putty生成的rsa转成mac下的openssh</title>	
+		<pubDate>2012-09-11 02:05:00 +0000 UTC</pubDate>
 		<link>http://chenye.org/putty-key-to-openssh.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>之前一直在windows下开发，现在换到mac，发现在windows下生成的<code>private key</code>无法使用，应该说不知道怎么用
@@ -1729,6 +1738,7 @@ make
 		
 		<item>
 		<title>mac app store无法购买软件</title>	
+		<pubDate>2012-09-09 10:31:58 +0000 UTC</pubDate>
 		<link>http://chenye.org/mac-app-store-unable-buy.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>想买trine2但是当按下buy app的时候， 提示
@@ -1758,6 +1768,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>关于js压缩</title>	
+		<pubDate>2012-09-07 15:26:16 +0000 UTC</pubDate>
 		<link>http://chenye.org/about-js-compress.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>关于js压缩
@@ -1809,6 +1820,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>在校园网下建立wifi热点上网</title>	
+		<pubDate>2012-09-03 16:21:28 +0000 UTC</pubDate>
 		<link>http://chenye.org/create-wift-host-in-ruijie.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>首先, 交代一下背景<br>
@@ -1825,6 +1837,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>mac下安装python-mysql</title>	
+		<pubDate>2012-07-30 09:37:11 +0000 UTC</pubDate>
 		<link>http://chenye.org/install-python-mysql-in-mac.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>mac下安装mysql和ubuntu下不一样,所以有必要写一篇文章来记录下
@@ -1892,6 +1905,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>我的理想</title>	
+		<pubDate>2012-06-19 15:31:59 +0000 UTC</pubDate>
 		<link>http://chenye.org/my-dream.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>我记得小学的时候经常写这种题目,一年级的时候就写过,还记得那时候还什么都没想,也不知道做什么。
@@ -1925,6 +1939,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>谈计算机系的功利</title>	
+		<pubDate>2012-03-27 04:49:55 +0000 UTC</pubDate>
 		<link>http://chenye.org/talking-about-money-and-fame-in-ittech.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>以下均为吐糟，针对计算机系，有些事是最近才明理了,也只是针对我眼前所见，不具备代表性。
@@ -1950,6 +1965,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>Julia安装笔记 for Ubuntu</title>	
+		<pubDate>2012-03-02 08:29:55 +0000 UTC</pubDate>
 		<link>http://chenye.org/julia-install-notes.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>大部分教程在这里面有
@@ -1987,6 +2003,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>python命令行预处理实例[ssh远程连接]</title>	
+		<pubDate>2012-02-14 03:52:12 +0000 UTC</pubDate>
 		<link>http://chenye.org/python-pexpect.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pexpect</span>
@@ -1999,6 +2016,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>大学生涯 – 大二（上）</title>	
+		<pubDate>2012-02-09 17:17:28 +0000 UTC</pubDate>
 		<link>http://chenye.org/collage-ii-part-one.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>上篇说这篇要写大二的（耶，完美完成上下文相呼应）大二，经过暑假的经历让我对学校的事情避而远之，哥有时间，宁愿自己独自闯荡。要说拿的出手的东西，那就是灵敏短信了。</p>
@@ -2016,6 +2034,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>大学生涯 – 大一</title>	
+		<pubDate>2012-02-08 18:10:12 +0000 UTC</pubDate>
 		<link>http://chenye.org/collage-i.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>我已经可以感觉到我大学生涯的结束了，好吧，才过了一半。这一年半载（真的刚好是一年半载）这么一走过来，也算是有点收获。好吧，谈一谈我的大学生涯，一般来说后面没有什么事迹了，现在都脱离人事浮夸了。</p>
@@ -2040,6 +2059,7 @@ Switch to Console and look at the error message
 		
 		<item>
 		<title>decoder zip not available</title>	
+		<pubDate>2011-12-01 11:04:08 +0000 UTC</pubDate>
 		<link>http://chenye.org/decoder-zip-not-available.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这个问题困扰了我近1个月(当然中途对继续编码没多大影响就没去理他)<br>
@@ -2087,6 +2107,7 @@ your script directory will tell you what files Python are using:
 		
 		<item>
 		<title>让你像写代码般写css</title>	
+		<pubDate>2011-11-25 12:51:24 +0000 UTC</pubDate>
 		<link>http://chenye.org/write-css-with-lesscss.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>写惯了各种代码,到了css,你会不会觉得<code>copy</code>/<code>paste</code>的操作特别多呢?会不会发现一修改配色就要来一次"全部替换"?   </p>
@@ -2164,6 +2185,7 @@ your script directory will tell you what files Python are using:
 		
 		<item>
 		<title>提示command ‘gcc’ failed with exit status 1的解决方法</title>	
+		<pubDate>2011-11-04 04:30:45 +0000 UTC</pubDate>
 		<link>http://chenye.org/command-gcc-failed-with-exit-status-1.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>备忘
@@ -2182,6 +2204,7 @@ sudo apt-get install libevent-dev
 		
 		<item>
 		<title>电脑连接virtualBox虚拟机ubuntu server</title>	
+		<pubDate>2011-11-04 02:21:28 +0000 UTC</pubDate>
 		<link>http://chenye.org/ping-virtualbox-ubuntu-server.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p><code>virtualbox</code>默认配置是虚拟机能访问到物理机，而物理机没办法访问到虚拟机，要解决这个问题就要配置双网卡，
@@ -2210,6 +2233,7 @@ iface eth1 inet dhcp
 		
 		<item>
 		<title>ubuntu下配置tornado框架本地调试环境</title>	
+		<pubDate>2011-10-14 05:40:09 +0000 UTC</pubDate>
 		<link>http://chenye.org/ubuntu-tornado-debug.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这阵子花费了大概半个月做了一个M9平台的短信拦截软件，已经申请在魅族软件商城上架，今天魅族寄得合同今天已经收到，过几天再寄回去就能上架了。</p>
@@ -2277,6 +2301,7 @@ tornado里面有一些demo，有个blog的demo可以测试mysql成功了没有�
 		
 		<item>
 		<title>某页面在IE8下无法AJAX获取的问题</title>	
+		<pubDate>2011-09-21 08:31:05 +0000 UTC</pubDate>
 		<link>http://chenye.org/ajax-doesnot-work-at-ie8.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>最近在弄一个新皮，发现一个问题。
@@ -2297,6 +2322,7 @@ tornado里面有一些demo，有个blog的demo可以测试mysql成功了没有�
 		
 		<item>
 		<title>远程桌面被自动断开的解决方法</title>	
+		<pubDate>2011-09-19 11:54:03 +0000 UTC</pubDate>
 		<link>http://chenye.org/control-auto-offline.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>自上学期开始，这个问题一直困扰着我。在机房上课的时候，总要远程控制自己宿舍的电脑，干点不正经的事...
@@ -2314,6 +2340,7 @@ tornado里面有一些demo，有个blog的demo可以测试mysql成功了没有�
 		
 		<item>
 		<title>魅族,快让我的软件上架吧</title>	
+		<pubDate>2011-09-15 11:18:18 +0000 UTC</pubDate>
 		<link>http://chenye.org/my-software-update.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>还记得我说暑假仅剩的10天用来学android.手握M9,不做做看到时有点说不过去.其实我从高三那年就想帮手机做点小软件,可是苦于moto e6的系统是linux,MOTO不肯放出SDK,linux又不会,交叉编译啥啥都不会.就此作罢</p>
@@ -2327,6 +2354,7 @@ tornado里面有一些demo，有个blog的demo可以测试mysql成功了没有�
 		
 		<item>
 		<title>学校论坛升级心得</title>	
+		<pubDate>2011-09-12 14:57:04 +0000 UTC</pubDate>
 		<link>http://chenye.org/discuz-update.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>我接了一个学校论坛后台管理员的活，会接是因为认识上一届跟我说只要几天备份一次数据库就可以每月赚30，这等好事岂能不做…学校用的是discuz7.1,这个学期他们突然想升级到X2，当然只有我来做。  </p>
@@ -2338,6 +2366,7 @@ tornado里面有一些demo，有个blog的demo可以测试mysql成功了没有�
 		
 		<item>
 		<title>评论页面更新啦</title>	
+		<pubDate>2011-09-09 06:15:24 +0000 UTC</pubDate>
 		<link>http://chenye.org/comment-page-update.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>由于接触WP不久，WP的工作机制都还不清楚，只好照着twenty ten的模板一点一点改。
@@ -2372,6 +2401,7 @@ style.css添加</p>
 		
 		<item>
 		<title>无题</title>	
+		<pubDate>2011-09-07 11:37:49 +0000 UTC</pubDate>
 		<link>http://chenye.org/non-title.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>不知不觉我的网站已经很久没更新了，主要是没什么新发现，在广州做项目，刚开始是用python写socket服务器端，再用php写网页端和本地的socket连接，后来又写c#，感觉也是没什么好写，后来回到家，用暑假余下的10天来学android.然后就很忙了，开学回来又说学校论坛要升级，又忙了一阵，又是高校杯那项目还没完成，总归就是忙了。<br>
@@ -2382,6 +2412,7 @@ style.css添加</p>
 		
 		<item>
 		<title>做项目应该注意的事</title>	
+		<pubDate>2011-08-07 14:31:22 +0000 UTC</pubDate>
 		<link>http://chenye.org/what-to-do-in-project.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>往往项目最开始是写一些公用函数或类.最开始会感觉一整天忙下来没有什么进展,但要忍下来,公用函数写好了,接下来的进度就快了.<br>
@@ -2393,6 +2424,7 @@ style.css添加</p>
 		
 		<item>
 		<title>征服漫画网站(盗链+采集+优化阅读方式)</title>	
+		<pubDate>2011-07-31 14:04:31 +0000 UTC</pubDate>
 		<link>http://chenye.org/challenge-comic-website.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>最近突然喜欢看漫画,baidu一下,找到了www.imanhua.com这个网站,发现里面漫画挺多.还不错.但是蛋疼的事情就是太麻烦了.有兴趣的可以去体验下.<br>
@@ -2428,6 +2460,7 @@ chrome下完美通过...兼容性我就懒得顾及了,反正这是写给我自�
 		
 		<item>
 		<title>C#不同线程的相互访问</title>	
+		<pubDate>2011-07-27 16:10:11 +0000 UTC</pubDate>
 		<link>http://chenye.org/c-sharp-applications-visit.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>本来是不想碰C#这蛋疼的家伙的.但没办法,项目中突然要我负责餐厅服务器,把我从东墙扔到了西墙.只好硬着头皮干了.<br>
@@ -2469,6 +2502,7 @@ PS:其实我说了,我对C#不熟,代码是baidu(为什么不是google呢,因为
 		
 		<item>
 		<title>带来自动发天气预报给手机</title>	
+		<pubDate>2011-07-06 11:21:31 +0000 UTC</pubDate>
 		<link>http://chenye.org/seng-weather-aut.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>hi,guys,我貌似很久没来了,今天终于是放假了.当然这不意味着我没来的这段时间很忙,相反,我一直处于游魂状态...整天无所事事.两个星期的实训让我一天就给搞定了.然后闲闲的坐了两个星期.呵呵<br>
@@ -2512,6 +2546,7 @@ OK,废话不说,前几天老师跟我说PHP也可以用飞信发短信.这个功
 		
 		<item>
 		<title>关于自动获取新消息</title>	
+		<pubDate>2011-06-26 15:56:40 +0000 UTC</pubDate>
 		<link>http://chenye.org/read-message-auto.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这篇文章关系到前端和后台...本篇文章不涉及代码,只有思路..<br>
@@ -2535,6 +2570,7 @@ OK,刚才说到哪了.显示出有新消息,让用户去点击,节省的就是�
 		
 		<item>
 		<title>让手机通过学校的校园网上网并拨通L2TP宽带</title>	
+		<pubDate>2011-06-25 03:21:32 +0000 UTC</pubDate>
 		<link>http://chenye.org/mobile-goto-ruijie-and-l2tp.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这几天跟老师借了一个公家的无线路由器,提到无线路由器你们就知道我想干嘛了,让手机WLAN上网.<br>
@@ -2551,6 +2587,7 @@ OK,刚才说到哪了.显示出有新消息,让用户去点击,节省的就是�
 		
 		<item>
 		<title>一周有感</title>	
+		<pubDate>2011-06-24 16:05:58 +0000 UTC</pubDate>
 		<link>http://chenye.org/something-to-write-in-this-week.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这周过的真不是人过的生活...<br>
@@ -2568,6 +2605,7 @@ OK,刚才说到哪了.显示出有新消息,让用户去点击,节省的就是�
 		
 		<item>
 		<title>python3就是个笑话..</title>	
+		<pubDate>2011-06-23 14:44:39 +0000 UTC</pubDate>
 		<link>http://chenye.org/python3-is-a-joke.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>昨天一口作气把服务器端的socket功能给做出来了.<br>
@@ -2580,6 +2618,7 @@ Python3出到现在都1年多了,连个正规的连接MYSQL库都没有,你个�
 		
 		<item>
 		<title>开始学python</title>	
+		<pubDate>2011-06-22 12:24:57 +0000 UTC</pubDate>
 		<link>http://chenye.org/start-to-learn-python.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>基于python的强大,我开始尝试着python,<br>
@@ -2618,6 +2657,7 @@ PHP有非常神奇的魔术方法  </p>
 		
 		<item>
 		<title>Chrome还是有不足</title>	
+		<pubDate>2011-06-21 05:33:30 +0000 UTC</pubDate>
 		<link>http://chenye.org/chrome-is-not-perfect.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>首先,我第一次用Chrome记得还是高二的时候,版本号就忘了,那时候就发现一个BUG.<br>
@@ -2633,6 +2673,7 @@ chrome啊,这个小问题什么时候才能解决!!<br>
 		
 		<item>
 		<title>手机码文</title>	
+		<pubDate>2011-06-20 20:34:10 +0000 UTC</pubDate>
 		<link>http://chenye.org/type-by-m9.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>最近都没有时间回访各位博友了，抱歉抱歉，等我又有空一定会回访的.<br>
@@ -2641,6 +2682,7 @@ chrome啊,这个小问题什么时候才能解决!!<br>
 		
 		<item>
 		<title>坑了一天的爹啊</title>	
+		<pubDate>2011-06-19 12:42:27 +0000 UTC</pubDate>
 		<link>http://chenye.org/i-cant-translate.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>好歹今天是父亲节,标题就带一点父亲节的色彩吧~<br>
@@ -2658,6 +2700,7 @@ chrome啊,这个小问题什么时候才能解决!!<br>
 		
 		<item>
 		<title>裸考!!!!!</title>	
+		<pubDate>2011-06-18 07:03:23 +0000 UTC</pubDate>
 		<link>http://chenye.org/have-an-exam-without-anything.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>今天是一年两度的英语四级考试.<br>
@@ -2675,6 +2718,7 @@ chrome啊,这个小问题什么时候才能解决!!<br>
 		
 		<item>
 		<title>月食</title>	
+		<pubDate>2011-06-16 07:51:51 +0000 UTC</pubDate>
 		<link>http://chenye.org/moon-eat.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>听说昨晚是月食之夜,大概在凌晨4点开始看到,只是我12点就睡了,没办法证实是否发生过<br>
@@ -2683,6 +2727,7 @@ chrome啊,这个小问题什么时候才能解决!!<br>
 		
 		<item>
 		<title>不该揪着前端不放了</title>	
+		<pubDate>2011-06-15 03:53:55 +0000 UTC</pubDate>
 		<link>http://chenye.org/about-web-design.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>按照时间发展顺序我是先学网页后台,一直都不亦乐乎,<br>
@@ -2700,6 +2745,7 @@ PHP框架还是用Codeigniter方便,再了解一下WebService、Socket...毕竟�
 		
 		<item>
 		<title>玩机</title>	
+		<pubDate>2011-06-14 22:55:48 +0000 UTC</pubDate>
 		<link>http://chenye.org/playin.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这是我第一篇标题是两个字的文章了.<br>
@@ -2720,6 +2766,7 @@ PHP框架还是用Codeigniter方便,再了解一下WebService、Socket...毕竟�
 		
 		<item>
 		<title>又该发文章了</title>	
+		<pubDate>2011-06-13 21:53:46 +0000 UTC</pubDate>
 		<link>http://chenye.org/need-a-article-to.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>嗯,昨天经历了第一次一天里面都没发文章.,<br>
@@ -2734,6 +2781,7 @@ PHP框架还是用Codeigniter方便,再了解一下WebService、Socket...毕竟�
 		
 		<item>
 		<title>Email留言插件发布</title>	
+		<pubDate>2011-06-11 08:14:20 +0000 UTC</pubDate>
 		<link>http://chenye.org/email-comment.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>关于该插件:<br>
@@ -2763,6 +2811,7 @@ status=2说明这个账号在你排除用这种方式登录的id号列表里面.
 		
 		<item>
 		<title>防止垃圾留言的思路</title>	
+		<pubDate>2011-06-10 05:22:40 +0000 UTC</pubDate>
 		<link>http://chenye.org/a-new-idea-for-prevent-rubbish.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>应该很多人遇到过鸟文的垃圾评论吧~
@@ -2788,6 +2837,7 @@ status=2说明这个账号在你排除用这种方式登录的id号列表里面.
 		
 		<item>
 		<title>评论部分小改造</title>	
+		<pubDate>2011-06-09 17:27:09 +0000 UTC</pubDate>
 		<link>http://chenye.org/small-develop-comment.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>标题又是七个字?!<br>
@@ -2807,6 +2857,7 @@ JS直接判断滚动条达到最低层的某个区域就将评论框拉到最下
 		
 		<item>
 		<title>textarea根据内容自适应高度</title>	
+		<pubDate>2011-06-09 09:55:41 +0000 UTC</pubDate>
 		<link>http://chenye.org/textarea-auto-height.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>好久没发技术文了,这次发一个伪技术文吧<br>
@@ -2835,6 +2886,7 @@ JS直接判断滚动条达到最低层的某个区域就将评论框拉到最下
 		
 		<item>
 		<title>话说我也考试了</title>	
+		<pubDate>2011-06-08 02:16:30 +0000 UTC</pubDate>
 		<link>http://chenye.org/have-a-exam.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>昨天高三高考,今天轮到我期末考.难道这个星期就是传说中的黑色恶魔考试周?<br>
@@ -2852,6 +2904,7 @@ JS直接判断滚动条达到最低层的某个区域就将评论框拉到最下
 		
 		<item>
 		<title>又是一年难过时</title>	
+		<pubDate>2011-06-07 10:20:39 +0000 UTC</pubDate>
 		<link>http://chenye.org/the-time-headly-to-gone-per-year.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>一年当中,今天就属高三生最难过<br>
@@ -2870,6 +2923,7 @@ JS直接判断滚动条达到最低层的某个区域就将评论框拉到最下
 		
 		<item>
 		<title>测试你的网页速度</title>	
+		<pubDate>2011-06-06 18:31:53 +0000 UTC</pubDate>
 		<link>http://chenye.org/text-your-page-speed.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>想知道你对网页的优化程度怎样吗?直接的效果就是网页速度!<br>
@@ -2885,6 +2939,7 @@ firefox下也有一个评分工具,叫YSlow,需要装插件,想了解点这里<b
 		
 		<item>
 		<title>该写一篇新文章</title>	
+		<pubDate>2011-06-06 04:19:40 +0000 UTC</pubDate>
 		<link>http://chenye.org/it-need-to-write-a-article.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>今天把我前两天赶的新主题给放来了~<br>
@@ -2919,6 +2974,7 @@ rhythm本身带有节奏的韵味,而我的主题看起来像是参差不齐,木
 		
 		<item>
 		<title>cookie session失效的情况下身份验证方法</title>	
+		<pubDate>2011-06-06 03:34:59 +0000 UTC</pubDate>
 		<link>http://chenye.org/how-to-do-when-cookie-invalid.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>好吧,session和cookie是网站常用的身份验证方法。但是有一天他失效了，该怎么办
@@ -2962,6 +3018,7 @@ uploadify是一个用户界面端的一个异步上传插件,JQUERY和FLASH结�
 		
 		<item>
 		<title>Javascript获得URL的GET参数</title>	
+		<pubDate>2011-06-06 03:17:23 +0000 UTC</pubDate>
 		<link>http://chenye.org/javascript-get-url-get.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>其实原理挺简单的，只是我之前都不知道JS能获得当前网址...</p>
@@ -3002,6 +3059,7 @@ javascript中用于转码的函数有三个，但是各有区别
 		
 		<item>
 		<title>改进Gravatar头像的获取方法</title>	
+		<pubDate>2011-06-05 07:54:18 +0000 UTC</pubDate>
 		<link>http://chenye.org/improve-gavatar.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>今天调试主题的时候,Gravatar服务器真是不给力啊
@@ -3086,6 +3144,7 @@ getgravatar
 		
 		<item>
 		<title>话说,我在傲游下悲剧了</title>	
+		<pubDate>2011-06-03 10:11:11 +0000 UTC</pubDate>
 		<link>http://chenye.org/cup-in-maxthon.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这几天突然发现,原来我在傲游的IE模式下,整个网站变得面目全非
@@ -3102,6 +3161,7 @@ getgravatar
 		
 		<item>
 		<title>ie,jquery,fancybox大结合</title>	
+		<pubDate>2011-06-02 11:06:14 +0000 UTC</pubDate>
 		<link>http://chenye.org/ie-jquery-fancybox-join.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>该篇文章理论上是专门IE所做，因为FF和chrome根本没有这些问题，一切正常！在这里先鄙视一下IE各个版本(包括IE10)
@@ -3139,6 +3199,7 @@ $(a[rel*=fancybox]).fancybox就可绑定所有的图片并且自动分组
 		
 		<item>
 		<title>字体的兼容性</title>	
+		<pubDate>2011-06-02 00:31:32 +0000 UTC</pubDate>
 		<link>http://chenye.org/fonts-compatible.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>经测试，在chrome下最小的字体是12px，而IE下没有这个限制，所以如果把字体设为低于12px的话，会照成浏览器不兼容的现象...
@@ -3157,6 +3218,7 @@ $(a[rel*=fancybox]).fancybox就可绑定所有的图片并且自动分组
 		
 		<item>
 		<title>有人回复时邮件通知我</title>	
+		<pubDate>2011-05-31 05:29:47 +0000 UTC</pubDate>
 		<link>http://chenye.org/mail-when-reply.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>继ctrl+enter之后的又一个博客必备功能
@@ -3186,6 +3248,7 @@ localhost端邮局检测到chenye.org的邮箱是绑定在他那里的，但是�
 		
 		<item>
 		<title>谈ctrl+enter提交那些事</title>	
+		<pubDate>2011-05-30 20:52:37 +0000 UTC</pubDate>
 		<link>http://chenye.org/talking-about-ctrl-enter.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>最近逛了很多博客，发现都有Ctrl+Enter提交评论功能...你也有吧？
@@ -3214,6 +3277,7 @@ localhost端邮局检测到chenye.org的邮箱是绑定在他那里的，但是�
 		
 		<item>
 		<title>呃…网页打开速度的研究</title>	
+		<pubDate>2011-05-30 12:53:07 +0000 UTC</pubDate>
 		<link>http://chenye.org/open-speed-study.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>观点：如果加载JS,CSS文件过多，会拖慢网页打开的速度</p>
@@ -3227,6 +3291,7 @@ localhost端邮局检测到chenye.org的邮箱是绑定在他那里的，但是�
 		
 		<item>
 		<title>关于TAGS的自动提取</title>	
+		<pubDate>2011-05-28 17:13:22 +0000 UTC</pubDate>
 		<link>http://chenye.org/pick-up-tags-auto.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>以前用过DISCUZ，对他里面的自动获取TAGS(关键词)表示有点神奇，难道他是通过语法来匹配的吗？我感觉不太可能，可能是我对中文的语法不熟悉吧(English too)，或许别人可行，细心的盆友会发现,在Chrome下,双击汉字会自动选中一个词哦~比如刚才那句话,你在"汉字"中间处或者"汉"上面和"字"上面点击,都会自动选中"汉字"姑且作为一种方案的,而"会"字无论你在哪点都只会选中"会".这个功能在IE下可是没有的,不信去试试~
@@ -3244,6 +3309,7 @@ wordpress貌似没有自动获取标签的功能~有没有插件我就不清楚�
 		
 		<item>
 		<title>PHP字符串截取-正则版</title>	
+		<pubDate>2011-05-28 10:58:23 +0000 UTC</pubDate>
 		<link>http://chenye.org/php-substr-preg.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>网页编码有多种...
@@ -3272,6 +3338,7 @@ PS：一个UTF8字符占用3个字符...用strlen时显示的数目是预期值�
 		
 		<item>
 		<title>网页编程的一些建议</title>	
+		<pubDate>2011-05-28 09:27:18 +0000 UTC</pubDate>
 		<link>http://chenye.org/advise-for-web-programme.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>以下是我总结最近用到的一些工具，仅仅建议，因为我就是这样做的:</p>
@@ -3293,6 +3360,7 @@ PS：一个UTF8字符占用3个字符...用strlen时显示的数目是预期值�
 		
 		<item>
 		<title>解决一个使用AMPServ建立虚拟主机的session权限问题</title>	
+		<pubDate>2011-05-28 08:50:15 +0000 UTC</pubDate>
 		<link>http://chenye.org/ampserv-session-power.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>面对一个电脑上的多个网页,建立虚拟主机是一个很好的归类方法
@@ -3327,6 +3395,7 @@ php_admin_value open_basedir "D:/Site/www/htdocs/fl_document/;D:/Site/tmp/upload
 		
 		<item>
 		<title>网页设计大赛-前奏</title>	
+		<pubDate>2011-05-28 08:46:48 +0000 UTC</pubDate>
 		<link>http://chenye.org/before-website-design-games.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这个是比赛作品的投票网站的banner</p>
@@ -3344,6 +3413,7 @@ php_admin_value open_basedir "D:/Site/www/htdocs/fl_document/;D:/Site/tmp/upload
 		
 		<item>
 		<title>用JQuery执行JS代码</title>	
+		<pubDate>2011-05-28 08:39:18 +0000 UTC</pubDate>
 		<link>http://chenye.org/jquery-exec-jscode.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>JQ全名jquery,一个javascript的框架.
@@ -3357,6 +3427,7 @@ JQ内部集成了一个可以执行文本形式的JS代码,但是没有在API中
 		
 		<item>
 		<title>Uploadify即开即用DEMO</title>	
+		<pubDate>2011-05-08 17:46:10 +0000 UTC</pubDate>
 		<link>http://chenye.org/uploadify-simpledemo.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>在网上找了很久都没有找到可以现套现用的DEMO,官方提供下载的ZIP里面却没有示例,无奈,只能从官网上找到DEMO,一步一步精简</p>
@@ -3426,6 +3497,7 @@ JQ内部集成了一个可以执行文本形式的JS代码,但是没有在API中
 		
 		<item>
 		<title>PHP的检查文件存在问题</title>	
+		<pubDate>2011-05-08 17:45:27 +0000 UTC</pubDate>
 		<link>http://chenye.org/php-files-exists.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>这个问题确实折腾了我近一个小时,有必要说一说,以免以后忘了。健忘啊健忘</p>
@@ -3445,6 +3517,7 @@ JQ内部集成了一个可以执行文本形式的JS代码,但是没有在API中
 		
 		<item>
 		<title>关于Javascript的return false;</title>	
+		<pubDate>2011-05-08 09:44:33 +0000 UTC</pubDate>
 		<link>http://chenye.org/js-return-false.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>由于时间紧急，先进入重点</p>
@@ -3456,6 +3529,7 @@ JQ内部集成了一个可以执行文本形式的JS代码,但是没有在API中
 		
 		<item>
 		<title>Codeigniter的模板函数</title>	
+		<pubDate>2011-05-04 15:59:26 +0000 UTC</pubDate>
 		<link>http://chenye.org/codeigniter-template.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>写策划写数据库结构写公共类写了一天，codeigniter的框架总体还不错，只是没有把htm代码和php代码分开是一大失误，框架类产品本身的价值在于统一了格式，方便统一代码而适合多人合作写代码，而php代码与htm代码分开则避免网页美工和后台程序代码堆在一起，有利于他人修改和阅读，discuz就是采用这种模式，如果要分开，必须实现htm文件能执行php代码，看上去是不可能，但其实很简单，于是，我为codeigniter写了一个template函数，思路为，先读取模板文件(htm)的内容，存入变量，用正则将特定格式的代码替换成真正的php代码，并另存为php代码文件并include进来，就是说，把我们原本应该亲手做的事推给代码做，我们只需写html代码，这个函数已写完!当然，此思路参考自discuz,哈哈­</p>
@@ -3531,6 +3605,7 @@ JQ内部集成了一个可以执行文本形式的JS代码,但是没有在API中
 		
 		<item>
 		<title>PHP中JSON使用的方法</title>	
+		<pubDate>2011-04-26 14:13:23 +0000 UTC</pubDate>
 		<link>http://chenye.org/php-how-to-use-json.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>话说JSON真是无处不在啊，AS3用他，JS用他，PHP也可以用他，所以说，掌握JSON还是有必要的</p>
@@ -3560,6 +3635,7 @@ JQ内部集成了一个可以执行文本形式的JS代码,但是没有在API中
 		
 		<item>
 		<title>PHP时间时区问题</title>	
+		<pubDate>2011-04-26 13:28:13 +0000 UTC</pubDate>
 		<link>http://chenye.org/php-timezone.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>用<code>time()</code>获取系统时间的时候，又会有发现有时候和电脑的时间相差8小时呢？其实这个是时区设置的问题</p>
