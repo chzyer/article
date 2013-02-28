@@ -65,13 +65,13 @@ p code {
 
 pre {
 	margin-left: 8px;
+	overflow-y: auto;
+	overflow-x: none;
+	background: #1e1e1e;
+	padding: 8px;
 }
 
-pre code {
-	border: none;
-}
-
-.highlight {
+.highlight pre{
 	border: 1px solid #112933;
 	background: #1D1D1D;
 	background: #0D2129;
@@ -154,13 +154,13 @@ pre code {
 
 <p>书中的 <code>cgrep1</code> 就是这样的</p>
 
-<pre><code>func awaitCompletion(done &lt;-chan struct{}, results chan Result) {
-    for i := 0; i &lt; workers; i++ {
-        &lt;-done
-    }
-    close(results)
-}
-</code></pre>
+<div class="highlight"><pre><span class="k">func</span> <span class="n">awaitCompletion</span><span class="p">(</span><span class="n">done</span> <span class="p">&lt;-</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{},</span> <span class="n">results</span> <span class="k">chan</span> <span class="n">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">workers</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+        <span class="p">&lt;-</span><span class="n">done</span>
+    <span class="p">}</span>
+    <span class="nb">close</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
 
 <p>但是这样有可能造成死锁, 因为书中 <code>results</code> 缓冲区长度限定为最大1000个, 也就是超过1000个 result 的时候再打算写入 result 会等待取出 result 后才执行, done 也不会写入, 而 <code>awaitCompletion</code> 是等到所有 goruntine 都完成了才会取出 <code>results</code>, 而且当 <code>result</code> 非常大的时候因为内存的缘故也是不可能一次性取出的. 所以就需要在读取 <code>results</code> 的同时读取 <code>done</code>, 当读取 <code>done</code> 次数大于 N 后关闭 <code>results</code>, 所以, 因为要在多个 channel 中同时读取, 所以需要使用 <code>select</code>.</p>
 
@@ -224,9 +224,7 @@ pre code {
 
 <p>我把写入和读取想当然认为一起发生了, 因为有缓冲区的缘故, doJobs在发送进 <code>results</code> 的缓冲区之后就立刻发送 <code>done</code> 了, 但是写入的数据有没有被处理, 是不知道的, 所以在接收到所有 <code>done</code> 之后, <code>results</code> 缓冲区还有数据, 需要再循环一遍.</p>
 
-<p>——</p>
-
-<p>附我的代码一份:</p>
+<hr><p>附我的代码一份:</p>
 
 <div class="highlight"><pre><span class="k">package</span> <span class="n">main</span>
 <span class="k">import</span> <span class="p">(</span>
