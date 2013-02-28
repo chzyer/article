@@ -179,14 +179,18 @@ li {
 </body>
 <script>
 var ua = window.navigator.userAgent
+onLoad = function() {
+	if (ua.indexOf("Safari")) {
+		return
+	}
+	$("a").click(function(){
+		$("body").fadeOut()
+	})
+}
 var isMobile = ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0
 if ( ! isMobile) {
 	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>')
-	window.onload = function() {
-		$("a").click(function() {
-			$("a").fadeOut()
-		})
-	}
+	window.onload = onLoad
 }
 </script>
 </html>
