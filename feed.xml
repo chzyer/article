@@ -8,7 +8,7 @@
 	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
 	>
 <channel>
-	<title>陈冶 - Feed</title>
+	<title>陈冶</title>
 	<atom:link href="http://chenye.org/feed.xml" rel="self" type="application/rss+xml" />
 	<link>chenye.org</link>
 	<description>陈冶 - 一个自以为是的人在意淫</description>
