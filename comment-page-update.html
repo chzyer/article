@@ -99,12 +99,9 @@ pre {
 
 <body>
 <article>
-	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">评论页面更新啦</h1>
 	<div class="date">September 09, 2011</div>
 	<hr />
-	</div>
-	<div style="clear:both"></div>
 	<p>由于接触WP不久，WP的工作机制都还不清楚，只好照着twenty ten的模板一点一点改。
 他在子评论这里是通过添加<code>&lt;li class="chindren"&gt;&lt;/li&gt;</code>将子评论<code>marginRight</code>，但我的HTML模板是通过左边添加一个DIV，宽度决定子评论的级数。
 简单地说，就是twenty ten的排版方式不适于我。本来想自己写评论的读取的，但是感觉挺麻烦的，就用现成的wp_list_comments这个函数。

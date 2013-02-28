@@ -99,12 +99,9 @@ pre {
 
 <body>
 <article>
-	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">字体的兼容性</h1>
 	<div class="date">June 02, 2011</div>
 	<hr />
-	</div>
-	<div style="clear:both"></div>
 	<p>经测试，在chrome下最小的字体是12px，而IE下没有这个限制，所以如果把字体设为低于12px的话，会照成浏览器不兼容的现象...
 中文(雅黑字体)在11px显示已经不成样了(1920*1080分辨率)，但英文的底线还可以到10px
 我们可以在body标签内加上webkit特有的 <code>-webkit-text-size-adjust:none;</code>

@@ -99,12 +99,9 @@ pre {
 
 <body>
 <article>
-	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">PHP时间时区问题</h1>
 	<div class="date">April 26, 2011</div>
 	<hr />
-	</div>
-	<div style="clear:both"></div>
 	<p>用<code>time()</code>获取系统时间的时候，又会有发现有时候和电脑的时间相差8小时呢？其实这个是时区设置的问题</p>
 
 <div class="highlight"><pre><span class="nx">date_default_timezone_set</span><span class="p">(</span><span class="s1">'PRC'</span><span class="p">);</span>

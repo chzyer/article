@@ -99,12 +99,9 @@ pre {
 
 <body>
 <article>
-	<div style="position:fixed;width: inherit;background: #1A1A1A;">
 	<h1 class="title">电脑连接virtualBox虚拟机ubuntu server</h1>
 	<div class="date">November 04, 2011</div>
 	<hr />
-	</div>
-	<div style="clear:both"></div>
 	<p><code>virtualbox</code>默认配置是虚拟机能访问到物理机，而物理机没办法访问到虚拟机，要解决这个问题就要配置双网卡，
 选择网卡2，设置为<code>host-only</code>
 进入<code>ubuntu</code>，首先，第二块网卡的连接名是<code>eth1</code>，目前还没有连接，特征是<code>ifconfig</code>里面看不到，而如果加上-a参数就能看得到eth1但没有IP地址。
