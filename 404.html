@@ -7,7 +7,11 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 if (location.href.indexOf("/article/") > 0) {
-	var key = location.href.substring(location.href.indexOf("/article/"), location.href.lastIndexOf("/"))
+	href = location.href
+	if (href[href.length - 1] != '/') {
+		href += "/"
+	}
+	var key = href.substring(href.indexOf("/article/"), href.lastIndexOf("/"))
 	alert(key)
 	exit()
 }
