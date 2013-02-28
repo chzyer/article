@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>谈ctrl&#43;enter提交那些事</h1>
+	<h1 class="title">谈ctrl&#43;enter提交那些事</h1>
 	<div class="date">May 30, 2011</div>
 	<hr />
 	<p>最近逛了很多博客，发现都有Ctrl+Enter提交评论功能...你也有吧？

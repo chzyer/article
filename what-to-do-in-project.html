@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>做项目应该注意的事</h1>
+	<h1 class="title">做项目应该注意的事</h1>
 	<div class="date">August 07, 2011</div>
 	<hr />
 	<p>往往项目最开始是写一些公用函数或类.最开始会感觉一整天忙下来没有什么进展,但要忍下来,公用函数写好了,接下来的进度就快了.<br>

@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>C#不同线程的相互访问</h1>
+	<h1 class="title">C#不同线程的相互访问</h1>
 	<div class="date">July 27, 2011</div>
 	<hr />
 	<p>本来是不想碰C#这蛋疼的家伙的.但没办法,项目中突然要我负责餐厅服务器,把我从东墙扔到了西墙.只好硬着头皮干了.<br>

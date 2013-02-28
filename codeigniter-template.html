@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>Codeigniter的模板函数</h1>
+	<h1 class="title">Codeigniter的模板函数</h1>
 	<div class="date">May 04, 2011</div>
 	<hr />
 	<p>写策划写数据库结构写公共类写了一天，codeigniter的框架总体还不错，只是没有把htm代码和php代码分开是一大失误，框架类产品本身的价值在于统一了格式，方便统一代码而适合多人合作写代码，而php代码与htm代码分开则避免网页美工和后台程序代码堆在一起，有利于他人修改和阅读，discuz就是采用这种模式，如果要分开，必须实现htm文件能执行php代码，看上去是不可能，但其实很简单，于是，我为codeigniter写了一个template函数，思路为，先读取模板文件(htm)的内容，存入变量，用正则将特定格式的代码替换成真正的php代码，并另存为php代码文件并include进来，就是说，把我们原本应该亲手做的事推给代码做，我们只需写html代码，这个函数已写完!当然，此思路参考自discuz,哈哈­</p>

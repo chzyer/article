@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>python命令行预处理实例[ssh远程连接]</h1>
+	<h1 class="title">python命令行预处理实例[ssh远程连接]</h1>
 	<div class="date">February 14, 2012</div>
 	<hr />
 	<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pexpect</span>

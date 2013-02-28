@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>cookie session失效的情况下身份验证方法</h1>
+	<h1 class="title">cookie session失效的情况下身份验证方法</h1>
 	<div class="date">June 06, 2011</div>
 	<hr />
 	<p>好吧,session和cookie是网站常用的身份验证方法。但是有一天他失效了，该怎么办

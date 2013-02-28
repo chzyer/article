@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>字体的兼容性</h1>
+	<h1 class="title">字体的兼容性</h1>
 	<div class="date">June 02, 2011</div>
 	<hr />
 	<p>经测试，在chrome下最小的字体是12px，而IE下没有这个限制，所以如果把字体设为低于12px的话，会照成浏览器不兼容的现象...

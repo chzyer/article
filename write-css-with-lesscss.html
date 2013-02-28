@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>让你像写代码般写css</h1>
+	<h1 class="title">让你像写代码般写css</h1>
 	<div class="date">November 25, 2011</div>
 	<hr />
 	<p>写惯了各种代码,到了css,你会不会觉得<code>copy</code>/<code>paste</code>的操作特别多呢?会不会发现一修改配色就要来一次"全部替换"?   </p>

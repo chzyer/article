@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>有人回复时邮件通知我</h1>
+	<h1 class="title">有人回复时邮件通知我</h1>
 	<div class="date">May 31, 2011</div>
 	<hr />
 	<p>继ctrl+enter之后的又一个博客必备功能

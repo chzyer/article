@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>某页面在IE8下无法AJAX获取的问题</h1>
+	<h1 class="title">某页面在IE8下无法AJAX获取的问题</h1>
 	<div class="date">September 21, 2011</div>
 	<hr />
 	<p>最近在弄一个新皮，发现一个问题。

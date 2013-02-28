@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>PHP中JSON使用的方法</h1>
+	<h1 class="title">PHP中JSON使用的方法</h1>
 	<div class="date">April 26, 2011</div>
 	<hr />
 	<p>话说JSON真是无处不在啊，AS3用他，JS用他，PHP也可以用他，所以说，掌握JSON还是有必要的</p>

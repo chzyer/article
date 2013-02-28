@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>呃…网页打开速度的研究</h1>
+	<h1 class="title">呃…网页打开速度的研究</h1>
 	<div class="date">May 30, 2011</div>
 	<hr />
 	<p>观点：如果加载JS,CSS文件过多，会拖慢网页打开的速度</p>

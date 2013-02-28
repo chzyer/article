@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>PHP时间时区问题</h1>
+	<h1 class="title">PHP时间时区问题</h1>
 	<div class="date">April 26, 2011</div>
 	<hr />
 	<p>用<code>time()</code>获取系统时间的时候，又会有发现有时候和电脑的时间相差8小时呢？其实这个是时区设置的问题</p>

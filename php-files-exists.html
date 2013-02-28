@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>PHP的检查文件存在问题</h1>
+	<h1 class="title">PHP的检查文件存在问题</h1>
 	<div class="date">May 08, 2011</div>
 	<hr />
 	<p>这个问题确实折腾了我近一个小时,有必要说一说,以免以后忘了。健忘啊健忘</p>

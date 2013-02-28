@@ -12,6 +12,7 @@ body, html {
 
 a {
 	color: #dddddd;
+	overflow:ellipsis;
 }
 
 p {
@@ -28,6 +29,11 @@ hr {
 	border-right: none;
 	border-left: none;
 	padding: 0px;
+}
+
+.title {
+	padding-top: 20px;
+	font-weight: 200;
 }
 
 .date {
@@ -92,7 +98,7 @@ pre {
 
 <body>
 <article>
-	<h1>改进Gravatar头像的获取方法</h1>
+	<h1 class="title">改进Gravatar头像的获取方法</h1>
 	<div class="date">June 05, 2011</div>
 	<hr />
 	<p>今天调试主题的时候,Gravatar服务器真是不给力啊
