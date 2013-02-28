@@ -150,8 +150,13 @@ pre {
 <p>下面的应该就不难了， 还有一个地方会被忽略的就是不能使用单纯的replace去替换， 因为有可能替换进去的字符串又含有数字，但我们已经不想要再替换了， 所以我暂时的办法是通过字符便利来实现替换</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

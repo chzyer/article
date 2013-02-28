@@ -116,8 +116,13 @@ pre {
 互联网的2012即将到来.到时白名单一出,我这博客一关,2012就到来了..  </p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

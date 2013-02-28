@@ -107,8 +107,13 @@ pre {
 但我早上起来,能肯定昨晚确实发生过月食..因为月亮不见了..</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

@@ -118,8 +118,13 @@ pre {
 <p>对于今后，我打算现在广州发展一年看看吧，本来是打算回汕头，后来一想，不对啊，出来读书，平时也是宅宿舍，就这样回去了，那不是跟没出来一样，况且汕头要找我中意的公司是比较难的，自己也没什么门路，所以不如在广州游荡一番，开开眼界。我还是挺想多认识一些牛båi哄哄的人的^_^</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

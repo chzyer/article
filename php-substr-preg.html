@@ -127,8 +127,13 @@ PS：一个UTF8字符占用3个字符...用strlen时显示的数目是预期值�
 还有,一般我使用的是用  "//"(不包含括号)来讲正则表达式包含起来,而这里是用##,并且不能改成//,我猜这是使用 <code>[x00-x7F]|[xC0-xFF][x80-xBF]</code> 这些匹配符有关吧.具体也说不出有什么名堂.因为今天又要用到这个函数,所以...就来补充一下</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

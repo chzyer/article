@@ -136,8 +136,13 @@ pre {
 <p>这是因为readline没有正确安装的缘故.改回0让julia自己下载安装就行.</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

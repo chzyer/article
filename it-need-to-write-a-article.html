@@ -133,8 +133,13 @@ rhythm本身带有节奏的韵味,而我的主题看起来像是参差不齐,木
 哈哈哈~垃圾留言休想骚扰有技术的站长~  </p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

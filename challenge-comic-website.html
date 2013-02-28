@@ -134,8 +134,13 @@ chrome下完美通过...兼容性我就懒得顾及了,反正这是写给我自�
 虽然本文某网址出现的频率颇高...但这不是软文....</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

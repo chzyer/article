@@ -142,8 +142,13 @@ uploadify是一个用户界面端的一个异步上传插件,JQUERY和FLASH结�
 <p>好吧，思路到此，可以开工了</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

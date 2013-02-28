@@ -119,8 +119,13 @@ pre {
 最近对WP做的事,无,过几天吧发布文章同步到微博的插件共享出来吧.这次就简单了.无须手工操作,打个勾勾,授下权就OK了.  </p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

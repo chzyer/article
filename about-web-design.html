@@ -116,8 +116,13 @@ PHP框架还是用Codeigniter方便,再了解一下WebService、Socket...毕竟�
 等下研究看看MSN咋样~哈哈  </p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

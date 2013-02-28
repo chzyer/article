@@ -133,8 +133,13 @@ php_admin_value open_basedir "D:/Site/www/htdocs/fl_document/;D:/Site/tmp/upload
 </pre></div>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

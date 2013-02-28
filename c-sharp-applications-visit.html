@@ -140,8 +140,13 @@ PS:其实我说了,我对C#不熟,代码是baidu(为什么不是google呢,因为
 哎,这就是码农的悲哀.竟然硬把我拉去写C#...</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

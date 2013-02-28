@@ -137,8 +137,13 @@ PHP有非常神奇的魔术方法  </p>
 第一个练手的作品就从socket开始吧,这也是我学python的直接原因.动工...  </p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

@@ -118,8 +118,13 @@ pre {
 <p>如果fopen($path,"a")的话就能返回真了了,但是这个的意思是,如果检查文件是否存在,不存在就尝试创建新文件...</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

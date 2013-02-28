@@ -128,8 +128,13 @@ status=2说明这个账号在你排除用这种方式登录的id号列表里面.
 总的来说使用我这个插件还是不难的,关键在于将这个插件加入到你设想的布局当中.这就要涉及到JSON的处理,用JQ动态创建控件,AJAX的熟悉程度.好了各位~动工吧~~~</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 

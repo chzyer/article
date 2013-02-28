@@ -112,8 +112,13 @@ pre {
 浏览器读取网页时是先读取目标文件，然后解析，这时候页面已经显示出来了，此时按照源代码里面指向的JS或CSS或图片文件，再一个一个下载执行。</p>
 </article>
 <script>
-console.log(window.navigator.userAgent)
-alert(window.navigator.userAgent)
+var ua = window.navigator.userAgent
+if ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0 {
+	
+	alert("mobile")
+} else {
+	
+}
 </script>
 </body>
 
