@@ -2084,8 +2084,8 @@ script. Running the following command in your PIL build directory and
 your script directory will tell you what files Python are using:
 </code></pre>
 
-<pre><code>python -c "import _imaging; print _imaging.__file__"
-</code></pre>
+<div class="highlight"><pre>python -c <span class="s2">"import _imaging; print _imaging.__file__"</span>
+</pre></div>
 
 <p>上面的鸟文看不懂?没事,执行最下面的一行就行了.
 得到路径...</p>
@@ -2100,8 +2100,8 @@ your script directory will tell you what files Python are using:
 
 <p>这下就知道了...</p>
 
-<pre><code>sudo nano /usr/local/lib/python2.7/dist-packages/pil.pth
-</code></pre>
+<div class="highlight"><pre>sudo nano /usr/local/lib/python2.7/dist-packages/pil.pth
+</pre></div>
 
 <p>修改Image类的位置,在另起一行加上<code>PIL-1.1.7-py2.7-linux-x86_64.egg</code>, 这下就OK了.</p>]]></content:encoded>
 		</item>
