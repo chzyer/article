@@ -2290,10 +2290,15 @@ your script directory will tell you what files Python are using:
 		<link>http://chenye.org/command-gcc-failed-with-exit-status-1.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<p>备忘
-在执行sudo easy_install mysql-python的时候提示这个</p>
+在执行</p>
 
-<pre><code>command 'gcc' failed with exit status 1
-</code></pre>
+<div class="highlight"><pre>sudo easy_install mysql-python
+</pre></div>
+
+<p>的时候提示这个</p>
+
+<div class="highlight"><pre><span class="nb">command</span> <span class="s1">'gcc'</span> failed with <span class="nb">exit </span>status 1
+</pre></div>
 
 <p>解决方法，</p>
 
