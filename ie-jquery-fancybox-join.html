@@ -51,7 +51,7 @@ $(a[rel*=fancybox]).fancybox就可绑定所有的图片并且自动分组
 <script>
 var ua = window.navigator.userAgent
 var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
-if ! isMobile {
+if ( ! isMobile) {
 	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>')
 	window.onload = function() {
 		
