@@ -3117,10 +3117,11 @@ javascript中用于转码的函数有三个，但是各有区别
 需要修改的就是在前面判断是否读取的if语句条件</p>
 
 <div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
-<span class="sb">`</span>
-<span class="sb">改为</span>
-<span class="sb">```</span><span class="nx">php</span>
-<span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'refresh'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
+</pre></div>
+
+<p>改为</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'refresh'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
 </pre></div>
 
 <p>到这里,貌似是OK~但真的是OK了!起码我认为是OK了!</p>
