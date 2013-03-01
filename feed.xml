@@ -3088,24 +3088,24 @@ javascript中用于转码的函数有三个，但是各有区别
 
 <p>判断是否输入了email,因为程序需要从email得到(转换)成读取Gravatar头像的token.如果怕在此泄露用户Email又已经在哪里弄到读取Gravatar头像的token的话可以将这里的md5(strtolower($_GET['mail']))改成$mail,就可以把token直接传入到mail中(例:<code>www.chenye.org/?action=getimg&amp;mail=d48cd4d6ded95a9cb5912a32e18f658b</code>)</p>
 
-<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">$mail</span><span class="o">==</span><span class="s2">""</span><span class="p">)</span> <span class="p">{</span>
-<span class="nx">header</span> <span class="p">(</span><span class="s2">"Location:./avatar/1.png"</span><span class="p">);</span>
-<span class="nx">exit</span><span class="p">();</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$mail</span><span class="o">==</span><span class="s2">""</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">header</span> <span class="p">(</span><span class="s2">"Location:./avatar/1.png"</span><span class="p">);</span>
+    <span class="k">exit</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 
 <p>如果没有输入email就直接读取默认头像,放在跟目录下/avatar/1.png的文件</p>
 
-<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="err">@</span><span class="nx">$fp</span><span class="o">=</span><span class="nx">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="p">.</span><span class="nx">$mail</span><span class="p">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-<span class="nx">$content</span> <span class="o">=</span> <span class="nx">file_get_contents</span><span class="p">(</span><span class="s1">'http://1.gravatar.com/avatar/'</span><span class="p">.</span><span class="nx">$mail</span><span class="p">.</span><span class="s1">'?s=30&amp;d=http://www.chenye.org/avatar/1.png&amp;r=g'</span><span class="p">);</span>
-<span class="nx">file_put_contents</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="p">.</span><span class="nx">$mail</span><span class="p">.</span><span class="s2">".png"</span><span class="p">,</span><span class="nx">$content</span><span class="p">);</span>
+    <span class="nv">$content</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'http://1.gravatar.com/avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s1">'?s=30&amp;d=http://www.chenye.org/avatar/1.png&amp;r=g'</span><span class="p">);</span>
+    <span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="nv">$content</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 
 <p>如果读取不到本地有缓存该头像,就缓存下来到avatar并以读取Gravatar头像的token为名字加上png后缀名</p>
 
-<div class="highlight"><pre><span class="nx">header</span><span class="p">(</span><span class="s1">'Location:./avatar/'</span><span class="p">.</span><span class="nx">$mail</span><span class="p">.</span><span class="s2">".png"</span><span class="p">);</span>
+<div class="highlight"><pre><span class="nx">header</span><span class="p">(</span><span class="s1">'Location:./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">);</span>
 </pre></div>
 
 <p>既然已经完成了缓存就直接跳转到该图片地址啦~
@@ -3133,8 +3133,8 @@ getgravatar
 自动缓存gravatar头像到本地
 请确认在主题的index.php前面加上这段代码引用此文件</p>
 
-<div class="highlight"><pre><span class="nx">define</span><span class="p">(</span><span class="s2">"PATH"</span><span class="p">,</span><span class="nx">preg_replace</span><span class="p">(</span><span class="s2">"/\/[^\/]*?$/"</span><span class="p">,</span><span class="s2">""</span><span class="p">,</span><span class="nx">str_replace</span><span class="p">(</span><span class="s2">"\\"</span><span class="p">,</span><span class="s2">"/"</span><span class="p">,</span><span class="nx">__FILE__</span><span class="p">)));</span>
-<span class="nx">include</span> <span class="nx">PATH</span><span class="p">.</span><span class="s1">'/'</span><span class="p">.</span><span class="s2">"getgravatar.php"</span><span class="p">;</span>
+<div class="highlight"><pre><span class="nb">define</span><span class="p">(</span><span class="s2">"PATH"</span><span class="p">,</span><span class="nb">preg_replace</span><span class="p">(</span><span class="s2">"/\/[^\/]*?$/"</span><span class="p">,</span><span class="s2">""</span><span class="p">,</span><span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\\</span><span class="s2">"</span><span class="p">,</span><span class="s2">"/"</span><span class="p">,</span><span class="k">__FILE__</span><span class="p">)));</span>
+<span class="k">include</span> <span class="nx">PATH</span><span class="o">.</span><span class="s1">'/'</span><span class="o">.</span><span class="s2">"getgravatar.php"</span><span class="p">;</span>
 </pre></div>
 
 <p>请将默认头像上传到avatar/目录并命名为1.png
