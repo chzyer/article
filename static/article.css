@@ -18,6 +18,7 @@ p {
 	color: #9EA8AF;
 	font-size: 12pt;
 	line-height: 25px;
+	word-break:break-all;
 }
 
 hr {
