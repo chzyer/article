@@ -573,11 +573,8 @@ hr {
 var ua = window.navigator.userAgent
 onLoad = function() {
 	$(".date").fadeIn()
-	console.log(ua)
-	if (ua.indexOf("Safari") >= 0) {
-	}
 	$("a").click(function(){
-		$("body").fadeOut()
+		$("body").fadeOut().fadeIn()
 	})
 }
 var isMobile = ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0
