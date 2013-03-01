@@ -576,7 +576,9 @@ onLoad = function() {
 	if (ua.indexOf("Safari") >= 0) {
 		return
 	}
+	aler("df")
 	$("a").click(function(){
+		alert("c")
 		$("body").fadeOut()
 	})
 }
