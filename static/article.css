@@ -4,6 +4,10 @@ body, html {
 	color: #9EA8AF;
 }
 
+#rightnav {
+	float:right;
+}
+
 a {
 	color: #dddddd;
 	text-decoration: none;
