@@ -19,6 +19,106 @@
 	<generator>GoPage</generator>
 		
 		<item>
+		<title>新博客</title>	
+		<pubDate>2013-03-01 14:52:19 +0800 CST</pubDate>
+		<link>http://chenye.org/new-blog.html</link>
+		<dc:creator>cheney</dc:creator>
+		<content:encoded><![CDATA[<blockquote>
+<p>最近比较上进, 抽时间完善了一下博客, 看了一下, 我的博客也有1年半了, 那我是不是应该为博客写一篇文章呢? </p>
+</blockquote>
+
+<h2>
+<a name="1-" class="anchor" href="#1-"><span class="mini-icon mini-icon-link"></span></a>1. 历史</h2>
+
+<p>我玩博客那年, 正是大一, 那时候我已经写了挺多php了, 那时候 <code>wordpress</code> 很出名, 虽然现在貌似还挺有名的~ 然后我就自己写了个主题, 搭上 <code>wordpress</code> 就放上去了, 用的是虚拟主机. </p>
+
+<h2>
+<a name="2-" class="anchor" href="#2-"><span class="mini-icon mini-icon-link"></span></a>2. 宣传</h2>
+
+<p>然后怎么宣传是个问题, 靠搜索引擎肯定不行! 后来发现其实有很多独立博客, 围成一个博客生态圈... 想让自己的博客有人来, 那就到其他博主那里留言, 然后博主出于礼貌就会回访, 然后我每写一篇文章, 就去别人博客留言. 疯癫的时候会一个早上都在刷留言, 但是啊, 文章我还是粗略得看了, 没敢说直接回一个mark... 然后那时比较出名的是一个叫 <code>木木木木木</code> 的博客(当然现在也是). 上面在分享一些前端的代码, 我就在上面留了个言, 发表了看法. 加上我博客长得比较特别, 后来就慢慢有了一点点人气, 也认识了一些朋友.</p>
+
+<blockquote>
+<p>表面看来, 在其他独博留言除了能得到概率比较高的回访之外, 但附加的, 如果他的博客<code>PR</code>比较高, 会间接提升自己网站的排名.</p>
+</blockquote>
+
+<h2>
+<a name="3-" class="anchor" href="#3-"><span class="mini-icon mini-icon-link"></span></a>3. 维护与管理</h2>
+
+<p>博客的维护实际上没有那么难, 也就是<code>简单且麻烦</code>而已... 有种东西叫做<code>习惯的力量</code>, 当你坚持每天发表一篇文章的话, 就能吸引到一些博主乃至spider的每日光临. 我只是坚持了一个月, 然后因为兴趣转移, 在这里已经得不到什么成就感, 每天杂事又多, 就没有写文章了, 因此, 我的文章质量也提升了, 没那么多为了什么而写的文章了. 为了弥补我不经常写文章的缺陷, 我在文章内没有显示写的时间...</p>
+
+<p><code>spam</code> 是每个独立博客都会遇到的问题, 而且这些spam还特么烦人, 还看不懂! <code>wordpress</code> 内置了一款 <code>Akismet</code> 的插件来屏蔽大部分垃圾评论. 我印象中遇到过一次, 还只针对我的一篇文章, 然后我变痛下决心进行修改, 顺便产出了第二套皮肤. 再也没有spam的骚扰了, 因为我改为ajax提交了, 原接收评论POST的PHP文件被我删了..</p>
+
+<blockquote>
+<p>其实维护也不会特别难, 垃圾回复也有现成的插件, 差的是坚持写文章的习惯!</p>
+</blockquote>
+
+<h2>
+<a name="4-" class="anchor" href="#4-"><span class="mini-icon mini-icon-link"></span></a>4. 收获</h2>
+
+<p>自从给博客安了有人评论时邮件通知, 每天一直在期待右下角弹出一个新邮件提示. 当然有时候也会收到一些类似 <code>mark</code> 的评论... 一开始满心欢喜的打开, 评论, 甚至点开连接, 去看看他的博客写了什么. 后来嘛, 我就不太爱鸟人了, 人懒了..</p>
+
+<blockquote>
+<p>博客就像玩具, 玩厌了, 就懒得鸟他了.</p>
+</blockquote>
+
+<h2>
+<a name="5-" class="anchor" href="#5-"><span class="mini-icon mini-icon-link"></span></a>5. 自己的转型</h2>
+
+<p>突然一段时间过后, 我发现我最近怎么一直在玩前端代码, 写博客主题什么的, 于是写了篇《<a href="/about-web-design.html">不该揪着前端不放了</a>》, 到现在我都赞同我以前的看法. 然后我就真的把兴趣转移到其他地方去了..我靠变得真快.我那时应该刚买了手机, 玩 <code>Android</code> 去了.</p>
+
+<blockquote>
+<p>人应该时刻明确自己的目标, 该放弃的就应该放弃</p>
+</blockquote>
+
+<h2>
+<a name="6-" class="anchor" href="#6-"><span class="mini-icon mini-icon-link"></span></a>6. 重拾旧业</h2>
+
+<p>在江湖混, 迟早是要还的. 在独立博客界混, 空间费是要交的! 转眼间一年过去了, 又要交空间费用了, 我在庆幸我竟然不为任何利益玩博客, 所以还要自己租虚拟空间... 那时就暂时放在和一朋友合租的空间上, 然后又过了一阵, 那个空间也快过期了, 然后我就把博客移到 <code>sae</code> 上面了. 也废了一番功夫, 然后我居然没有记录下来... </p>
+
+<h2>
+<a name="7-" class="anchor" href="#7-"><span class="mini-icon mini-icon-link"></span></a>7. 博客的意义</h2>
+
+<p>中间有段时间我投简历, 找工作, 靠着比较特殊的主题, 很多老板都说博客做得不错, 当然这只是表面. 更多的是, 我通过博客, 表达了我自己的声音, 我会思考, 而写博客是深化思考的过程, 最后得出文章后会发现思考的东西比没写的时候更深一层, 这个是对于自己的好处, 对于别人, 则是一种分享, 也能透过文章了解到自己是怎样的.</p>
+
+<h2>
+<a name="8-" class="anchor" href="#8-"><span class="mini-icon mini-icon-link"></span></a>8. 革命!</h2>
+
+<p>后来, 我想重新写个博客, 当然我不想去用富文本编辑器, 还有我受够了博客只能写plain text, 刚好我接触了github提供的markdown转码非常不错, 经过一番思索, 一个新型的博客如下:</p>
+
+<ol>
+<li>使用markdown语法写博文, 去他妈的富文本. 怎么将markdown转码成html? 当然是用github的!</li>
+<li>gist写博文: 既然我不想自己弄个富文本编辑器, 那就用其他人的, 正好github的gist是一个分享代码片段的网站, 支持markdown, 于是我打算通过gist写文章, 然后在自己博客同步过来.</li>
+<li>展示: 展示就由自己写, 包括前端, 抓取gist到数据库等等.</li>
+<li>评论: 评论我顺便沿用gist的, 通过js引用拿到制定gist的评论列表, 巧妙得解决了ajax跨域问题, 然后再本地生成评论, 由于评论不属于博客的价值, 所以动态获取无所谓, 不被搜索引擎检索也无所谓. 评论的话需要使用github账号, 提交到我的网站之后再通过api提交到对应的gist上面.</li>
+</ol><blockquote>
+<p><a href="http://chenyeblog.sinaapp.com">该博客连接</a>, 当然我现在的博客不是这样的.</p>
+</blockquote>
+
+<h2>
+<a name="9-" class="anchor" href="#9-"><span class="mini-icon mini-icon-link"></span></a>9. 大革命!!</h2>
+
+<p>上面的博客用了大概持续不到2个月的时间, 12年11月底完成的. 最近我在学 <code>go</code>, 又因为 sae 绑定未备案的域名特别不稳定, 又听说了 <code>github page</code> 的各种神奇, 于是打算再用go写一遍. 蛋疼的时候又开始了.</p>
+
+<blockquote>
+<p><code>github page</code><br>
+这个服务初衷是提供给一些开源程序一个主页, 支持访问html文件, css, js, 支持绑定域名. 这个除了一些动态功能, 博客的必要条件都满足了. 然后有人做了一个叫 <code>jekyll</code> 的博客程序, 可以架设在github上面, 堪称不错, 不过我没用过...</p>
+</blockquote>
+
+<p>然后我制定了一下改进计划:</p>
+
+<ol>
+<li>在本地写博文, 不再用到网站了, 因为用mac有几个很不错的markdown编辑器, 比web肯定强很多.</li>
+<li>markdown的转码还是使用 <code>GitHub Flavored Markdown</code>, 和上一个不同的是, 是直接使用api进行转码, 但是由于github api对一个ip单位时间内访问次数有限制, 然后发现如果是进行了 <code>Basic Authoration</code> 则可以无限制使用了, 这样就可以了.</li>
+<li>用<code>go</code>写一个转码程序, 将一个目录内全部的 markdown 文件转成 html, 当然, html 要基于模板, 这样才方便修改. 然后我用了2-3天来完成这个功能, 由于转成html需要远程获取, 所以速度比较慢, 所以缓存是必要的, 缓存之后, 本地的 markdown 文件可能随时会更新, 删除, 添加. 于是我运用了拙计的插入排序法简单搞定了...</li>
+<li>文章更新时间: 本来我是想通过os来检测文件的创建时间, 然后就当作文章的写作时间, 但是我发现以前的文章就回不到以前的时间了, 于是我又写了个时间识别, 可以自己在markdown内部直接写出发表的时间, 程序检测到如果markdown是自己定义时间的就不适用os提供的创建时间了.</li>
+<li>界面优化: 最近看太多类似 <code>Read it later</code> 的软件了, 阅读体验实在太好了, 而自己的博客虽说酷了点, 但是可读性实在不强. 所以这次配合markdown, 自己再借鉴这些软件的配色给自己博客也配了色, 感觉还不错, 而且针对移动端做了优化</li>
+<li>评论: 评论这里靠 <code>github page</code> 解决不了, 需要我再在 sae 写一个独立的评论程序, 应该类似 <code>多说</code>, 至于为什么不用多说..我想自己多玩一下...</li>
+</ol><blockquote>
+<p>使用流程是: 用app写博文, 保存到一个特定的目录, 运行程序生成html, 运行脚本通过git上传到github.</p>
+</blockquote>]]></content:encoded>
+		</item>
+		
+		<item>
 		<title>哪个快?</title>	
 		<pubDate>2013-02-28 11:27:24 +0800 CST</pubDate>
 		<link>http://chenye.org/which-fast.html</link>

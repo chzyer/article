@@ -1,12 +1,3 @@
-body, html {
-	background: #1A1A1A;
-	font-family: "Optima", "Courier New";
-	color: #9EA8AF;
-	margin: 0 auto;
-	max-width: 800px;
-	padding: 8px;
-}
-
 a {
 	color: #dddddd;
 	overflow:ellipsis;
