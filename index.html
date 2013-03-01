@@ -573,6 +573,7 @@ hr {
 var ua = window.navigator.userAgent
 onLoad = function() {
 	$(".date").fadeIn()
+	alert(ua.indexOf("Safari"))
 	if (ua.indexOf("Safari") >= 0) {
 		return
 	}
