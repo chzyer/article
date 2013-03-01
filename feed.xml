@@ -3074,32 +3074,31 @@ javascript中用于转码的函数有三个，但是各有区别
 写一个页面当成Gravatar服务器那样~不懂?
 其实PHP很强大的,可以把自己模拟成图片,可以通过img控件直接显示图片.又不懂?
 原谅我那拙劣的表达能力...我用代码来说吧...
-在img中直接设置src为 <code>www.chenye.org/?action=getimg&amp;mail=me@chenye.org</code> (只是示范,此功能还没加到服务器上呢)
-即</p>
+在img中直接设置src为 <code>/?action=getimg&amp;mail=me@chenye.org</code>, 即</p>
 
-<div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"www.chenye.org/?action=getimg&amp;mail=me@chenye.org"</span> <span class="nt">/&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/?action=getimg&amp;mail=me@chenye.org"</span> <span class="nt">/&gt;</span>
 </pre></div>
 
-<p>在index.php中,如果检测到$_GET['action']="getimg"就开工~
-先判断文件是否已经被缓存(fopen)?不存在就从官网上获取(<code>file_get_contents</code>)并缓存,存在的话就从自己的路径读取(header)</p>
+<p>在index.php中,如果检测到 <code>$_GET['action']="getimg”</code> 就开工~
+先判断文件是否已经被缓存 (<code>fopen</code>)?不存在就从官网上获取(<code>file_get_contents</code>)并缓存,存在的话就从自己的路径读取(<code>header</code>)</p>
 
 <div class="highlight"><pre><span class="nv">$mail</span> <span class="o">=</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'mail'</span><span class="p">])</span> <span class="o">?</span> <span class="nb">md5</span><span class="p">(</span><span class="nx">strtolower</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'mail'</span><span class="p">]))</span> <span class="o">:</span> <span class="s2">""</span><span class="p">;</span>
 </pre></div>
 
-<p>判断是否输入了email,因为程序需要从email得到(转换)成读取Gravatar头像的token.如果怕在此泄露用户Email又已经在哪里弄到读取Gravatar头像的token的话可以将这里的md5(strtolower($_GET['mail']))改成$mail,就可以把token直接传入到mail中(例:<code>www.chenye.org/?action=getimg&amp;mail=d48cd4d6ded95a9cb5912a32e18f658b</code>)</p>
+<p>判断是否输入了email,因为程序需要从email得到(转换)成读取Gravatar头像的token.如果怕在此泄露用户Email又已经在哪里弄到读取Gravatar头像的token的话可以将这里的 <code>md5(strtolower($_GET['mail’]))</code> 改成$mail,就可以把token直接传入到mail中(例:<code>/?action=getimg&amp;mail=d48cd4d6ded95a9cb5912a32e18f658b</code>)</p>
 
-<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$mail</span><span class="o">==</span><span class="s2">""</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">header</span> <span class="p">(</span><span class="s2">"Location:./avatar/1.png"</span><span class="p">);</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$mail</span> <span class="o">==</span> <span class="s2">""</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">header</span><span class="p">(</span><span class="s2">"Location:./avatar/1.png"</span><span class="p">);</span>
     <span class="k">exit</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 
 <p>如果没有输入email就直接读取默认头像,放在跟目录下/avatar/1.png的文件</p>
 
-<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span> <span class="o">@</span> <span class="nv">$fp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)){</span>
 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
     <span class="nv">$content</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'http://1.gravatar.com/avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s1">'?s=30&amp;d=http://www.chenye.org/avatar/1.png&amp;r=g'</span><span class="p">);</span>
-    <span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="nv">$content</span><span class="p">);</span>
+    <span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -3110,37 +3109,36 @@ javascript中用于转码的函数有三个，但是各有区别
 
 <p>既然已经完成了缓存就直接跳转到该图片地址啦~
 到这里貌似完美~没有考虑到头像更新的问题~
-我们的程序里面应该加一个强制刷新的选项
-即以后想要强制从gravatar读取新图片的话,使用这个url
-<code>www.chenye.org/?action=getimg&amp;mail=me@chenye.org&amp;refresh=1</code>
-和前面相比多了一个refresh=1
+我们的程序里面应该加一个强制刷新的选项, 即以后想要强制从gravatar读取新图片的话,使用这个url <code>/?action=getimg&amp;mail=me@chenye.org&amp;refresh=1</code> 和前面相比多了一个refresh=1<br>
 需要修改的就是在前面判断是否读取的if语句条件</p>
 
-<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span> <span class="o">@</span> <span class="nv">$fp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)){</span>
 </pre></div>
 
 <p>改为</p>
 
-<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'refresh'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'refresh'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="o">@</span> <span class="nv">$fp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)){</span>
 </pre></div>
 
 <p>到这里,貌似是OK~但真的是OK了!起码我认为是OK了!</p>
 
 <p>理论讲完了,给点实际的吧,我把PHP都给写好了~根据时间来自动更新头像,而不是想我上面的想法.因为非插件实在很难找到插入点更新头像,自己的主题就不一样啦.插入点可以自己写的.
 PHP中有使用方法,这里也贴出来
-将解压后的getgravatar.php放到当前用的主题目录里面
-getgravatar
-自动缓存gravatar头像到本地
-请确认在主题的index.php前面加上这段代码引用此文件</p>
+将解压后的getgravatar.php放到当前用的主题目录里面 <code>getgravatar</code>,
+自动缓存gravatar头像到本地, 请确认在主题的index.php前面加上这段代码引用此文件</p>
 
-<div class="highlight"><pre><span class="nb">define</span><span class="p">(</span><span class="s2">"PATH"</span><span class="p">,</span><span class="nb">preg_replace</span><span class="p">(</span><span class="s2">"/\/[^\/]*?$/"</span><span class="p">,</span><span class="s2">""</span><span class="p">,</span><span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\\</span><span class="s2">"</span><span class="p">,</span><span class="s2">"/"</span><span class="p">,</span><span class="k">__FILE__</span><span class="p">)));</span>
+<div class="highlight"><pre><span class="nb">define</span><span class="p">(</span><span class="s2">"PATH"</span><span class="p">,</span> <span class="nb">preg_replace</span><span class="p">(</span><span class="s2">"/\/[^\/]*?$/"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\\</span><span class="s2">"</span><span class="p">,</span><span class="s2">"/"</span><span class="p">,</span><span class="k">__FILE__</span><span class="p">)));</span>
 <span class="k">include</span> <span class="nx">PATH</span><span class="o">.</span><span class="s1">'/'</span><span class="o">.</span><span class="s2">"getgravatar.php"</span><span class="p">;</span>
 </pre></div>
 
-<p>请将默认头像上传到avatar/目录并命名为1.png
+<p>请将默认头像上传到 <code>avatar/</code> 目录并命名为 <code>1.png</code>
 使用方法~
-将主题中获取头像的语句(&lt; ?php echo get_avatar( $comment, 40 ); ?&gt;)
-改成</p>
+将主题中获取头像的语句</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span> <span class="o">?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nx">get_avatar</span><span class="p">(</span> <span class="nv">$comment</span><span class="p">,</span> <span class="mi">40</span> <span class="p">);</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>改成</p>
 
 <div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"&lt;? bloginfo('url');?/&gt;/?action=getimg&amp;mail=&lt; ?echo md5(strtolower($comment-&gt;comment_author_email));?&gt;"</span> <span class="na">class=</span><span class="s">"avatar avatar-32 photo"</span> <span class="nt">&gt;</span>
 </pre></div>
