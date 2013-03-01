@@ -3074,7 +3074,7 @@ javascript中用于转码的函数有三个，但是各有区别
 写一个页面当成Gravatar服务器那样~不懂?
 其实PHP很强大的,可以把自己模拟成图片,可以通过img控件直接显示图片.又不懂?
 原谅我那拙劣的表达能力...我用代码来说吧...
-在img中直接设置src为www.chenye.org/?action=getimg&amp;mail=<a href="mailto:me@chenye.org">me@chenye.org</a>(只是示范,此功能还没加到服务器上呢)
+在img中直接设置src为 <code>www.chenye.org/?action=getimg&amp;mail=me@chenye.org</code> (只是示范,此功能还没加到服务器上呢)
 即</p>
 
 <div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"www.chenye.org/?action=getimg&amp;mail=me@chenye.org"</span> <span class="nt">/&gt;</span>
@@ -3083,7 +3083,7 @@ javascript中用于转码的函数有三个，但是各有区别
 <p>在index.php中,如果检测到$_GET['action']="getimg"就开工~
 先判断文件是否已经被缓存(fopen)?不存在就从官网上获取(<code>file_get_contents</code>)并缓存,存在的话就从自己的路径读取(header)</p>
 
-<div class="highlight"><pre><span class="nx">$mail</span> <span class="o">=</span> <span class="nx">isset</span><span class="p">(</span><span class="nx">$_GET</span><span class="p">[</span><span class="s1">'mail'</span><span class="p">])</span> <span class="o">?</span> <span class="nx">md5</span><span class="p">(</span><span class="nx">strtolower</span><span class="p">(</span><span class="nx">$_GET</span><span class="p">[</span><span class="s1">'mail'</span><span class="p">]))</span> <span class="o">:</span> <span class="s2">""</span><span class="p">;</span>
+<div class="highlight"><pre><span class="nv">$mail</span> <span class="o">=</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'mail'</span><span class="p">])</span> <span class="o">?</span> <span class="nb">md5</span><span class="p">(</span><span class="nx">strtolower</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'mail'</span><span class="p">]))</span> <span class="o">:</span> <span class="s2">""</span><span class="p">;</span>
 </pre></div>
 
 <p>判断是否输入了email,因为程序需要从email得到(转换)成读取Gravatar头像的token.如果怕在此泄露用户Email又已经在哪里弄到读取Gravatar头像的token的话可以将这里的md5(strtolower($_GET['mail']))改成$mail,就可以把token直接传入到mail中(例:<code>www.chenye.org/?action=getimg&amp;mail=d48cd4d6ded95a9cb5912a32e18f658b</code>)</p>
@@ -3114,10 +3114,14 @@ javascript中用于转码的函数有三个，但是各有区别
 即以后想要强制从gravatar读取新图片的话,使用这个url
 <code>www.chenye.org/?action=getimg&amp;mail=me@chenye.org&amp;refresh=1</code>
 和前面相比多了一个refresh=1
-需要修改的就是在前面判断是否读取的if语句条件
-<code>if (@$fp=fopen('./avatar/'.$mail.".png","r")){</code>
-改为
-<code>if ( ! isset($_GET['refresh']) &amp;&amp; @$fp=fopen('./avatar/'.$mail.".png","r")){</code></p>
+需要修改的就是在前面判断是否读取的if语句条件</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
+<span class="sb">`</span>
+<span class="sb">改为</span>
+<span class="sb">```</span><span class="nx">php</span>
+<span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'refresh'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="o">@</span><span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">)){</span>
+</pre></div>
 
 <p>到这里,貌似是OK~但真的是OK了!起码我认为是OK了!</p>
 
