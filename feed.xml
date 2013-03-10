@@ -220,7 +220,7 @@
 		<item>
 		<title>golang并发编程 - 例子解析</title>	
 		<pubDate>2013-02-26 17:43:23 +0000 UTC</pubDate>
-		<link>http://chenye.org/goruntine-note.html</link>
+		<link>http://chenye.org/goroutine-note.html</link>
 		<dc:creator>cheney</dc:creator>
 		<content:encoded><![CDATA[<blockquote>
 <p>最近在看《Programming in Go》, 其中关于并发编程写得很不错, 受益非浅, 其中有一些例子是需要多思考才能想明白的, 所以我打算记录下来, 强化一下思路</p>
@@ -247,10 +247,10 @@
 <h2>
 <a name="1-channel" class="anchor" href="#1-channel"><span class="mini-icon mini-icon-link"></span></a>1. channel关闭的时机</h2>
 
-<p>在go中, channel 是不会自动关闭的, 所以需要在我们使用完之后手动去关闭, 而且如果使用for语法来遍历channel每次得到的数据, 如果channel没有关闭的话会陷入死循环. 在 goruntine 中会造成 deadlock</p>
+<p>在go中, channel 是不会自动关闭的, 所以需要在我们使用完之后手动去关闭, 而且如果使用for语法来遍历channel每次得到的数据, 如果channel没有关闭的话会陷入死循环. 在 goroutine 中会造成 deadlock</p>
 
-<div class="highlight"><pre><span class="k">for</span> <span class="n">job</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">jobs</span> <span class="p">{</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+<div class="highlight"><pre><span class="k">for</span> <span class="nx">job</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">jobs</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">job</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -267,59 +267,59 @@
 <p>还有一种是抢占式的, 这里需要使用一个队列, 将所有任务写入队列, 然后开N个goroutine, 每个goroutine从队列读取任务(要确保线程安全), 处理, 完成后再继续读取任务. 不再是固定分配, 自己那份做完了就休息了, 所以看来第二种要好一点.</p>
 </blockquote>
 
-<p>采用第二种方式的话, 对应go的做法, 那就是使用一个channel, 命名为 <code>jobs</code>, 将所有的任务写入进去, 写入完毕之后关闭这个 channel, 当然, 因为是N核, 系统能同时处理的任务我们设置为N个(也就是我们使用了N个goruntine), 那么声明 <code>jobs</code> 是缓冲区长度为N的 channel. </p>
+<p>采用第二种方式的话, 对应go的做法, 那就是使用一个channel, 命名为 <code>jobs</code>, 将所有的任务写入进去, 写入完毕之后关闭这个 channel, 当然, 因为是N核, 系统能同时处理的任务我们设置为N个(也就是我们使用了N个goroutine), 那么声明 <code>jobs</code> 是缓冲区长度为N的 channel. </p>
 
 <p><code>Buffered channel</code> 和普通的 channel 的差别是他可以同时容纳多个单位数据, 当缓存的数据单位数量等于 channel 容量的时候, 再执行写入将会阻塞, 否则都是及时处理的.</p>
 
 <h2>
 <a name="3-" class="anchor" href="#3-"><span class="mini-icon mini-icon-link"></span></a>3. 结果集</h2>
 
-<p>当我们将数据处理后, 就需要将结果收集起来. 需要注意的是, 这些操作不是在主 goruntine 执行, 所以我们需要通过 channel 传递给主 goruntine . 所以只需要在外部声明一个名为 <code>results</code> 的 channel . 然后在主 goruntine 通过 <code>for</code> 来显示, 这时候就会发现一个问题, 这个 <code>results</code> 关闭的时机问题. 正确的关闭时机是写入所有的 <code>Result</code> 之后. 但是别忘了我们同时开了多个 goruntine , 所以 <code>results</code> 应该在 <code>执行任务的 goruntine 完成信号累计到N个</code> 这个时机关闭. 所以我们再引入一个名叫 <code>done</code> 的 channel 来解决. 每个 goruntine 发送完 result 后会写入一次done, 然后我们就可以遍历 done , 遍历之后说明全部完成了, 再执行显示. </p>
+<p>当我们将数据处理后, 就需要将结果收集起来. 需要注意的是, 这些操作不是在主 goroutine 执行, 所以我们需要通过 channel 传递给主 goroutine . 所以只需要在外部声明一个名为 <code>results</code> 的 channel . 然后在主 goroutine 通过 <code>for</code> 来显示, 这时候就会发现一个问题, 这个 <code>results</code> 关闭的时机问题. 正确的关闭时机是写入所有的 <code>Result</code> 之后. 但是别忘了我们同时开了多个 goroutine , 所以 <code>results</code> 应该在 <code>执行任务的 goroutine 完成信号累计到N个</code> 这个时机关闭. 所以我们再引入一个名叫 <code>done</code> 的 channel 来解决. 每个 goroutine 发送完 result 后会写入一次done, 然后我们就可以遍历 done , 遍历之后说明全部完成了, 再执行显示. </p>
 
 <p>Result 的数据结构</p>
 
-<div class="highlight"><pre><span class="k">type</span> <span class="n">Result</span> <span class="k">struct</span> <span class="p">{</span>
-    <span class="n">filename</span> <span class="nb">string</span>
-    <span class="n">lino</span> <span class="nb">int</span>
-    <span class="n">line</span> <span class="nb">string</span>
+<div class="highlight"><pre><span class="kd">type</span> <span class="nx">Result</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">filename</span> <span class="kt">string</span>
+    <span class="nx">lino</span> <span class="kt">int</span>
+    <span class="nx">line</span> <span class="kt">string</span>
 <span class="p">}</span>
 </pre></div>
 
 <p>书中的 <code>cgrep1</code> 就是这样的</p>
 
-<div class="highlight"><pre><span class="k">func</span> <span class="n">awaitCompletion</span><span class="p">(</span><span class="n">done</span> <span class="p">&lt;-</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{},</span> <span class="n">results</span> <span class="k">chan</span> <span class="n">Result</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">workers</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-        <span class="p">&lt;-</span><span class="n">done</span>
+<div class="highlight"><pre><span class="kd">func</span> <span class="nx">awaitCompletion</span><span class="p">(</span><span class="nx">done</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">results</span> <span class="kd">chan</span> <span class="nx">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">workers</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="o">&lt;-</span><span class="nx">done</span>
     <span class="p">}</span>
-    <span class="nb">close</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="nb">close</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
-<p>但是这样有可能造成死锁, 因为书中 <code>results</code> 缓冲区长度限定为最大1000个, 也就是超过1000个 result 的时候再打算写入 result 会等待取出 result 后才执行, done 也不会写入, 而 <code>awaitCompletion</code> 是等到所有 goruntine 都完成了才会取出 <code>results</code>, 而且当 <code>result</code> 非常大的时候因为内存的缘故也是不可能一次性取出的. 所以就需要在读取 <code>results</code> 的同时读取 <code>done</code>, 当读取 <code>done</code> 次数大于 N 后关闭 <code>results</code>, 所以, 因为要在多个 channel 中同时读取, 所以需要使用 <code>select</code>.</p>
+<p>但是这样有可能造成死锁, 因为书中 <code>results</code> 缓冲区长度限定为最大1000个, 也就是超过1000个 result 的时候再打算写入 result 会等待取出 result 后才执行, done 也不会写入, 而 <code>awaitCompletion</code> 是等到所有 goroutine 都完成了才会取出 <code>results</code>, 而且当 <code>result</code> 非常大的时候因为内存的缘故也是不可能一次性取出的. 所以就需要在读取 <code>results</code> 的同时读取 <code>done</code>, 当读取 <code>done</code> 次数大于 N 后关闭 <code>results</code>, 所以, 因为要在多个 channel 中同时读取, 所以需要使用 <code>select</code>.</p>
 
 <p>下面是书中的 <code>cgrep3</code> , 改进版:</p>
 
-<div class="highlight"><pre><span class="k">func</span> <span class="n">waitAndProcessResults</span><span class="p">(</span><span class="n">timeout</span> <span class="nb">int64</span><span class="p">,</span> <span class="n">done</span> <span class="p">&lt;-</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{},</span> <span class="n">results</span> <span class="p">&lt;-</span><span class="k">chan</span> <span class="n">Result</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">finish</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">After</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">Duration</span><span class="p">(</span><span class="n">timeout</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">working</span> <span class="p">:=</span> <span class="n">workers</span><span class="p">;</span> <span class="n">working</span> <span class="p">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="kd">func</span> <span class="nx">waitAndProcessResults</span><span class="p">(</span><span class="nx">timeout</span> <span class="kt">int64</span><span class="p">,</span> <span class="nx">done</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">results</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="nx">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">finish</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">(</span><span class="nx">timeout</span><span class="p">))</span>
+    <span class="k">for</span> <span class="nx">working</span> <span class="o">:=</span> <span class="nx">workers</span><span class="p">;</span> <span class="nx">working</span> <span class="p">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="p">{</span>
         <span class="k">select</span> <span class="p">{</span> <span class="c1">// Blocking</span>
-            <span class="k">case</span> <span class="n">result</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">results</span><span class="p">:</span>
-                <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%s:%d:%s\n"</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">lino</span><span class="p">,</span>
-                <span class="n">result</span><span class="p">.</span><span class="n">line</span><span class="p">)</span>
-            <span class="k">case</span> <span class="p">&lt;-</span><span class="n">finish</span><span class="p">:</span>
-                <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"timed out"</span><span class="p">)</span>
+            <span class="k">case</span> <span class="nx">result</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">results</span><span class="p">:</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">"%s:%d:%s\n"</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">lino</span><span class="p">,</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">line</span><span class="p">)</span>
+            <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">finish</span><span class="p">:</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">"timed out"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="c1">// Time's up so finish with what results there were</span>
-            <span class="k">case</span> <span class="p">&lt;-</span><span class="n">done</span><span class="p">:</span> 
-                <span class="n">working</span><span class="p">--</span>
+            <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">done</span><span class="p">:</span> 
+                <span class="nx">working</span><span class="o">--</span>
         <span class="p">}</span> 
     <span class="p">}</span>
     <span class="k">for</span> <span class="p">{</span>
         <span class="k">select</span> <span class="p">{</span> <span class="c1">// Nonblocking</span>
-            <span class="k">case</span> <span class="n">result</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">results</span><span class="p">:</span>
-                <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%s:%d:%s\n"</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">lino</span><span class="p">,</span>
-                <span class="n">result</span><span class="p">.</span><span class="n">line</span><span class="p">)</span>
-            <span class="k">case</span> <span class="p">&lt;-</span><span class="n">finish</span><span class="p">:</span>
-                <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"timed out"</span><span class="p">)</span>
+            <span class="k">case</span> <span class="nx">result</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">results</span><span class="p">:</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">"%s:%d:%s\n"</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">lino</span><span class="p">,</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">line</span><span class="p">)</span>
+            <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">finish</span><span class="p">:</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">"timed out"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="c1">// Time's up so finish with what results there were</span>
             <span class="k">default</span><span class="p">:</span> 
                 <span class="k">return</span>
@@ -332,14 +332,14 @@
 
 <p>我的想法是, 他是在处理完 result, 然后写入 <code>results</code>, 写完了才发送 <code>done</code>, 也就是在收到所有的 done 之后, 所有的数据应该是已经处理完成的. 为了验证这个想法, 我写了一下代码:</p>
 
-<div class="highlight"><pre><span class="k">for</span> <span class="n">working</span> <span class="p">:=</span> <span class="n">workers</span><span class="p">;</span> <span class="n">working</span> <span class="p">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="k">for</span> <span class="nx">working</span> <span class="o">:=</span> <span class="nx">workers</span><span class="p">;</span> <span class="nx">working</span> <span class="p">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="p">{</span>
     <span class="k">select</span> <span class="p">{</span> <span class="c1">// Blocking</span>
-        <span class="k">case</span> <span class="n">result</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">results</span><span class="p">:</span>
+        <span class="k">case</span> <span class="nx">result</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">results</span><span class="p">:</span>
             <span class="c1">// received result</span>
-        <span class="k">case</span> <span class="p">&lt;-</span><span class="n">done</span><span class="p">:</span> 
-            <span class="n">working</span><span class="p">--</span>
-            <span class="k">if</span> <span class="n">working</span> <span class="p">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>
-                <span class="n">println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+        <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">done</span><span class="p">:</span> 
+            <span class="nx">working</span><span class="o">--</span>
+            <span class="k">if</span> <span class="nx">working</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>
+                <span class="nb">println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">results</span><span class="p">))</span>
             <span class="p">}</span>
     <span class="p">}</span> 
 <span class="p">}</span>
@@ -347,11 +347,11 @@
 
 <p>然后看到输出的数是大于0的, 也就是说在接收到全部 done 之后, <code>results</code> 还有数据在缓冲区中, 然后在看看发送 <code>result</code> 的代码, 突然就明白了</p>
 
-<div class="highlight"><pre><span class="k">func</span> <span class="n">doJobs</span><span class="p">(</span><span class="n">done</span> <span class="k">chan</span><span class="p">&lt;-</span> <span class="k">struct</span><span class="p">{},</span> <span class="n">lineRx</span> <span class="p">*</span><span class="n">regexp</span><span class="p">.</span><span class="n">Regexp</span><span class="p">,</span> <span class="n">jobs</span> <span class="p">&lt;-</span><span class="k">chan</span> <span class="n">Job</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="n">job</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">jobs</span> <span class="p">{</span>
-        <span class="n">job</span><span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">lineRx</span><span class="p">)</span>
+<div class="highlight"><pre><span class="kd">func</span> <span class="nx">doJobs</span><span class="p">(</span><span class="nx">done</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">lineRx</span> <span class="o">*</span><span class="nx">regexp</span><span class="p">.</span><span class="nx">Regexp</span><span class="p">,</span> <span class="nx">jobs</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="nx">Job</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">job</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">jobs</span> <span class="p">{</span>
+        <span class="nx">job</span><span class="p">.</span><span class="nx">Do</span><span class="p">(</span><span class="nx">lineRx</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="n">done</span> <span class="p">&lt;-</span> <span class="k">struct</span><span class="p">{}{}</span>
+    <span class="nx">done</span> <span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{}{}</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -359,8 +359,8 @@
 
 <hr><p>附我的代码一份:</p>
 
-<div class="highlight"><pre><span class="k">package</span> <span class="n">main</span>
-<span class="k">import</span> <span class="p">(</span>
+<div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
+<span class="kn">import</span> <span class="p">(</span>
     <span class="s">"fmt"</span>
     <span class="s">"os"</span>
     <span class="s">"runtime"</span>
@@ -369,108 +369,108 @@
     <span class="s">"bufio"</span>
 <span class="p">)</span>
 
-<span class="k">type</span> <span class="n">Job</span> <span class="k">struct</span> <span class="p">{</span>
-    <span class="n">filename</span> <span class="nb">string</span>
-    <span class="n">results</span> <span class="k">chan</span><span class="p">&lt;-</span> <span class="n">Result</span>
+<span class="kd">type</span> <span class="nx">Job</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">filename</span> <span class="kt">string</span>
+    <span class="nx">results</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="nx">Result</span>
 <span class="p">}</span>
 
-<span class="k">type</span> <span class="n">Result</span> <span class="k">struct</span> <span class="p">{</span>
-    <span class="n">filename</span> <span class="nb">string</span>
-    <span class="n">line</span> <span class="nb">string</span>
-    <span class="n">lino</span> <span class="nb">int</span>
+<span class="kd">type</span> <span class="nx">Result</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">filename</span> <span class="kt">string</span>
+    <span class="nx">line</span> <span class="kt">string</span>
+    <span class="nx">lino</span> <span class="kt">int</span>
 <span class="p">}</span>
 
-<span class="k">var</span> <span class="n">worker</span> <span class="p">=</span> <span class="n">runtime</span><span class="p">.</span><span class="n">NumCPU</span><span class="p">()</span>
-<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kd">var</span> <span class="nx">worker</span> <span class="p">=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">NumCPU</span><span class="p">()</span>
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// config cpu number</span>
-    <span class="n">runtime</span><span class="p">.</span><span class="n">GOMAXPROCS</span><span class="p">(</span><span class="n">worker</span><span class="p">)</span>
-    <span class="n">files</span> <span class="p">:=</span> <span class="n">os</span><span class="p">.</span><span class="n">Args</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
-    <span class="n">regex</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">regexp</span><span class="p">.</span><span class="n">Compile</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">err</span> <span class="p">!=</span> <span class="n">nil</span> <span class="p">{</span>
-        <span class="n">log</span><span class="p">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="nx">runtime</span><span class="p">.</span><span class="nx">GOMAXPROCS</span><span class="p">(</span><span class="nx">worker</span><span class="p">)</span>
+    <span class="nx">files</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="nx">regex</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">regexp</span><span class="p">.</span><span class="nx">Compile</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
 
     <span class="c1">// 任务列表, 并发数目为CPU个数</span>
-    <span class="n">jobs</span> <span class="p">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="n">Job</span><span class="p">,</span> <span class="n">worker</span><span class="p">)</span>
+    <span class="nx">jobs</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">Job</span><span class="p">,</span> <span class="nx">worker</span><span class="p">)</span>
     <span class="c1">// 结果</span>
-    <span class="n">results</span> <span class="p">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="n">Result</span><span class="p">,</span> <span class="n">minimum</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)))</span>
+    <span class="nx">results</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">Result</span><span class="p">,</span> <span class="nx">minimum</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">files</span><span class="p">)))</span>
     <span class="c1">// 标记完成</span>
-    <span class="n">dones</span> <span class="p">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{},</span> <span class="n">worker</span><span class="p">)</span>
+    <span class="nx">dones</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">worker</span><span class="p">)</span>
 
-    <span class="k">go</span> <span class="n">addJob</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">jobs</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">:=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="n">worker</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-        <span class="k">go</span> <span class="n">doJob</span><span class="p">(</span><span class="n">jobs</span><span class="p">,</span> <span class="n">regex</span><span class="p">,</span> <span class="n">dones</span><span class="p">)</span>
+    <span class="k">go</span> <span class="nx">addJob</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">jobs</span><span class="p">,</span> <span class="nx">results</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">worker</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="k">go</span> <span class="nx">doJob</span><span class="p">(</span><span class="nx">jobs</span><span class="p">,</span> <span class="nx">regex</span><span class="p">,</span> <span class="nx">dones</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="n">awaitForCloseResult</span><span class="p">(</span><span class="n">dones</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+    <span class="nx">awaitForCloseResult</span><span class="p">(</span><span class="nx">dones</span><span class="p">,</span> <span class="nx">results</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="k">func</span> <span class="n">addJob</span><span class="p">(</span><span class="n">files</span> <span class="p">[]</span><span class="nb">string</span><span class="p">,</span> <span class="n">jobs</span> <span class="k">chan</span><span class="p">&lt;-</span> <span class="n">Job</span><span class="p">,</span> <span class="n">results</span> <span class="k">chan</span><span class="p">&lt;-</span> <span class="n">Result</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">filename</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">files</span> <span class="p">{</span>
-        <span class="n">jobs</span> <span class="p">&lt;-</span> <span class="n">Job</span> <span class="p">{</span><span class="n">filename</span><span class="p">,</span> <span class="n">results</span><span class="p">}</span>
+<span class="kd">func</span> <span class="nx">addJob</span><span class="p">(</span><span class="nx">files</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">jobs</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="nx">Job</span><span class="p">,</span> <span class="nx">results</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="nx">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">filename</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">files</span> <span class="p">{</span>
+        <span class="nx">jobs</span> <span class="o">&lt;-</span> <span class="nx">Job</span> <span class="p">{</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">results</span><span class="p">}</span>
     <span class="p">}</span>
-    <span class="nb">close</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
+    <span class="nb">close</span><span class="p">(</span><span class="nx">jobs</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="k">func</span> <span class="n">doJob</span><span class="p">(</span><span class="n">jobs</span> <span class="p">&lt;-</span><span class="k">chan</span> <span class="n">Job</span><span class="p">,</span> <span class="n">regex</span> <span class="p">*</span><span class="n">regexp</span><span class="p">.</span><span class="n">Regexp</span><span class="p">,</span> <span class="n">dones</span> <span class="k">chan</span><span class="p">&lt;-</span> <span class="k">struct</span><span class="p">{})</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="n">job</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">jobs</span> <span class="p">{</span>
-        <span class="n">job</span><span class="p">.</span><span class="n">Do</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nx">doJob</span><span class="p">(</span><span class="nx">jobs</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="nx">Job</span><span class="p">,</span> <span class="nx">regex</span> <span class="o">*</span><span class="nx">regexp</span><span class="p">.</span><span class="nx">Regexp</span><span class="p">,</span> <span class="nx">dones</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">job</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">jobs</span> <span class="p">{</span>
+        <span class="nx">job</span><span class="p">.</span><span class="nx">Do</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="n">dones</span> <span class="p">&lt;-</span> <span class="k">struct</span><span class="p">{}{}</span>
+    <span class="nx">dones</span> <span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{}{}</span>
 <span class="p">}</span>
 
-<span class="k">func</span> <span class="n">awaitForCloseResult</span><span class="p">(</span><span class="n">dones</span> <span class="p">&lt;-</span><span class="k">chan</span> <span class="k">struct</span><span class="p">{},</span> <span class="n">results</span> <span class="k">chan</span> <span class="n">Result</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">working</span> <span class="p">:=</span> <span class="n">worker</span>
-    <span class="n">done</span> <span class="p">:=</span> <span class="n">false</span>
+<span class="kd">func</span> <span class="nx">awaitForCloseResult</span><span class="p">(</span><span class="nx">dones</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">results</span> <span class="kd">chan</span> <span class="nx">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">working</span> <span class="o">:=</span> <span class="nx">worker</span>
+    <span class="nx">done</span> <span class="o">:=</span> <span class="kc">false</span>
     <span class="k">for</span> <span class="p">{</span>
         <span class="k">select</span> <span class="p">{</span>
-            <span class="k">case</span> <span class="n">result</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">results</span><span class="p">:</span>
-                <span class="n">println</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-            <span class="k">case</span> <span class="p">&lt;-</span><span class="n">dones</span><span class="p">:</span>
-                <span class="n">working</span> <span class="p">-=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">working</span> <span class="p">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>
-                    <span class="n">done</span> <span class="p">=</span> <span class="n">true</span>
+            <span class="k">case</span> <span class="nx">result</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">results</span><span class="p">:</span>
+                <span class="nb">println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+            <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">dones</span><span class="p">:</span>
+                <span class="nx">working</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="nx">working</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>
+                    <span class="nx">done</span> <span class="p">=</span> <span class="kc">true</span>
                 <span class="p">}</span>
             <span class="k">default</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">done</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="nx">done</span> <span class="p">{</span>
                     <span class="k">return</span>
                 <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">func</span> <span class="p">(</span><span class="n">j</span> <span class="p">*</span><span class="n">Job</span><span class="p">)</span> <span class="n">Do</span><span class="p">(</span><span class="n">re</span> <span class="p">*</span><span class="n">regexp</span><span class="p">.</span><span class="n">Regexp</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">f</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">os</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">j</span><span class="p">.</span><span class="n">filename</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">err</span> <span class="p">!=</span> <span class="n">nil</span> <span class="p">{</span>
-        <span class="n">println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">j</span> <span class="o">*</span><span class="nx">Job</span><span class="p">)</span> <span class="nx">Do</span><span class="p">(</span><span class="nx">re</span> <span class="o">*</span><span class="nx">regexp</span><span class="p">.</span><span class="nx">Regexp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nb">println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
-    <span class="k">defer</span> <span class="n">f</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+    <span class="k">defer</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
 
-    <span class="n">b</span> <span class="p">:=</span> <span class="n">bufio</span><span class="p">.</span><span class="n">NewReader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="n">lino</span> <span class="p">:=</span> <span class="mi">0</span>
+    <span class="nx">b</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+    <span class="nx">lino</span> <span class="o">:=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="p">{</span>
-        <span class="n">line</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">b</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">Match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">j</span><span class="p">.</span><span class="n">results</span> <span class="p">&lt;-</span> <span class="n">Result</span> <span class="p">{</span><span class="n">j</span><span class="p">.</span><span class="n">filename</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="n">lino</span><span class="p">}</span>
+        <span class="nx">line</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">ReadLine</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nx">re</span><span class="p">.</span><span class="nx">Match</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">j</span><span class="p">.</span><span class="nx">results</span> <span class="o">&lt;-</span> <span class="nx">Result</span> <span class="p">{</span><span class="nx">j</span><span class="p">.</span><span class="nx">filename</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">line</span><span class="p">),</span> <span class="nx">lino</span><span class="p">}</span>
         <span class="p">}</span>
 
-        <span class="k">if</span> <span class="n">err</span> <span class="p">!=</span> <span class="n">nil</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
             <span class="k">break</span>
         <span class="p">}</span>
-        <span class="n">lino</span> <span class="p">+=</span> <span class="mi">1</span>
+        <span class="nx">lino</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">func</span> <span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="nb">int</span><span class="p">)</span> <span class="nb">int</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="n">a</span> <span class="p">&gt;</span> <span class="n">b</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">b</span>
+<span class="kd">func</span> <span class="nx">minimum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">a</span> <span class="p">&gt;</span> <span class="nx">b</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">b</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">a</span>
+    <span class="k">return</span> <span class="nx">a</span>
 <span class="p">}</span>
 
-<span class="k">func</span> <span class="n">println</span><span class="p">(</span><span class="n">o</span> <span class="p">...</span><span class="k">interface</span><span class="p">{})</span> <span class="p">{</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">o</span><span class="p">...)</span>
+<span class="kd">func</span> <span class="nb">println</span><span class="p">(</span><span class="nx">o</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">o</span><span class="o">...</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>]]></content:encoded>
 		</item>
