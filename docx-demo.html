@@ -1,0 +1,177 @@
+<html>
+<head>
+<title>title</title>
+
+</head>
+<body>
+<h3> Type Client </h3>
+<blockquote>
+  <pre><code></code></pre>
+	<h4> Fields </h4>
+	<blockquote>None</blockquote>
+	<h4> Method </h4>
+	<blockquote><h3> Function Do </h3>
+<blockquote>
+	<pre><code>Do sends an HTTP request and returns an HTTP response, following
+policy (e.g. redirects, cookies, auth) as configured on the client.
+
+An error is returned if caused by client policy (such as
+CheckRedirect), or if there was an HTTP protocol error.
+A non-2xx response doesn't cause an error.
+
+When err is nil, resp always contains a non-nil resp.Body.
+
+Callers should close res.Body when done reading from it. If
+resp.Body is not closed, the Client's underlying RoundTripper
+(typically Transport) may not be able to re-use a persistent TCP
+connection to the server for a subsequent "keep-alive" request.
+
+Generally Get, Post, or PostForm will be used instead of Do.</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>req Request</li>
+
+</blockquote>
+</blockquote>
+<h3> Function Post </h3>
+<blockquote>
+	<pre><code>Post issues a POST to the specified URL.
+
+Caller should close resp.Body when done reading from it.</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>url string</li>
+
+<li>bodyType string</li>
+
+<li>body io.Reader</li>
+
+</blockquote>
+</blockquote>
+<h3> Function PostForm </h3>
+<blockquote>
+	<pre><code>PostForm issues a POST to the specified URL,
+with data's keys and values urlencoded as the request body.
+
+When err is nil, resp always contains a non-nil resp.Body.
+Caller should close resp.Body when done reading from it.</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>url string</li>
+
+<li>data url.Values</li>
+
+</blockquote>
+</blockquote>
+<h3> Function Head </h3>
+<blockquote>
+	<pre><code>Head issues a HEAD to the specified URL.  If the response is one of the
+following redirect codes, Head follows the redirect after calling the
+Client's CheckRedirect function.
+
+301 (Moved Permanently)
+302 (Found)
+303 (See Other)
+307 (Temporary Redirect)</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>url string</li>
+
+</blockquote>
+</blockquote>
+<h3> Function Get </h3>
+<blockquote>
+	<pre><code>Get issues a GET to the specified URL.  If the response is one of the
+following redirect codes, Get follows the redirect after calling the
+Client's CheckRedirect function.
+
+301 (Moved Permanently)
+302 (Found)
+303 (See Other)
+307 (Temporary Redirect)
+
+An error is returned if the Client's CheckRedirect function fails
+or if there was an HTTP protocol error. A non-2xx response doesn't
+cause an error.
+
+When err is nil, resp always contains a non-nil resp.Body.
+Caller should close resp.Body when done reading from it.</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>url string</li>
+
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h3> Function Post </h3>
+<blockquote>
+	<pre><code>Post issues a POST to the specified URL.
+
+Caller should close resp.Body when done reading from it.
+
+Post is a wrapper around DefaultClient.Post</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>url string</li>
+
+<li>bodyType string</li>
+
+<li>body io.Reader</li>
+
+</blockquote>
+</blockquote>
+<h3> Function PostForm </h3>
+<blockquote>
+	<pre><code>PostForm issues a POST to the specified URL, with data's keys and
+values URL-encoded as the request body.
+
+When err is nil, resp always contains a non-nil resp.Body.
+Caller should close resp.Body when done reading from it.
+
+PostForm is a wrapper around DefaultClient.PostForm</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>url string</li>
+
+<li>data url.Values</li>
+
+</blockquote>
+</blockquote>
+<h3> Function Head </h3>
+<blockquote>
+	<pre><code>Head issues a HEAD to the specified URL.  If the response is one of the
+following redirect codes, Head follows the redirect after calling the
+Client's CheckRedirect function.
+
+301 (Moved Permanently)
+302 (Found)
+303 (See Other)
+307 (Temporary Redirect)
+
+Head is a wrapper around DefaultClient.Head</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>url string</li>
+
+</blockquote>
+</blockquote>
+<h3> Function Get </h3>
+<blockquote>
+	<pre><code>Get issues a GET to the specified URL.  If the response is one of the following
+redirect codes, Get follows the redirect, up to a maximum of 10 redirects:
+
+301 (Moved Permanently)
+302 (Found)
+303 (See Other)
+307 (Temporary Redirect)
+
+An error is returned if there were too many redirects or if there
+was an HTTP protocol error. A non-2xx response doesn't cause an
+error.
+
+When err is nil, resp always contains a non-nil resp.Body.
+Caller should close resp.Body when done reading from it.
+
+Get is a wrapper around DefaultClient.Get.</code></pre>
+	<h4> Parameters </h4>
+	<blockquote><li>url string</li>
+
+</blockquote>
+</blockquote>
+
+</body>
+</html>
+
