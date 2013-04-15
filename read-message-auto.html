@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>关于自动获取新消息</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">关于自动获取新消息</h1>
+	<div class="date">June 26, 2011</div>
+	<hr />
+	<p>这篇文章关系到前端和后台...本篇文章不涉及代码,只有思路..<br>
+星期五晚上接到一个任务,关于我们学校的签到系统,说是做一个页面,自动展示今天已经签到的人员,并且要求一点是自动更新新签到的人员
+很明显要用到AJAX,上阵子写主题写得正熟,5个小时便搞定界面后台与JS.<br>
+类似于微博<br>
+用过微博的一般都知道,当你打开首页,等得比较久的话,会出现一个有新消息,点击后就显示出来了.为什么他不自动显示呢?技术问题?当然不是,因为这样能够有效得减少资源的占用<br>
+先说一下原理,在页面加载后,JS会每一段时间间隔向服务器发送一个搜索新消息的请求,然后服务器告诉他有or无.如果有,就显示出有新消  息,请查看!然后?然后JS就不用再去向服务器请求了.因为每次请求会给数据库带来一定的负担,而我的目标机子仅是一个1.8Ghz,256内存的虚拟机里面,4个表每个表数据都在6000+行以上,我在那个虚拟机上测试每次查询耗时是100+ms,而在我电脑上是20+,能省则省...<br>
+OK,刚才说到哪了.显示出有新消息,让用户去点击,节省的就是检测到新消息到用户点击这段时间的资源.当用户点击的时候,再向服务器提交查询信息,得到数据显示出来,然后再回到该流程的第一步.<br>
+大致的流程已经出来,再考虑细致的.  </p>
+
+<ol>
+<li>数据库查询,既然是查询今天的签到,就要给定一个时间范围,一般数据库中是以时间戳的方式储存时间,比如1308565124,意义是从1970年1月1日到现在的秒数.那时间的范围就是以今天0点0分为下限,现在的时间为上限.有一个方法可以获得今天0点0分的方法.先用date("Y-m-s",time())把现在时间的时间戳转换成我们熟悉的年月日格式,然后用strtotime()把文本格式的时间转换为时间戳.由于我们给strtotime没有包含哪个小时那分,所以默认是0点0分,刚好能达到今天的下限
+由于同时查询了多个表,并且都是要获得姓名,部门,时间,为了降低资源开支,我使用了UNION把所有select语句都给串联起来,但UNION要求是字段名称要相同,而时间有的是交signtime,有的是sign,这时候就要使用别名了,直接 as time搞定
+这样就通过一次查询就把所有的表都整合到一个数组当中.类别,是通过表的不同来辨别的,比如A表是公务签到,B表是留宿签到,整合到一起怎么区别呢,在selectA表的时候,在查询字段的地方可以加上 "1" as type,这样从A表读出的数据都会加上一个字段type并且值为1,其他的就类推</li>
+<li>时间.
+时间是一个重要的问题,时间弄不好会导致重复数据的产生.我的思路是,客户端网页在每次通过AJAX获取有没有新消息时,会自动带上上次查询不到信息的时间,服务器呢,查询数据的范围就是给的时间到当前服务器的时间,这样就将每次要查询的范围降到最小
+我第一次的时候为了节省服务器资源,直接在本地用JS读取时间,在本地测试是没什么问题,可是放到服务器问题就出来了,时间不同步,因为JS读取的时间的客户端电脑的时间,而数据库查询的时间是服务器的时间,服务器的时间和客户端电脑的时间是不一致的,导致了显示出重复数据.</li>
+</ol>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>改进Gravatar头像的获取方法</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">改进Gravatar头像的获取方法</h1>
+	<div class="date">June 05, 2011</div>
+	<hr />
+	<p>今天调试主题的时候,Gravatar服务器真是不给力啊
+读取了快4-5秒才读完一个30*30的头像...
+貌似之前Gravatar是被墙了吧?我那时候还么真正弄WP,所以还不清楚.
+貌似上次在phoetry那里看到《Gravatar被墙的三个解决方法》,有兴趣的童鞋可以去看下
+我呢,提供一下我自己方法(我专门去确认了我的方法和他的方法是不是相同的...幸好,不同的方法,我可以发博文啦~)
+总体思路还是将头像缓存到本地服务器,,如果怕服务器流量超支则慎用!</p>
+
+<p>我的思路~
+写一个页面当成Gravatar服务器那样~不懂?
+其实PHP很强大的,可以把自己模拟成图片,可以通过img控件直接显示图片.又不懂?
+原谅我那拙劣的表达能力...我用代码来说吧...
+在img中直接设置src为 <code>/?action=getimg&amp;mail=me@chenye.org</code>, 即</p>
+
+<div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/?action=getimg&amp;mail=me@chenye.org"</span> <span class="nt">/&gt;</span>
+</pre></div>
+
+<p>在index.php中,如果检测到 <code>$_GET['action']="getimg”</code> 就开工~
+先判断文件是否已经被缓存 (<code>fopen</code>)?不存在就从官网上获取(<code>file_get_contents</code>)并缓存,存在的话就从自己的路径读取(<code>header</code>)</p>
+
+<div class="highlight"><pre><span class="nv">$mail</span> <span class="o">=</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'mail'</span><span class="p">])</span> <span class="o">?</span> <span class="nb">md5</span><span class="p">(</span><span class="nx">strtolower</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'mail'</span><span class="p">]))</span> <span class="o">:</span> <span class="s2">""</span><span class="p">;</span>
+</pre></div>
+
+<p>判断是否输入了email,因为程序需要从email得到(转换)成读取Gravatar头像的token.如果怕在此泄露用户Email又已经在哪里弄到读取Gravatar头像的token的话可以将这里的 <code>md5(strtolower($_GET['mail’]))</code> 改成$mail,就可以把token直接传入到mail中(例:<code>/?action=getimg&amp;mail=d48cd4d6ded95a9cb5912a32e18f658b</code>)</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$mail</span> <span class="o">==</span> <span class="s2">""</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">header</span><span class="p">(</span><span class="s2">"Location:./avatar/1.png"</span><span class="p">);</span>
+    <span class="k">exit</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>如果没有输入email就直接读取默认头像,放在跟目录下/avatar/1.png的文件</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span> <span class="o">@</span> <span class="nv">$fp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)){</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="nv">$content</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'http://1.gravatar.com/avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s1">'?s=30&amp;d=http://www.chenye.org/avatar/1.png&amp;r=g'</span><span class="p">);</span>
+    <span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>如果读取不到本地有缓存该头像,就缓存下来到avatar并以读取Gravatar头像的token为名字加上png后缀名</p>
+
+<div class="highlight"><pre><span class="nx">header</span><span class="p">(</span><span class="s1">'Location:./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">);</span>
+</pre></div>
+
+<p>既然已经完成了缓存就直接跳转到该图片地址啦~
+到这里貌似完美~没有考虑到头像更新的问题~
+我们的程序里面应该加一个强制刷新的选项, 即以后想要强制从gravatar读取新图片的话,使用这个url <code>/?action=getimg&amp;mail=me@chenye.org&amp;refresh=1</code> 和前面相比多了一个refresh=1<br>
+需要修改的就是在前面判断是否读取的if语句条件</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span> <span class="o">@</span> <span class="nv">$fp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)){</span>
+</pre></div>
+
+<p>改为</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'refresh'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="o">@</span> <span class="nv">$fp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">'./avatar/'</span><span class="o">.</span><span class="nv">$mail</span><span class="o">.</span><span class="s2">".png"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)){</span>
+</pre></div>
+
+<p>到这里,貌似是OK~但真的是OK了!起码我认为是OK了!</p>
+
+<p>理论讲完了,给点实际的吧,我把PHP都给写好了~根据时间来自动更新头像,而不是想我上面的想法.因为非插件实在很难找到插入点更新头像,自己的主题就不一样啦.插入点可以自己写的.
+PHP中有使用方法,这里也贴出来
+将解压后的getgravatar.php放到当前用的主题目录里面 <code>getgravatar</code>,
+自动缓存gravatar头像到本地, 请确认在主题的index.php前面加上这段代码引用此文件</p>
+
+<div class="highlight"><pre><span class="nb">define</span><span class="p">(</span><span class="s2">"PATH"</span><span class="p">,</span> <span class="nb">preg_replace</span><span class="p">(</span><span class="s2">"/\/[^\/]*?$/"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\\</span><span class="s2">"</span><span class="p">,</span><span class="s2">"/"</span><span class="p">,</span><span class="k">__FILE__</span><span class="p">)));</span>
+<span class="k">include</span> <span class="nx">PATH</span><span class="o">.</span><span class="s1">'/'</span><span class="o">.</span><span class="s2">"getgravatar.php"</span><span class="p">;</span>
+</pre></div>
+
+<p>请将默认头像上传到 <code>avatar/</code> 目录并命名为 <code>1.png</code>
+使用方法~
+将主题中获取头像的语句</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span> <span class="o">?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nx">get_avatar</span><span class="p">(</span> <span class="nv">$comment</span><span class="p">,</span> <span class="mi">40</span> <span class="p">);</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>改成</p>
+
+<div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"&lt;? bloginfo('url');?/&gt;/?action=getimg&amp;mail=&lt; ?echo md5(strtolower($comment-&gt;comment_author_email));?&gt;"</span> <span class="na">class=</span><span class="s">"avatar avatar-32 photo"</span> <span class="nt">&gt;</span>
+</pre></div>
+
+<p>自己根据需要修改尺寸咯</p>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

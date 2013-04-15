@@ -1,0 +1,80 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>C#不同线程的相互访问</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">C#不同线程的相互访问</h1>
+	<div class="date">July 27, 2011</div>
+	<hr />
+	<p>本来是不想碰C#这蛋疼的家伙的.但没办法,项目中突然要我负责餐厅服务器,把我从东墙扔到了西墙.只好硬着头皮干了.<br>
+当前和中央服务器的连接还是采用socket的方式,要有像QQ一眼的在线状态判断功能.这也就意味这要定时向中央服务器发送心跳包~告诉他我还活着...<br>
+然后还要负责监听来自中央服务器的消息.监听就意味着单线程要处于堵塞状态(死循环,无法进行其他操作了),而且,发送心跳包的频率是每秒1次,监听则是1ms一次,所以就要采用多线程来解决.然后多线程中状态的互交是必须的.然而C#为了安全不同线程是不允许相互访问其内容的.然后便有了此文.  </p>
+
+<h4>
+<a name="" class="anchor" href="#"><span class="mini-icon mini-icon-link"></span></a>目标:</h4>
+
+<p>用另外一个线程控制主窗口的lb_name(textbox控件)的内容显示<br>
+PS:其实我说了,我对C#不熟,代码是baidu(为什么不是google呢,因为他刚好间接性挂了.)来的(修改了一点).怕忘记加了一点理解<br>
+首先申明一个委托方法   </p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">delegate</span> <span class="k">void</span> <span class="nf">SetText</span><span class="p">(</span><span class="kt">string</span> <span class="n">text</span><span class="p">);</span>
+<span class="c1">//加入方法</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">SetLbText</span><span class="p">(</span><span class="kt">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 如果返回 True ，则访问控件的线程不是创建控件的线程</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lb_Name</span><span class="p">.</span><span class="n">InvokeRequired</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 实例一个委托，匿名方法，</span>
+        <span class="n">SetText</span> <span class="n">st</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SetText</span><span class="p">(</span><span class="k">delegate</span><span class="p">(</span><span class="kt">string</span> <span class="n">text</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 改变 Label 的 Text</span>
+            <span class="n">lb_Name</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">text</span><span class="p">;</span>
+        <span class="p">});</span>
+
+        <span class="c1">// 把调用权交给创建控件的线程，带上参数</span>
+        <span class="n">lb_Name</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">lb_Name</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">str</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>然后任何线程都可以通过<code>setlbtext("内容")</code>来改变lb_name的内容.
+通过代码我能理解的就是,实际对<code>lb_name</code>进行内容改变的还是他自己所在的进程,因为其他进程是没办法访问到<code>lb_name</code>的.
+而委托函数(SetText)大概是能委托<code>lb_name</code>所在线程对<code>lb_name</code>进行操作.
+哎,这就是码农的悲哀.竟然硬把我拉去写C#...</p>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

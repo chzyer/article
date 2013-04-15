@@ -1,0 +1,56 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>关于TAGS的自动提取</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">关于TAGS的自动提取</h1>
+	<div class="date">May 28, 2011</div>
+	<hr />
+	<p>以前用过DISCUZ，对他里面的自动获取TAGS(关键词)表示有点神奇，难道他是通过语法来匹配的吗？我感觉不太可能，可能是我对中文的语法不熟悉吧(English too)，或许别人可行，细心的盆友会发现,在Chrome下,双击汉字会自动选中一个词哦~比如刚才那句话,你在"汉字"中间处或者"汉"上面和"字"上面点击,都会自动选中"汉字"姑且作为一种方案的,而"会"字无论你在哪点都只会选中"会".这个功能在IE下可是没有的,不信去试试~
+wordpress貌似没有自动获取标签的功能~有没有插件我就不清楚了,一堆鸟文也懒得看了</p>
+
+<p>然后在网上搜了一下，发现一种比较蠢得方法，就是把一些可能出现的关键词先集成到JS文件里面，然后就计算一些权重啊什么的再列出来，确实可以下一个定义，任何需要手工完成的方法都称为蠢方法。不过可以借鉴的是他里面对关键词的算法,不过顺着这个思路，可以把这个方法进行改进。
+可以把关键词库的添加任务交给用户，怎么说，思路是这样，程序负责从数据库读取关键词列表然后用JS进行统计，要是找不到用户期待的关键词用户可能会手动自己添加，程序要做的就是把用户手动添加的关键词加入数据库，当然需要做一些保留字的过滤，这样下次其他用户如果文章里面有这个关键词就可以自动识别出来。</p>
+
+<p>当然,提出这个问题也仅仅是讨论而已,博客程序这种东西是不需要自动获取TAG的.只是我上段时间写的一个项目需要用到关键词的功能.却没办法让他更加智能化.智能化的网页才是以后用户真正需要的吧</p>
+
+<p>话题一转~话说今天忙了一整天,新主题的外观已经完成,并且已经整合到WP当中.剩下的就是一些功能的整合.不变的是创意与个性~还有AJAX文章调用~rhythm(韵律)这个名字不是白叫的哦...</p>
+
+<p>今天端午节放假的第一天,祝大家有粽子吃~呵呵</p>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

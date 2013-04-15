@@ -1,0 +1,30 @@
+<html>
+<head>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New";
+	color: #9EA8AF;
+}
+</style>
+</head>
+<body>
+<div style="width: 200px;position:absolute;left:45%;z-index:9999;margin-top:-30px;">
+	<a href="/" style="color:9EA8AF;text-decoration:none"> 点击这里进入首页</a>
+</div>
+<script>
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+if (location.href.indexOf("/article/") > 0) {
+	href = location.href
+	if (href[href.length - 1] != '/') {
+		href += "/"
+	}
+	var key = href.substring(href.indexOf("/article/") + 9, href.lastIndexOf("/"))
+	location.href="/" + key + ".html"
+}
+</script>
+<script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+a {
+	color: #dddddd;
+	overflow:ellipsis;
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+pre {
+	overflow-y: auto;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid #1E1E1E;
+}
+
+.date {
+	display:none;
+	float:right;
+	color:#DEA465;
+}
+
+.key {
+	font-size: 9pt;
+}
+
+.key a {
+	color:#434343;
+}

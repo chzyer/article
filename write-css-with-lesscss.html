@@ -1,0 +1,116 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>让你像写代码般写css</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">让你像写代码般写css</h1>
+	<div class="date">November 25, 2011</div>
+	<hr />
+	<p>写惯了各种代码,到了css,你会不会觉得<code>copy</code>/<code>paste</code>的操作特别多呢?会不会发现一修改配色就要来一次"全部替换"?   </p>
+
+<p>前段时间我老大呢介绍了国外一神器,lesscss,不过主页被墙...有身高优势的童鞋可以翻过去<code>http://lesscss.org/</code>
+先从使用方法上说吧,
+可以使用变量.把颜色什么的用变量代替,Like</p>
+
+<div class="highlight"><pre><span class="k">@tastyColor</span><span class="o">:</span> <span class="nf">#21A6CE</span><span class="p">;</span>
+<span class="nc">.a</span><span class="p">{</span><span class="k">color</span><span class="o">:@</span><span class="n">tastyColor</span><span class="p">}</span>
+</pre></div>
+
+<p>这样都行?嗯,好处是你可以不用"全部替换"法来解决配色问题.
+有变量,也要有函数了~</p>
+
+<div class="highlight"><pre><span class="nc">.high-light</span> <span class="o">(</span><span class="k">@weight</span><span class="o">:</span> <span class="nt">1px</span><span class="o">)</span><span class="p">{</span>
+    <span class="nt">border</span><span class="o">:</span><span class="k">@weight</span> <span class="nt">solid</span> <span class="nf">#000</span>
+<span class="err">}</span>
+</pre></div>
+
+<p>这是"函数",我们可以看到还有参数,参数还带默认值(java无法设默认值的飘过),在其他地方可以调用了</p>
+
+<div class="highlight"><pre><span class="nc">.button</span><span class="p">{</span>
+    <span class="o">.</span><span class="k">high</span><span class="o">-</span><span class="n">light</span>
+<span class="p">}</span>
+<span class="nc">.button-weight</span><span class="p">{</span>
+    <span class="o">.</span><span class="k">high</span><span class="o">-</span><span class="n">light</span><span class="p">(</span><span class="m">2px</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>是不是很简单?
+嵌套
+有没有写下面代码的经历?</p>
+
+<div class="highlight"><pre><span class="nf">#header</span><span class="p">{</span><span class="o">...</span><span class="p">}</span>
+<span class="nf">#header</span> <span class="nc">.id</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span>
+<span class="nf">#header</span> <span class="nc">.search</span> <span class="p">{</span><span class="o">...</span><span class="p">}</span>
+<span class="nf">#header</span> <span class="nc">.search</span> <span class="nt">button</span><span class="p">{</span><span class="o">...</span><span class="p">}</span>
+</pre></div>
+
+<p>到lesscss可以这样写</p>
+
+<div class="highlight"><pre><span class="nf">#header</span><span class="p">{</span>
+    <span class="o">...</span> <span class="c">/*header的css代码*/</span>
+    <span class="o">.</span><span class="n">id</span> <span class="err">{</span>
+        <span class="o">...</span> <span class="c">/*#header .id 的代码*/</span>
+    <span class="p">}</span>
+    <span class="nc">.search</span><span class="p">{</span>
+        <span class="o">...</span> <span class="c">/*#header .search 的代码*/</span>
+        <span class="n">button</span> <span class="err">{</span>
+            <span class="o">...</span> <span class="c">/*#header .search button的代码*/</span>
+        <span class="p">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+
+<p>好了,关于语法就不再说,还有其他的,自己去google
+关于lesscss的工作原理,lesscss有两种工作方式,
+第一种,下载他的js文件,在网页中加载less文件和他那个less.js(less文件是写上文所说的简洁写法)
+第二种靠谱点,直接用程序将less文件转换为css文件,与其说转换,不如说是翻译.
+我是更倾向于用第二种,第二种只要在你修改的时候生成一遍css,第一种则是在用户看你网页的时候再进行翻译,可能效果的加载会比较慢
+怎么生成呢,在ubuntu下很简单
+先下载安装, </p>
+
+<div class="highlight"><pre>sudo apt-get install libnode-less
+</pre></div>
+
+<p>然后执行</p>
+
+<pre><code>lessc style.less style.css
+</code></pre>
+
+<p>就可以把less风格的代码翻译成真正css风格的代码</p>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

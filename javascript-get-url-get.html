@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>Javascript获得URL的GET参数</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">Javascript获得URL的GET参数</h1>
+	<div class="date">June 06, 2011</div>
+	<hr />
+	<p>其实原理挺简单的，只是我之前都不知道JS能获得当前网址...</p>
+
+<div class="highlight"><pre><span class="c1">//取get变量的值 Val 为要取的变量名称</span>
+<span class="kd">function</span> <span class="nx">getParameter</span><span class="p">(</span> <span class="nx">val</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">RegExp</span> <span class="p">(</span><span class="nx">val</span> <span class="o">+</span> <span class="s2">"=([^&amp;#]*)"</span><span class="p">,</span><span class="s2">"i"</span><span class="p">)</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">re</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nx">a</span> <span class="o">==</span> <span class="kc">null</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">decodeURI</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">info</span> <span class="o">=</span> <span class="nx">getParameter</span><span class="p">(</span><span class="s2">"info"</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">info</span><span class="p">);</span>
+</pre></div>
+
+<p>解释，原理是使用正则表达式匹配出变量的字符串。
+在<code>getparameter</code>函数中val是要取的变量名， <code>(val + "=([^&amp;#]*)","i")</code> 表示匹配有等于号加上任意非&amp;且非#字符，"i"表示不区分大小写,a最后得到的是匹配到的括号(表达式的)里面的字符串
+页面编码建议用UTF-8，否则会出现乱码
+javascript中用于转码的函数有三个，但是各有区别
+<code>escape</code>, <code>encodeURI</code>, <code>encodeURIComponent</code>,对应的，他们的解码函数<code>unescape</code>, <code>decodeURI</code>, <code>decodeURIComponent</code>
+下面是他们的区别</p>
+
+<ul>
+<li>escape不编码字符有69个：*, +, -, ., /, @, _, 0-9, a-z, A-Z</li>
+<li>encodeURI不编码字符有82个：! ,# ,$ ,&amp; ,' ,( ,) ,* ,+ ,, ,- ,. ,/ ,: ,; ,= ,? ,@ ,_ ,~ ,0-9 ,a-z ,A-Z</li>
+<li>
+<p>encodeURIComponent不编码字符有71个：! ,' ,( ,) ,* ,- ,. ,_ ,~ ,0-9 ,a-z ,A-Z</p>
+
+<p>encodeURIComponent比encodeURI多编码了# ?</p>
+</li>
+<li><p>escape和encodeURI(Component)的编码方式是不同的.同样是中文"中文"</p></li>
+<li><p>encodeURI -------- %E4%B8%AD%E6%96%87 ------ 是以UTF-8编码的形式(从每个字符占用3字节看出来)，叫统一资源标示码(URI),从URL读取的字符请用它</p></li>
+<li><p>escape　 -------- %u4E2D%u6587 ------ Unicode格式，以后补充，目前没遇到
+用途：通过添加标签来弥补使用AJAX造成的无法后退前进的问题，JS可以根据标签来执行操作</p></li>
+</ul>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>征服漫画网站(盗链&#43;采集&#43;优化阅读方式)</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">征服漫画网站(盗链&#43;采集&#43;优化阅读方式)</h1>
+	<div class="date">July 31, 2011</div>
+	<hr />
+	<p>最近突然喜欢看漫画,baidu一下,找到了www.imanhua.com这个网站,发现里面漫画挺多.还不错.但是蛋疼的事情就是太麻烦了.有兴趣的可以去体验下.<br>
+每一张漫画都要手动按一下下一页才可以继续看,然后看到最后还没有下一篇的连接,要记住这个第几话了,然后会目录再找第几+1话...而且广告的密度也不多说.<br>
+虽说会自动加载下一页漫画图片缓存下来,待到打开下一个页面时就不用等待图片下载了,但是还是看得不爽.<br>
+然后心头突然涌现一个想法..采集他的图片下来,做成自己想要的方式..哈哈.有技术的人就是有优势.<br>
+接下来会介绍我逐步研究的步骤..最后还会附上我的作品..所谓的采集也不是名副其实的采集.进入正题..<br>
+随便找部漫画,比如火影,找到第一集,用火狐打开,然后按ctr+shift+k打开XX工具.然后打开网页,从一大堆数据中隐约能找到</p>
+
+<pre><code>[20:59:56.052] GET http://61.147.109.2:89/Files/Images/54/45998/imanhua_001_185520120.jpg [HTTP/1.1 302 Redirect 29ms]
+</code></pre>
+
+<p>这个就是具体的图片了.归根到底我们就只需要这个图片而已.新窗口打开这个图片,发现万恶的防盗链.根据我的理解,防盗链的原理应该是根据发送请求信息的域名来判断是不是外界,这样,我们就确确实实要在<code>imanhua.com</code>域名下打开我自己的网页咯.按理说我们打开<code>imanhua.com</code>会解析到他们自己的ip地址,但是我们可以修改<code>c:/windows/system32/drivers/etc/hosts</code>这个文件,将<code>imanhua.com</code>解析到我们指定的IP地址就行了.博主们的空间应该可以绑定多个子网站,上传到上面,建立<code>imanhua.com</code>这个子站点,然后修改hosts这个文件将<code>imanhua.com</code>解析到自己空间的ip,然后浏览器访问<code>imanhua.com</code>就会访问到你自己的空间上面去.而且,如果在上面引用上面得到的图片地址,是不会被防盗链的呦!!!这就是要大费周章的原因.而且.不知注意到没有,用<code>imanhua.com</code>和<code>www.imanhua.com</code>都可以访问这个网站.这正好帮了一个忙.将<code>imanhua.com</code>解析成我们的IP,而<code>www.imanhua.com</code>可以不理(必须),因为还需要通过它来获取目录信息,以便自动加载.</p>
+
+<h3>
+<a name="ok" class="anchor" href="#ok"><span class="mini-icon mini-icon-link"></span></a>OK,接下来是网页篇...</h3>
+
+<p>本来想抓住图片地址的规律,发现<code>/imanhua_001_185520120.jpg</code>,后面这一串185520120是随机的.翻开网页源代码(你问我怎么打开源代码?网页禁止右键了?用Chrome打开<code>view-source:http://www.imanhua.com/comic/54/list_45998.html</code>试试),找到了一段比较长的压缩加密的js代码,eval(function(p,a,c,k,e,d){...(省略),解压加密得.....一个包含本集所有图片地址数组....是不是很简单...把这个拉出来,放到我们的网页上,当成js运行.就可以自动加载了...(过程省略,我没那么多的口水用),然后是采集目录,他是一个ul包括起li,用正则<code>preg_replace_callback</code>截取出来保存成数组的形式.和写代码高亮相比,这简直是小巫...
+最后优化成的理想阅读效果是,当看到最后一张图片时,自动加载下一页,当这一集看完时,自动加载下一集的第一页,然后一直这样下去.直到这部漫画完.而且加入页面跳转.可以跳转到本集的任意一页.右下角有个输入框,输入数字按回车就行.
+chrome下完美通过...兼容性我就懒得顾及了,反正这是写给我自己用的.
+然后啊,你只要用滚轮一直滑滑滑滑到这部漫画剧终...当然,按空格可以滑动到下一页图片到屏幕顶端,这样更可以方便阅读.按F11全屏,这种阅读方式和看PDF一样爽.我就这样看完了3部漫画..
+如果想试效果,可以把</p>
+
+<pre lang="hosts"><code>174.37.169.17   imanhua.com
+</code></pre>
+
+<p>加入你的hosts文件,这是我上传到我空间的demo.就可以用这个域名看了.第一次打开目录可能会比较慢,毕竟这是国外的空间.要往返很多次...
+如果要看其他漫画,需要在imanhua.com找到他的ID,比如火影的地址是<code>http://www.imanhua.com/comic/54/</code>,那他的ID是54,访问<code>imanhua.com/?id=54</code>看到的就是火影的目录了
+最后是源代码,因为代码写的很急,用了一个半小时,所以..
+版权没有,修改自由,后果自负..耶
+虽然本文某网址出现的频率颇高...但这不是软文....</p>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

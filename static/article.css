@@ -1,0 +1,103 @@
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+
+#rightnav {
+	float:right;
+}
+
+a {
+	color: #dddddd;
+	text-decoration: none;
+	overflow:ellipsis;
+}
+
+p {
+	color: #9EA8AF;
+	font-size: 12pt;
+	line-height: 25px;
+	word-break:break-all;
+}
+
+hr {
+	color: transparent;
+	background: transparent;
+	height: 1px;
+	border: 1px solid #434343;
+	border-right: none;
+	border-left: none;
+	padding: 0px;
+}
+
+.title {
+	font-weight: 200;
+}
+
+.date {
+	color: #DEA465;
+	position: absolute;
+	margin-top: -9px;
+	margin-left: 20px;
+	background: #1A1A1A;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+h1 {
+	color: #ffffff;
+	font-size: 15pt;
+}
+
+h2 {
+	font-size: 14pt;
+}
+
+h3 {
+	font-size: 13pt;
+}
+
+article {
+	margin: 0 auto;
+	max-width: 800px;
+	padding: 10px;
+}
+
+blockquote {
+	margin-left: 10px;
+	border-left: 3px solid #434343;
+	padding-left: 8px;
+}
+
+blockquote p {
+	color: #9EA8AC;
+}
+
+p code {
+	padding-left: 2px;
+	padding-right: 2px;
+	padding: 2px;
+	padding-bottom: 1px;
+	background: #1e1e1e;
+	color: #585858;
+}
+
+pre {
+	margin-left: 8px;
+	overflow-y: auto;
+	overflow-x: none;
+	background: #1e1e1e;
+	padding: 8px;
+}
+
+.highlight pre{
+	border: 1px solid #112933;
+	background: #1D1D1D;
+	background: #0D2129;
+}
+.highlight .k{color:#5f8700;} .p{color:#8a8a8a} .nb{color:#af8700}
+.s {color:#00afaf} .c{color:#8a8a8a} .c1{color:#8a8a8a}
+.kt{color:#af8700} .kd{color:#af8700}
+/* xml */
+.nt{color:#0087ff} .na{color:#af8700} .cp{color:#8a8a8a}

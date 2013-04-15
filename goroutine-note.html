@@ -1,0 +1,296 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>golang并发编程 - 例子解析</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">golang并发编程 - 例子解析</h1>
+	<div class="date">February 26, 2013</div>
+	<hr />
+	<blockquote>
+<p>最近在看《Programming in Go》, 其中关于并发编程写得很不错, 受益非浅, 其中有一些例子是需要多思考才能想明白的, 所以我打算记录下来, 强化一下思路</p>
+</blockquote>
+
+<p>《Programming in Go》在 <code>Chapter 7. Concurrent Programming</code> 里面一共用3个例子来讲述并发编程的3个模式, 第一个是 <code>filter</code> , 筛选出后缀名和文件大小文件列表, 还算简单就不说, 然后第二个是升级版, 正则版 <code>filter</code> , 不同的是他是根据正则搜索出文件的文本并且列出来. 这个例子我起初看是有点蒙的, 这样写是没错, 但是为什么要这样写, 他的设计思路是什么, 和其他方法相比他有什么优势, 这些都不清楚, 于是决定好好分析一下. 实际上这个例子实现的功能并不复杂, 所以我的文章实际上是在讨论怎么产生出和作者相似的思路.</p>
+
+<p>如果不考虑用 goroutine 的话, 思路其实很简单:</p>
+
+<pre><code>1. 列出文件列表, 编译正则.
+2. 遍历文件, 打开并遍历每行, 如果正则能匹配, 记录下来.
+3. 列出来.
+</code></pre>
+
+<p>如果用 goroutine , 就会有以下思路:</p>
+
+<pre><code>1. 在得到文件路径数组之后, 分发任务给N个核.
+2. 每个核负责打开文件,  将符合条件的那行文本写入到 `channel`
+3. 主线程等待并接收`channel`的结果. 显示出来, 完毕
+</code></pre>
+
+<hr><p>** 然后下文才是重点 **</p>
+
+<h2>
+<a name="1-channel" class="anchor" href="#1-channel"><span class="mini-icon mini-icon-link"></span></a>1. channel关闭的时机</h2>
+
+<p>在go中, channel 是不会自动关闭的, 所以需要在我们使用完之后手动去关闭, 而且如果使用for语法来遍历channel每次得到的数据, 如果channel没有关闭的话会陷入死循环. 在 goroutine 中会造成 deadlock</p>
+
+<div class="highlight"><pre><span class="k">for</span> <span class="nx">job</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">jobs</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">job</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>如果没close, 会触发dead lock. 因为for...range...会自动阻塞直到读取到数据或者channel关闭, 没close的话就会导致整个channel处于睡眠状态. channel关闭后, 就不允许写入(缓冲的数据还在, 还可以读取), 所以,  channel 关闭的时机很重要.</p>
+
+<h2>
+<a name="2-" class="anchor" href="#2-"><span class="mini-icon mini-icon-link"></span></a>2. 分发任务</h2>
+
+<p>我所知道任务分发方法有两种:   </p>
+
+<blockquote>
+<p>第一种是固定分配, 如果说我想计算1+2+3+...+100, 然后分成4份, 也就是 <code>1+2+..+25</code>, <code>...</code>, <code>...</code>, <code>86+87+...+100</code>, 然后再将结果累加起来.</p>
+
+<p>还有一种是抢占式的, 这里需要使用一个队列, 将所有任务写入队列, 然后开N个goroutine, 每个goroutine从队列读取任务(要确保线程安全), 处理, 完成后再继续读取任务. 不再是固定分配, 自己那份做完了就休息了, 所以看来第二种要好一点.</p>
+</blockquote>
+
+<p>采用第二种方式的话, 对应go的做法, 那就是使用一个channel, 命名为 <code>jobs</code>, 将所有的任务写入进去, 写入完毕之后关闭这个 channel, 当然, 因为是N核, 系统能同时处理的任务我们设置为N个(也就是我们使用了N个goroutine), 那么声明 <code>jobs</code> 是缓冲区长度为N的 channel. </p>
+
+<p><code>Buffered channel</code> 和普通的 channel 的差别是他可以同时容纳多个单位数据, 当缓存的数据单位数量等于 channel 容量的时候, 再执行写入将会阻塞, 否则都是及时处理的.</p>
+
+<h2>
+<a name="3-" class="anchor" href="#3-"><span class="mini-icon mini-icon-link"></span></a>3. 结果集</h2>
+
+<p>当我们将数据处理后, 就需要将结果收集起来. 需要注意的是, 这些操作不是在主 goroutine 执行, 所以我们需要通过 channel 传递给主 goroutine . 所以只需要在外部声明一个名为 <code>results</code> 的 channel . 然后在主 goroutine 通过 <code>for</code> 来显示, 这时候就会发现一个问题, 这个 <code>results</code> 关闭的时机问题. 正确的关闭时机是写入所有的 <code>Result</code> 之后. 但是别忘了我们同时开了多个 goroutine , 所以 <code>results</code> 应该在 <code>执行任务的 goroutine 完成信号累计到N个</code> 这个时机关闭. 所以我们再引入一个名叫 <code>done</code> 的 channel 来解决. 每个 goroutine 发送完 result 后会写入一次done, 然后我们就可以遍历 done , 遍历之后说明全部完成了, 再执行显示. </p>
+
+<p>Result 的数据结构</p>
+
+<div class="highlight"><pre><span class="kd">type</span> <span class="nx">Result</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">filename</span> <span class="kt">string</span>
+    <span class="nx">lino</span> <span class="kt">int</span>
+    <span class="nx">line</span> <span class="kt">string</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>书中的 <code>cgrep1</code> 就是这样的</p>
+
+<div class="highlight"><pre><span class="kd">func</span> <span class="nx">awaitCompletion</span><span class="p">(</span><span class="nx">done</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">results</span> <span class="kd">chan</span> <span class="nx">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">workers</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="o">&lt;-</span><span class="nx">done</span>
+    <span class="p">}</span>
+    <span class="nb">close</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>但是这样有可能造成死锁, 因为书中 <code>results</code> 缓冲区长度限定为最大1000个, 也就是超过1000个 result 的时候再打算写入 result 会等待取出 result 后才执行, done 也不会写入, 而 <code>awaitCompletion</code> 是等到所有 goroutine 都完成了才会取出 <code>results</code>, 而且当 <code>result</code> 非常大的时候因为内存的缘故也是不可能一次性取出的. 所以就需要在读取 <code>results</code> 的同时读取 <code>done</code>, 当读取 <code>done</code> 次数大于 N 后关闭 <code>results</code>, 所以, 因为要在多个 channel 中同时读取, 所以需要使用 <code>select</code>.</p>
+
+<p>下面是书中的 <code>cgrep3</code> , 改进版:</p>
+
+<div class="highlight"><pre><span class="kd">func</span> <span class="nx">waitAndProcessResults</span><span class="p">(</span><span class="nx">timeout</span> <span class="kt">int64</span><span class="p">,</span> <span class="nx">done</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">results</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="nx">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">finish</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="p">(</span><span class="nx">timeout</span><span class="p">))</span>
+    <span class="k">for</span> <span class="nx">working</span> <span class="o">:=</span> <span class="nx">workers</span><span class="p">;</span> <span class="nx">working</span> <span class="p">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="p">{</span>
+        <span class="k">select</span> <span class="p">{</span> <span class="c1">// Blocking</span>
+            <span class="k">case</span> <span class="nx">result</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">results</span><span class="p">:</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">"%s:%d:%s\n"</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">lino</span><span class="p">,</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">line</span><span class="p">)</span>
+            <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">finish</span><span class="p">:</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">"timed out"</span><span class="p">)</span>
+                <span class="k">return</span> <span class="c1">// Time's up so finish with what results there were</span>
+            <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">done</span><span class="p">:</span> 
+                <span class="nx">working</span><span class="o">--</span>
+        <span class="p">}</span> 
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="k">select</span> <span class="p">{</span> <span class="c1">// Nonblocking</span>
+            <span class="k">case</span> <span class="nx">result</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">results</span><span class="p">:</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">"%s:%d:%s\n"</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">lino</span><span class="p">,</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">line</span><span class="p">)</span>
+            <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">finish</span><span class="p">:</span>
+                <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">"timed out"</span><span class="p">)</span>
+                <span class="k">return</span> <span class="c1">// Time's up so finish with what results there were</span>
+            <span class="k">default</span><span class="p">:</span> 
+                <span class="k">return</span>
+        <span class="p">}</span> 
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>看到这里, 我就有个疑问, 为什么在全部完成之后(done都接收到N个了), 还要再遍历出 <code>results</code>, 直到读取不到才算读取完成呢(我反应一向比较慢^_^)? 于是我做了个实验, 去掉了后面再次循环的部分, 发现有时会遗漏掉数据(我用4个测试文件...), 证明这段代码是有用的!!!</p>
+
+<p>我的想法是, 他是在处理完 result, 然后写入 <code>results</code>, 写完了才发送 <code>done</code>, 也就是在收到所有的 done 之后, 所有的数据应该是已经处理完成的. 为了验证这个想法, 我写了一下代码:</p>
+
+<div class="highlight"><pre><span class="k">for</span> <span class="nx">working</span> <span class="o">:=</span> <span class="nx">workers</span><span class="p">;</span> <span class="nx">working</span> <span class="p">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="p">{</span>
+    <span class="k">select</span> <span class="p">{</span> <span class="c1">// Blocking</span>
+        <span class="k">case</span> <span class="nx">result</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">results</span><span class="p">:</span>
+            <span class="c1">// received result</span>
+        <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">done</span><span class="p">:</span> 
+            <span class="nx">working</span><span class="o">--</span>
+            <span class="k">if</span> <span class="nx">working</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>
+                <span class="nb">println</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">results</span><span class="p">))</span>
+            <span class="p">}</span>
+    <span class="p">}</span> 
+<span class="p">}</span>
+</pre></div>
+
+<p>然后看到输出的数是大于0的, 也就是说在接收到全部 done 之后, <code>results</code> 还有数据在缓冲区中, 然后在看看发送 <code>result</code> 的代码, 突然就明白了</p>
+
+<div class="highlight"><pre><span class="kd">func</span> <span class="nx">doJobs</span><span class="p">(</span><span class="nx">done</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">lineRx</span> <span class="o">*</span><span class="nx">regexp</span><span class="p">.</span><span class="nx">Regexp</span><span class="p">,</span> <span class="nx">jobs</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="nx">Job</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">job</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">jobs</span> <span class="p">{</span>
+        <span class="nx">job</span><span class="p">.</span><span class="nx">Do</span><span class="p">(</span><span class="nx">lineRx</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">done</span> <span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{}{}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>我把写入和读取想当然认为一起发生了, 因为有缓冲区的缘故, doJobs在发送进 <code>results</code> 的缓冲区之后就立刻发送 <code>done</code> 了, 但是写入的数据有没有被处理, 是不知道的, 所以在接收到所有 <code>done</code> 之后, <code>results</code> 缓冲区还有数据, 需要再循环一遍.</p>
+
+<hr><p>附我的代码一份:</p>
+
+<div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">"fmt"</span>
+    <span class="s">"os"</span>
+    <span class="s">"runtime"</span>
+    <span class="s">"regexp"</span>
+    <span class="s">"log"</span>
+    <span class="s">"bufio"</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">Job</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">filename</span> <span class="kt">string</span>
+    <span class="nx">results</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="nx">Result</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">Result</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">filename</span> <span class="kt">string</span>
+    <span class="nx">line</span> <span class="kt">string</span>
+    <span class="nx">lino</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">worker</span> <span class="p">=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">NumCPU</span><span class="p">()</span>
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// config cpu number</span>
+    <span class="nx">runtime</span><span class="p">.</span><span class="nx">GOMAXPROCS</span><span class="p">(</span><span class="nx">worker</span><span class="p">)</span>
+    <span class="nx">files</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="nx">regex</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">regexp</span><span class="p">.</span><span class="nx">Compile</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 任务列表, 并发数目为CPU个数</span>
+    <span class="nx">jobs</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">Job</span><span class="p">,</span> <span class="nx">worker</span><span class="p">)</span>
+    <span class="c1">// 结果</span>
+    <span class="nx">results</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">Result</span><span class="p">,</span> <span class="nx">minimum</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">files</span><span class="p">)))</span>
+    <span class="c1">// 标记完成</span>
+    <span class="nx">dones</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">worker</span><span class="p">)</span>
+
+    <span class="k">go</span> <span class="nx">addJob</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">jobs</span><span class="p">,</span> <span class="nx">results</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">worker</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="k">go</span> <span class="nx">doJob</span><span class="p">(</span><span class="nx">jobs</span><span class="p">,</span> <span class="nx">regex</span><span class="p">,</span> <span class="nx">dones</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">awaitForCloseResult</span><span class="p">(</span><span class="nx">dones</span><span class="p">,</span> <span class="nx">results</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">addJob</span><span class="p">(</span><span class="nx">files</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">jobs</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="nx">Job</span><span class="p">,</span> <span class="nx">results</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="nx">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">filename</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">files</span> <span class="p">{</span>
+        <span class="nx">jobs</span> <span class="o">&lt;-</span> <span class="nx">Job</span> <span class="p">{</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">results</span><span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nb">close</span><span class="p">(</span><span class="nx">jobs</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">doJob</span><span class="p">(</span><span class="nx">jobs</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="nx">Job</span><span class="p">,</span> <span class="nx">regex</span> <span class="o">*</span><span class="nx">regexp</span><span class="p">.</span><span class="nx">Regexp</span><span class="p">,</span> <span class="nx">dones</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">job</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">jobs</span> <span class="p">{</span>
+        <span class="nx">job</span><span class="p">.</span><span class="nx">Do</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">dones</span> <span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{}{}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">awaitForCloseResult</span><span class="p">(</span><span class="nx">dones</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span> <span class="nx">results</span> <span class="kd">chan</span> <span class="nx">Result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">working</span> <span class="o">:=</span> <span class="nx">worker</span>
+    <span class="nx">done</span> <span class="o">:=</span> <span class="kc">false</span>
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="k">select</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="nx">result</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">results</span><span class="p">:</span>
+                <span class="nb">println</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+            <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">dones</span><span class="p">:</span>
+                <span class="nx">working</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="nx">working</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>
+                    <span class="nx">done</span> <span class="p">=</span> <span class="kc">true</span>
+                <span class="p">}</span>
+            <span class="k">default</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nx">done</span> <span class="p">{</span>
+                    <span class="k">return</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">j</span> <span class="o">*</span><span class="nx">Job</span><span class="p">)</span> <span class="nx">Do</span><span class="p">(</span><span class="nx">re</span> <span class="o">*</span><span class="nx">regexp</span><span class="p">.</span><span class="nx">Regexp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nb">println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+    <span class="nx">b</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+    <span class="nx">lino</span> <span class="o">:=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="nx">line</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">ReadLine</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nx">re</span><span class="p">.</span><span class="nx">Match</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">j</span><span class="p">.</span><span class="nx">results</span> <span class="o">&lt;-</span> <span class="nx">Result</span> <span class="p">{</span><span class="nx">j</span><span class="p">.</span><span class="nx">filename</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">line</span><span class="p">),</span> <span class="nx">lino</span><span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="k">break</span>
+        <span class="p">}</span>
+        <span class="nx">lino</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">minimum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">a</span> <span class="p">&gt;</span> <span class="nx">b</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">b</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">a</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nb">println</span><span class="p">(</span><span class="nx">o</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">o</span><span class="o">...</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

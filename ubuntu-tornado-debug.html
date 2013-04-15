@@ -1,0 +1,106 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>ubuntu下配置tornado框架本地调试环境</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">ubuntu下配置tornado框架本地调试环境</h1>
+	<div class="date">October 14, 2011</div>
+	<hr />
+	<p>这阵子花费了大概半个月做了一个M9平台的短信拦截软件，已经申请在魅族软件商城上架，今天魅族寄得合同今天已经收到，过几天再寄回去就能上架了。</p>
+
+<p>最近又回到学python的行列，只不过接触的是网页编程，有高人指点确实少走了不少弯路。但依旧需要自己去一步一步摸索，这才是乐趣所在，哈哈</p>
+
+<p>由于win下用python会出现诸多问题，很多提示找不到库，安装tornado会出现找不到库的情况，就只能转战ubuntu。python版本为2.6
+现在需要做的是在虚拟机里面装上MYSQL，tornado，由于我电脑上已经配置好服务器环境，只要在虚拟机里面装好MySQLdb(连接MYSQL和Python的库)，远程连接我电脑上的MYSQL就行，如果你想在虚拟机里面也能看到结果，就要安装apache了，如果不需要，可以省略不装</p>
+
+<div class="highlight"><pre>sudo apt-get install ssh
+sudo apt-get install apache2
+</pre></div>
+
+<p>安装MYSQL</p>
+
+<div class="highlight"><pre>sudo apt-get install mysql-server-5.0
+</pre></div>
+
+<p>然后到网上下载tornado，安装,PS:tornado的主页被墙，可以到这里<a href="http://www.tornadoweb.cn/">http://www.tornadoweb.cn/</a>
+进入tornado的目录</p>
+
+<div class="highlight"><pre>sudo python setup.py build
+</pre></div>
+
+<p>编译完成后执行安装</p>
+
+<div class="highlight"><pre>sudo python setup.py install
+</pre></div>
+
+<p>然后解决连接MYSQL的问题，需要安装python-dev，setuptools</p>
+
+<div class="highlight"><pre>sudo sudo apt-get install python-dev
+</pre></div>
+
+<p>到这里下载<a href="http://pypi.python.org/pypi/setuptools">setuptools</a>
+下载好后进入那个目录，还是执行这两条</p>
+
+<div class="highlight"><pre>sudo python setup.py build
+sudo python setup.py install
+</pre></div>
+
+<p>由于通过apt-get方式下载到的mysql是不带mysql_config的，需要你去下载</p>
+
+<div class="highlight"><pre>sudo apt-get install libmysqlclient-dev
+</pre></div>
+
+<p>准备工作到此结束，要开始安装<a href="http://sourceforge.net/projects/mysql-python/">MySQLdb</a>
+找到site.cfg,添加一行</p>
+
+<div class="highlight"><pre><span class="na">mysql_config</span> <span class="o">=</span> <span class="s">/usr/bin/mysql_config</span>
+</pre></div>
+
+<p>因为我的<code>mysql_config</code>是放在<code>/usr/bin/mysql_config</code>，所以指定这里，如果你不确定<code>mysql_config</code>，可以使用<code>whereis mysql_config</code>看在哪里
+然后进入mysqldb的目录，</p>
+
+<div class="highlight"><pre>sudo python setup.py install
+</pre></div>
+
+<p>一般到这里便结束了。
+怎么调试？
+官网上有一个helloworld,程序，复制下来，运行，你可以看到源文件上监听的是8888端口，如果你装了apache，可以在本地直接浏览器<code>127.0.0.1:8888</code>
+如果没装，而且你的本机可以访问到虚拟机的地址，那就是那地址再加上端口号便可以<br>
+tornado里面有一些demo，有个blog的demo可以测试mysql成功了没有，注意改里面的用户名和密码哦</p>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>

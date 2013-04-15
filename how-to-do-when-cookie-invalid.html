@@ -1,0 +1,82 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>cookie session失效的情况下身份验证方法</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">cookie session失效的情况下身份验证方法</h1>
+	<div class="date">June 06, 2011</div>
+	<hr />
+	<p>好吧,session和cookie是网站常用的身份验证方法。但是有一天他失效了，该怎么办
+uploadify是一个用户界面端的一个异步上传插件,JQUERY和FLASH结合实现异步上传功能
+这个确实是一个好功能,在IE下毫无BUG，但是在firefox下，就会出现提交到目标页面后无法读取到COOKIE的情况。
+然而我这个网站是需要登录后才有上传的权限的，矛盾。
+在codeigniter的用户论坛上，看到一个管理员的回帖
+一般情况下，因为诸如uploadify,swfupload采用的都是flash客户端，这样它们产生的useragent与用户使用浏览器的user-agent必然不同。所以，虽然用户登录了你的系统产生了一个session，但是当触发上传程序时会产生另一个session（在上述useragent选项开启的情况下）。
+所以，不是session丢失了，而是当你上传文件时，CI为uploadify另外创建了一个session。
+解决方案：</p>
+
+<ol>
+<li>将$config['sess_match_useragent']设置成FALSE，重试。</li>
+<li>（建议）为了安全起见，不建议使用第1条解决方案，而是使用另外的验证方法，比如在每次上传时，在url中附加一个token与服务器端的token比对（比如这个token可以是用户名的hash值）。</li>
+</ol><p>解释下，useragent是浏览器标识，token是用来形容那种一次性变量(个人理解)，也可以理解为临时变量
+这里我提供一个检测useragent的方法，但需要在CodeIgniter框架下</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">$this</span><span class="o">-&gt;</span><span class="nx">agent</span><span class="o">-&gt;</span><span class="nx">is_browser</span><span class="p">()){</span>
+    <span class="nx">echo</span> <span class="nx">$agent</span> <span class="o">=</span> <span class="nx">$this</span><span class="o">-&gt;</span><span class="nx">agent</span><span class="o">-&gt;</span><span class="nx">browser</span><span class="p">();</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="nx">echo</span> <span class="s1">'未知浏览器'</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>我把他加在文件头，在读取得到cookie的页面显示的是chrome，对话框里面显示的是在传输成功后服务器端返回的源代码,可见，在文件头显示的是未知浏览器
+图片</p>
+
+<p>看了确实有点启发，在cookie暂时实现的情况下，生成特别token也能具有验证效果</p>
+
+<ol>
+<li>加密与解密，将用户名和密码加密然后发送到服务器端再进行解密，服务器端可以利用解密后的用户名密码对数据库进行匹配。Codeigniter提供一个encrypt类，只需要提供一个key, 就有加密解密功能，感觉还是比较安全的</li>
+<li>只加密，服务器端只负责用同样的手法进行加密在与接受到的值匹配
+这种方法其实很普遍，举一个最普遍的用法，在用户注册的时候，会把密码进行MD5加密，这样即使在后台看见了用户的密码，也是加密后的密码。可是系统是怎么实现验证登陆的呢，很简单，在用户输入登陆信息后，用同样的方法对密码进行MD5加密，然后和数据库对比。</li>
+</ol><p>或许可以借鉴这种方法，对用户名和密码结合并加密然后发送到服务器端，服务器需要将用户名和密码加密然后比对，但是服务器端要选择哪个用户名和密码呢，毕竟数据库储存大量的用户信息，不可能列出所有用户信息一个一个匹配吧？所以必须再传递一个变量告诉服务器你要和哪个用户进行配对。</p>
+
+<p>但是还有一个小问题，一旦用户得到了这个token(可以从网站源代码中找到，异步传输注定数据会被暴露，我们能做的仅仅是保证被暴露的信息越少越好或者越少人会用越好)，以后只需使用这个token便可直接通过非网页访问方式上传文件(比如直接做一个软件，定时上传，还弄不死你的服务器？)，所以我们需要加一个时间轴，和用户密码结合再加密，这样生成的token就具有了时效性。
+相比方案1，方案2多了一个时效性，时效性的周期不能太短不能太长，实在令人有点纠结。</p>
+
+<p>好吧，思路到此，可以开工了</p>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>
