@@ -89,8 +89,8 @@
 
 <p>很可惜, 虽然编译完, 但是驱动不能用, 不知道你会不会, 我在使用 <code>modinfo</code> 的时候会报错.如果你在这里顺利通过了, 可以跳过第4小节, 看第5小节, 如果没有, 可以继续往下看</p>
 
-<h2>
-<a name="4-" class="anchor" href="#4-"><span class="mini-icon mini-icon-link"></span></a>4. 寻找新内核</h2>
+<h3>
+<a name="4-" class="anchor" href="#4-"><span class="mini-icon mini-icon-link"></span></a>4. 寻找新内核</h3>
 
 <p>其实是寻找老内核, 3.0.62是最新的内核, 但是看来我需要找到3.0.57的才行, 因为用3.0.57编译的在3.0.62用不了. 于是又搜了一下archlinux的镜像站, <code>http://us.mirror.archlinuxarm.org/os/</code> 这个只存在latest版本, 也就是最新的, 在进去<code>sun4i</code>, 发现有2012.08的版本和2013.02的版本, 估计我现在这个是2013.02, 于是下载2012.08的下载, 写入到sd卡, 进入后, 使用 </p>
 
