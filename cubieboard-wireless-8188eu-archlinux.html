@@ -1,0 +1,223 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+<link rel="stylesheet" href="static/article.css" />
+<title>CubieBoard 安装驱动8188eu无线网卡(ArchLinux)</title>
+<style>
+body, html {
+	background: #1A1A1A;
+	font-family: "Optima", "Courier New", "Microsoft Yahei", "仿宋_GB2312";
+	color: #9EA8AF;
+}
+</style>
+</head>
+
+<body>
+<article>
+	<div id="rightnav">
+	</div>
+	<div style="font-size:10pt;position:absolute;"><a href="/" style="color:#585858">chenye.org</a></div>
+	<h1 class="title">CubieBoard 安装驱动8188eu无线网卡(ArchLinux)</h1>
+	<div class="date">April 30, 2013</div>
+	<hr />
+	<p>买了cb大概有一个多月了, 中间一直没有什么时间去弄他, 图方便, 直接在卖家买了水星的无线网卡, 型号是 MW150US, 今天终于是搞定了网卡的驱动, 走了很多弯路. 趁着还记得一些东西, 还是记录下来.</p>
+
+<h2>
+<a name="" class="anchor" href="#"><span class="mini-icon mini-icon-link"></span></a>确定型号</h2>
+
+<p>我试了直接插上发现没反应, 那应该是驱动被带进内核. 自带的光盘里面也没有linux的驱动, 然后google搜<code>MW150US clipset</code>, 可以看到芯片型号为<code>Realtek rtl8188cus</code>, 但是后来又搜了一下, 又说芯片是<code>rtl8188eu</code>, 执行<code>lsusb</code>后显示的是<code>0bda:8179</code>,  又搜了一下<code>0bda:8179</code>, 确定确实是<code>rtl8188eu</code>, <code>rtl8188cus</code>应该是第一版的芯片.</p>
+
+<h2>
+<a name="-1" class="anchor" href="#-1"><span class="mini-icon mini-icon-link"></span></a>找驱动</h2>
+
+<p>一般的途径是到realtek上的官网找, 但是貌似找不到linux版的. 借助谷歌, 翻出了一篇文章(<a href="http://gutspot.com/2013/01/30/%E7%94%A8raspberry-pi%E5%88%B6%E4%BD%9C%E6%97%A0%E7%BA%BF%E8%B7%AF%E7%94%B1%E8%BF%87%E7%A8%8B%E7%9A%84%E6%9C%AD%E8%AE%B02-%E7%BC%96%E8%AF%918188eu%E8%8A%AF%E7%89%87%E7%9A%84%E6%97%A0%E7%BA%BF%E7%BD%91/">这里</a>), 这里有按照教程修改完的源码(<a href="http://just4fun.cn/?p=650">这里</a>), 下载下来</p>
+
+<h2>
+<a name="-2" class="anchor" href="#-2"><span class="mini-icon mini-icon-link"></span></a>编译</h2>
+
+<h3>
+<a name="1-" class="anchor" href="#1-"><span class="mini-icon mini-icon-link"></span></a>1. 更新基础库</h3>
+
+<p>使用的是ArchLinux, 默认是不带编译的库的, 需要更新, </p>
+
+<pre><code>pacman –S base-devel
+</code></pre>
+
+<p>上面的语句用于同步 <code>base-devel</code> 包的库, 安装之后发现很多都提示404, 应该是源比较老了, 于是我暂时编译了make, 进入rtl8188eu文件夹, make, 发现提示找不到 <code>/lib/module/3.0.62/build</code>, 查了一下, 发现这个文件夹其实就是linux-header, 
+于是谷歌 <code>pacman update</code>, 找到archlinux的wiki, 搜索update, 一下定位到了 <code>pacman -Syu</code>, 于是执行, 还真的在更新了. 更新的过程中要注意的是有些包可能会下载失败, 可以等到全部下载完成后再单独下载, 比如我第一次的时候m4这个包是下载失败的, 再重新下载就好了, 而且还自动安装了之前下载的库.</p>
+
+<h3>
+<a name="2-linux-header" class="anchor" href="#2-linux-header"><span class="mini-icon mini-icon-link"></span></a>2. 寻找合适的linux-header</h3>
+
+<p>但是继续make的时候还是提示找不到 <code>/lib/module/3.0.62/build</code>, 进到 <code>/lib/module/</code> 目录一看, 发现只有文件夹 <code>3.0.57-2-ARCH</code>, 而现在提供的内核是3.0.62, 现在这个系统是从</p>
+
+<pre><code>http://archlinuxarm.org/os/ArchLinuxARM-sun4i-latest.tar.gz
+</code></pre>
+
+<p>下载到的, 所以内核应该是最新的, 所以我感觉第一步应该是去官网找到有没有对应的内核版本的linux-header,  谷歌<code>archlinux 3.0.62 linux-header</code>, 能找到的是i686(CPU)的安装包, 也有x86_64的, 但是cubieboard使用的是全志A10, arm架构, 详细来说是armv7h, 不死心, 找到archlinux的镜像站, 找到armv7h, 里面有几个文件夹, <code>core</code>, <code>extra</code>, 等, 我在core找到了linux-header的包</p>
+
+<pre><code>http://us.mirror.archlinuxarm.org/armv7h/core/
+</code></pre>
+
+<p>页面搜索了下, 很可惜, 符合cubieboard要求的只有 <code>linux-headers-sun4i-3.0.57-2-armv7h.pkg.tar.xz</code>, 更何况, 找不到内核3.0.62的linux-header, 看来是找不到3.0.62的linux-header了.</p>
+
+<h3>
+<a name="3linux-header" class="anchor" href="#3linux-header"><span class="mini-icon mini-icon-link"></span></a>3.伪装linux-header</h3>
+
+<p>说的这么高级, 也就是修改 <code>/lib/module/3.0.57-2-ARCH</code> 文件夹名字为 <code>/lib/module/3.0.62/</code>, 反正试了不会死. 于是再次进入驱动目录执行</p>
+
+<pre><code>make &amp;&amp; make install
+</code></pre>
+
+<p>奇迹的是居然编译成功了, 在目录出现了 <code>8188eu.ko</code> 这些名字的文件(不止一个), 然后由于执行了<code>make install</code>, 所以这个文件已经复制进去了驱动的文件夹. 接下来要加载驱动了</p>
+
+<pre><code>modprobe 8188eu
+</code></pre>
+
+<p>这是针对已经复制进去驱动文件夹里面的, 如果没有的话, 可以使用</p>
+
+<pre><code>insmod 8188eu.ko
+</code></pre>
+
+<p>如果想看驱动信息可以使用</p>
+
+<pre><code>modinfo 8188eu.ko
+</code></pre>
+
+<p>很可惜, 虽然编译完, 但是驱动不能用, 不知道你会不会, 我在使用 <code>modinfo</code> 的时候会报错.如果你在这里顺利通过了, 可以跳过第4小节, 看第5小节, 如果没有, 可以继续往下看</p>
+
+<h2>
+<a name="4-" class="anchor" href="#4-"><span class="mini-icon mini-icon-link"></span></a>4. 寻找新内核</h2>
+
+<p>其实是寻找老内核, 3.0.62是最新的内核, 但是看来我需要找到3.0.57的才行, 因为用3.0.57编译的在3.0.62用不了. 于是又搜了一下archlinux的镜像站, <code>http://us.mirror.archlinuxarm.org/os/</code> 这个只存在latest版本, 也就是最新的, 在进去<code>sun4i</code>, 发现有2012.08的版本和2013.02的版本, 估计我现在这个是2013.02, 于是下载2012.08的下载, 写入到sd卡, 进入后, 使用 </p>
+
+<pre><code>uname -r
+</code></pre>
+
+<p>一看, 发现还是3.0.62... 不知道这个跟uboot有没有关系, 这时我突然想起之前看到的一篇文章(<a href="https://blog.7axu.com/2013/02/cubieboard-installed-archlinux/">这里</a>), 这里也是个安装archlinux的教程, 但是这个不是重点, 重点的是他的方法二提供了一个镜像, 这个可能是3.0.57的内核!, 于是把人家的镜像下载下来, 写入到sd卡, 因为解压后有4G之多, 所以速度非常慢, 时间非常长, 可以去看看30分钟的电影吧...写完后, 发现sd卡引导不了. 在仔细看一下文章, 原来这个是nand的镜像, 需要写入到nand里面去, 正好, 只是sd卡要重新再弄一遍, 我又重新按照(<a href="http://just4fun.cn/?p=643">这里</a>)给sd卡装了一遍archlinux, 中间有个过程是mount出arch文件夹的步骤, 做完后先别umount, 把我们刚才下载的镜像放进去, 放未解压的就行, 100M左右, 我放在/root/目录, 然后再umount, 然后进去archlinux, 解压</p>
+
+<pre><code>tar Jxf nandarch.img.tar.xz
+</code></pre>
+
+<p>之后又要等半个钟左右, 得到nandarch.img, 将近4G, 看来是直接从nand dd出来的.写入到nand</p>
+
+<pre><code>dd if=nandarch.img of=/dev/nand
+</code></pre>
+
+<p>再等个半小时左右, 就写入完毕, 关闭, 拔掉sd卡, 开启, 发现已经能够启动了, 执行<code>uname -r</code>, 发现是 <code>3.0.57-1-ARCH</code>, 这个意料之中的了, 不然我就不会话这么大篇幅写这里了. 重复1-2, 更新基础库, 发现内核版本还不是 <code>3.0.57-1-ARCH</code>, 而是 <code>3.0.58-2-ARCH</code>... 那就再使用3小节的方法修改为 <code>3.0.57-1-ARCH</code>, 还是能编译, 安装.不同的是, 我再使用<code>insmod 8188eu.ko</code>不报错了. 看来这个驱动是兼容了</p>
+
+<h3>
+<a name="5-" class="anchor" href="#5-"><span class="mini-icon mini-icon-link"></span></a>5. 自动加载驱动</h3>
+
+<p>进入目录 <code>/etc/modules-load.d</code>, 在里面新建一个 <code>8188eu.conf</code> 文件, 内容是</p>
+
+<pre><code>8188eu
+</code></pre>
+
+<p>重启, <code>reboot</code>, 再执行 <code>lsmod</code>, 如果成功的话会看见8188eu的. 至此, 无线网卡的驱动算搞定了.
+验证无线网卡是否被识别的话可以看 <code>ifconfig -a</code>是否有<code>wlan0</code></p>
+
+<h2>
+<a name="-3" class="anchor" href="#-3"><span class="mini-icon mini-icon-link"></span></a>配置无线上网</h2>
+
+<p>在这部分也花了我大把时间探索, 我只针对连接WPS/WPS2的情况来讲. </p>
+
+<h3>
+<a name="1--1" class="anchor" href="#1--1"><span class="mini-icon mini-icon-link"></span></a>1. 安装基础库</h3>
+
+<p>可以尝试<code>iwlist</code>, <code>iwconfig</code>, 发现命令不存在, 这就需要下载库了, </p>
+
+<pre><code>pacman -S wireless_tool
+</code></pre>
+
+<p>执行后上面两个命令就能正常使用了.</p>
+
+<h3>
+<a name="2" class="anchor" href="#2"><span class="mini-icon mini-icon-link"></span></a>2.生成配置信息</h3>
+
+<p>由于我们一般是使用一个wifi信号点, 所以我们只要生成一次配置信息, 就不用每次都配置一遍了.   </p>
+
+<pre><code>wpa_passphrase &lt;无线网络名称&gt; &lt;password&gt; &gt; /etc/wpa_supplicant/wpa_supplicant.conf
+</code></pre>
+
+<p>直接填名称和密码就行, 然后将内容生成到 wpa_supplicant.conf, 然后再将下面两句加入到 <code>wpa_supplicant.conf</code> 行首</p>
+
+<pre><code>ctrl_interface=/var/run/wpa_supplicant
+ctrl_interface_group=wheel
+</code></pre>
+
+<p>接下来将下面的内容添加到 <code>/etc/sysconfig/wpa_supplicant</code></p>
+
+<pre><code># Use the flag "-i" before each of your interfaces, like so:
+#  INTERFACES="-ieth1 -iwlan0"
+INTERFACES="-iwlan0"
+
+# Use the flag "-D" before each driver, like so:
+#  DRIVERS="-Dwext"
+DRIVERS="-Dwext"
+
+# Other arguments
+#   -u   Enable the D-Bus interface (required for use with NetworkManager)
+#   -f   Log to /var/log/wpa_supplicant.log
+OTHER_ARGS="-u -f /var/log/wpa_supplicant.log"
+</code></pre>
+
+<h3>
+<a name="3-" class="anchor" href="#3-"><span class="mini-icon mini-icon-link"></span></a>3. 建立系统服务</h3>
+
+<p>archlinux没有提供那种不用登录就能启动脚本的方式, 只能通过系统服务来解决, 我参考了官方wiki(<a href="https://wiki.archlinux.org/index.php/Wireless_Setup#Automatic_setup">这里</a>), 写了个服务, 步骤如下</p>
+
+<p>新建 <code>/etc/systemd/system/network.service</code>, 写入一下文本</p>
+
+<pre><code>[Unit]
+Description=Network Connectivity
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-${interface}.device
+After=sys-subsystem-net-devices-${interface}.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/sbin/ifconfig wlan0 up
+ExecStart=/usr/sbin/wpa_supplicant wpa_supplicant -B -Dwext -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+ExecStart=/sbin/dhcpcd wlan0
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>然后加入开机启动</p>
+
+<pre><code>systemctl enable network
+</code></pre>
+
+<p>然后现在就启动</p>
+
+<pre><code>systemctl start network
+</code></pre>
+
+<p>重启就可以看到已经自动连接上wifi了</p>
+</article>
+<script>
+var ua = window.navigator.userAgent
+var isMobile = (ua.indexOf("Android") > 0 || ua.indexOf("iPhone") > 0)
+if ( ! isMobile) {
+	document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></' + 'script>');
+	document.write('<script type="text/javascript"><!--google_ad_client = "ca-pub-9463248679375013";google_ad_slot = "1755707300";google_ad_width = 234;google_ad_height = 60;</' + 'script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></' + 'script>');
+	window.onload = function() {
+		$("#rightnav").append("<a href=\"javascript:(function(){var e=function(t,n,r,i,s){var o=[5814539,2938175,4197650,3757957,1811022,6261651,6927326,3573316,2068125,4417112];var i=i||0,u=0,n=n||[],r=r||0,s=s||0;var a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var f=0;f<t.length;f++){var l=function(e,t){return a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var p=c%(50*1);if(n[p]){var d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==197){var v='';for(var f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return v+'f8a2970909'}else{return e(u+'',n,r,i,s+1)}};var t=document,n=t.location.href,r=t.title;var i=e(n);var s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()\">Pocket</a>")
+		$("#rightnav").append(" <a href=\"javascript:(%28function%28%29%7Bwindow.baseUrl%3D%27http%3A//www.readability.com%27%3Bwindow.readabilityToken%3D%27jhfSAm93uAkvEpAWmqgWNnYsrazYGW29sNEFsvWf%27%3Bvar%20s%3Ddocument.createElement%28%27script%27%29%3Bs.setAttribute%28%27type%27%2C%27text/javascript%27%29%3Bs.setAttribute%28%27charset%27%2C%27UTF-8%27%29%3Bs.setAttribute%28%27src%27%2CbaseUrl%2B%27/bookmarklet/save.js%27%29%3Bdocument.documentElement.appendChild%28s%29%3B%7D%29%28%29)\">Readability</a>")
+	}
+}
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7c87a70f9eb40f4a9850c02f6626f8fa' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</body>
+
+</html>
